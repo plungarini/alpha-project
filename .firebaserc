@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "alpha-project-lorenzoni": {
+      "hosting": {
+        "alpha-project": [
+          "alphaproject"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "alpha-project-lorenzoni"
+  }
+}

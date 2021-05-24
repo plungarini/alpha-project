@@ -1,0 +1,285 @@
+
+<div *ngIf="errorMsg" class="fixed top-4 right-4 w-full max-w-sm rounded bg-red-200 border-red-600 text-red-600 border-l-4 p-4" role="alert">
+    <p class="font-bold">
+        Errore
+    </p>
+    <p>
+        {{errorMsg}}
+    </p>
+</div>
+
+<div class="bg-black-900">
+	
+    <!-- Pricing section with single price and feature list -->
+    <div class="max-w-7xl mx-auto pt-16 pb-0 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <div class="pb-16">
+            <h1 class="text-gray-100 text-4xl text-center font-extrabold sm:text-5xl sm:tracking-tight">
+                {{firstSub ? 'Un unico prezzo' : 'Abbonamento scaduto'}}
+            </h1>
+            <p class="mt-5 text-xl text-gray-500 text-center">
+                {{firstSub ? 'Prima di continuare, decidi solo se pagare mensilmente o annualmente.' : 'Hai cancellato il tuo abbonamento. Creane uno nuovo per procedere.'}}
+            </p>
+        </div>
+       
+        <div class="flex flex-col md:flex-row items-center md:items-baseline justify-evenly sm:mx-10 mb-16">
+            <div class="w-full mx-2 mb-6 relative overflow-hidden bg-yellow-500 rounded-lg max-w-sm shadow-lg">
+                <svg class="absolute -bottom-4 left-0 mb-8" viewBox="0 0 375 283" fill="none">
+                    <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="#f3c06b">
+                    </rect>
+                    <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="#f3c06b">
+                    </rect>
+                </svg>
+                <div class="relative text-white px-6 pb-4 mt-6">
+                    <div class="flex justify-between">
+                        <span class="block font-semibold text-xl">
+                            Starter
+                        </span>
+                        <span class="bg-white rounded-full text-yellow-500 text-xs font-bold px-3 py-2 leading-none flex items-center">
+                            €19 al mese
+                        </span>
+                    </div>
+                </div>
+                <button (click)="buyMonthly()" [disabled]="disableBtn" type="button" class="focus:outline-none relative inline-flex items-center mx-6 mb-5 px-4 py-1 text-sm leading-6 font-medium rounded-md border border-transparent text-white bg-gray-800 hover:bg-gray-700 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-pointer disabled:cursor-not-allowed">
+                    <svg
+                        [ngClass]="{
+                            'opacity-0 -mr-5': !loadingBtnMonth,
+                            'opacity-100 -ml-1 mr-2': loadingBtnMonth
+                        }"
+                        class="animate-spin opacity-0 -mr-5 transition-all duration-300 ease-in-out h-4 w-4 text-white"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    >
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span
+                        [ngClass]="{
+                            'opacity-0 -mr-6': loadingBtnMonth,
+                            'opacity-100 mr-0': !loadingBtnMonth
+                        }"
+                        class="opacity-100 mr-0 transition-all duration-300"
+                    >Acquista ora</span>
+                    <span
+                        [ngClass]="{
+                            'opacity-0': !loadingBtnMonth,
+                            'opacity-100': loadingBtnMonth
+                        }"
+                        class="absolute left-9 opacity-0 transition-all duration-300"
+                    >Attendi...</span>
+                    <i-bs
+                        [ngClass]="{
+                            'opacity-0 -ml-4': loadingBtnMonth,
+                            'opacity-100 ml-1 -mr-2': !loadingBtnMonth
+                        }"
+                        class="transition-all duration-300 ease-in-out opacity-0 -ml-4" name="arrowRightShort" width="1rem" height="1rem"></i-bs>
+                </button>
+            </div>
+            <div class="w-full mx-2 mt-6 mb:mt-0 mb-6 relative bg-blue-500 rounded-lg max-w-sm shadow-lg">
+                <span class="bg-green-500 rounded-full text-white text-xs font-bold px-3 py-2 shadow-lg absolute -top-4 left-4 z-10">
+                    Risparmi €48!
+                </span>
+                <div class="relative overflow-hidden">
+                    <svg class="absolute -bottom-12 left-0 mb-8" viewBox="0 0 375 283" fill="none">
+                        <rect x="159.52" y="175" width="152" height="152" rx="8" transform="rotate(-45 159.52 175)" fill="#6da3fb">
+                        </rect>
+                        <rect y="107.48" width="152" height="152" rx="8" transform="rotate(-45 0 107.48)" fill="#6da3fb">
+                        </rect>
+                    </svg>
+                    <div class="relative text-white px-6 pb-4 mt-6">
+                        <div class="flex justify-between">
+                            <span class="block font-semibold text-xl">
+                                Il Convinto
+                            </span>
+                            <span class="bg-white rounded-full text-blue-500 text-xs font-bold px-3 py-2 leading-none flex items-center">
+                                €180 all'anno
+                            </span>
+                        </div>
+                    </div>
+                    <button (click)="buyYearly()" [disabled]="disableBtn" type="button" class="focus:outline-none relative inline-flex items-center mx-6 mb-5 px-4 py-1 text-sm leading-6 font-medium rounded-md border border-transparent text-white bg-gray-800 hover:bg-gray-700 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-pointer disabled:cursor-not-allowed">
+                        <svg
+                            [ngClass]="{
+                                'opacity-0 -mr-5': !loadingBtnYear,
+                                'opacity-100 -ml-1 mr-2': loadingBtnYear
+                            }"
+                            class="animate-spin opacity-0 -mr-5 transition-all duration-300 ease-in-out h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        >
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span
+                            [ngClass]="{
+                                'opacity-0 -mr-6': loadingBtnYear,
+                                'opacity-100 mr-0': !loadingBtnYear
+                            }"
+                            class="opacity-100 mr-0 transition-all duration-300"
+                        >Acquista ora</span>
+                        <span
+                            [ngClass]="{
+                                'opacity-0': !loadingBtnYear,
+                                'opacity-100': loadingBtnYear
+                            }"
+                            class="absolute left-9 opacity-0 transition-all duration-300"
+                        >Attendi...</span>
+                        <i-bs
+                            [ngClass]="{
+                                'opacity-0 -ml-4': loadingBtnYear,
+                                'opacity-100 ml-1 -mr-2': !loadingBtnYear
+                            }"
+                            class="transition-all duration-300 ease-in-out opacity-0 -ml-4" name="arrowRightShort" width="1rem" height="1rem"></i-bs>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div (click)="logout()" class="block mx-auto w-max mb-12 text-center">
+            <b>Sei già abbonato?</b><br>
+            <span class="underline cursor-pointer">accedi con un'altro account</span>
+        </div>
+
+        <div class="border-t border-gray-700 pt-16 xl:grid xl:grid-cols-3 xl:gap-x-8">
+            <div>
+                <h2 class="text-base font-semibold text-blue-600 uppercase tracking-wide">Everything you need</h2>
+                <p class="mt-2 text-3xl font-extrabold text-gray-200">All-in-one platform</p>
+                <p class="mt-4 text-lg text-gray-500">Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla nec. Urna, sed a lectus elementum blandit et.</p>
+            </div>
+            <div class="mt-4 sm:mt-8 md:mt-10 md:grid md:grid-cols-2 md:gap-x-8 xl:mt-0 xl:col-span-2">
+                <ul class="divide-y divide-gray-200">
+                    <li class="py-4 flex md:py-0 md:pb-4">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Vitae in pulvinar odio id utobortis in inter.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Sed sed id viverra viverra augue eget massa.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Urna, gravida amet, a, integer venenatis.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Lobortis sed pharetra amet vitae eleifend.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Ullamcorper blandit a consequat donec elit aoreet.</span>
+                    </li>
+                </ul>
+                <ul class="border-t border-gray-200 divide-y divide-gray-200 md:border-t-0">
+                    <li class="py-4 flex md:border-t-0 md:py-0 md:pb-4">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Vitae in pulvinar odio id utobortis in inter.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Sed sed id viverra viverra augue eget massa.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Urna, gravida amet, a, integer venenatis.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Lobortis sed pharetra amet vitae eleifend.</span>
+                    </li>
+                    <li class="py-4 flex">
+                        <!-- Heroicon name: outline/check -->
+                        <svg class="flex-shrink-0 h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span class="ml-3 text-base text-gray-500">Ullamcorper blandit a consequat donec elit aoreet.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+	<!-- Branded FAQ -->
+	<div class="bg-blue-900">
+		<div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+			<h2 class="text-3xl font-extrabold text-white">
+				Frequently asked questions
+			</h2>
+			<div class="mt-6 border-t border-blue-400 border-opacity-25 pt-10">
+				<dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:grid-rows-2 md:gap-x-8 md:gap-y-12">
+					<div>
+						<dt class="text-lg leading-6 font-medium text-white">
+							What&#039;s the best thing about Switzerland?
+						</dt>
+						<dd class="mt-2 text-base text-blue-200">
+							I don&#039;t know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.
+						</dd>
+					</div>
+					<div>
+						<dt class="text-lg leading-6 font-medium text-white">
+							Why do you never see elephants hiding in trees?
+						</dt>
+						<dd class="mt-2 text-base text-blue-200">
+							Because they&#039;re so good at it. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.
+						</dd>
+					</div>
+					<div>
+						<dt class="text-lg leading-6 font-medium text-white">
+							How do you make holy water?
+						</dt>
+						<dd class="mt-2 text-base text-blue-200">
+							You boil the hell out of it. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.
+						</dd>
+					</div>
+					<div>
+						<dt class="text-lg leading-6 font-medium text-white">
+							Why can&#039;t you hear a pterodactyl go to the bathroom?
+						</dt>
+						<dd class="mt-2 text-base text-blue-200">
+							Because the pee is silent. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.
+						</dd>
+					</div>
+					<div>
+						<dt class="text-lg leading-6 font-medium text-white">
+							What do you call someone with no body and no nose?
+						</dt>
+						<dd class="mt-2 text-base text-blue-200">
+							Nobody knows. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.
+						</dd>
+					</div>
+					<div>
+						<dt class="text-lg leading-6 font-medium text-white">
+							Why did the invisible man turn down the job offer?
+						</dt>
+						<dd class="mt-2 text-base text-blue-200">
+							He couldn&#039;t see himself doing it. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.
+						</dd>
+					</div>
+				</dl>
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,15 @@
+<div class="w-full py-4">
+    
+    <div class="flex flex-row justify-between items-center mb-1">
+        <h4 class="text-gray-200 font-bold">Esercizi salvati</h4>
+    </div>
+
+    <div class="overflow-x-auto">
+        <div class="flex flex-row w-max justify-between items-center py-1 px-1 mt-4 space-x-8">
+            <ng-container *ngFor="let ex of exercises">
+                <app-admin-workout-exercise (onExerciseDeleted)="deleteExercise(ex.exerciseId)" [iconPath]="getIconPath(ex.iconId)" [exName]="ex.title" [exNote]="ex.note!!"></app-admin-workout-exercise>
+            </ng-container>
+        </div>
+    </div>
+
+</div>

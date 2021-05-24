@@ -1,0 +1,22 @@
+<div class="w-full overflow-x-auto">
+    <div class="flex flex-row p-1 pb-2 flex-nowrap w-max items-center mt-8 space-x-6" style="scroll-snap-type: x mandatory;">
+        <ng-container *ngIf="week.length > 0">
+            <ng-container *ngFor="let day of week; let last = last;">
+                <ng-container *ngIf="!day.hideView">
+                    <div *ngIf="!day.restDay" class="block max-w-full" style="scroll-snap-align: start;">
+                        <app-workout-day-card class="block" (onDaySelected)="selectDay(day)" [day]="day"></app-workout-day-card>
+                    </div>
+                    <div *ngIf="day.restDay" class="block max-w-full" style="scroll-snap-align: start;">
+                        <app-workout-day-card class="block" [rest]="true" [day]="day"></app-workout-day-card>
+                    </div>
+                </ng-container>
+                <div *ngIf="last" class="block max-w-full" style="scroll-snap-align: start;">
+                    <app-workout-day-card class="block" [more]="true"></app-workout-day-card>
+                </div>
+            </ng-container>
+        </ng-container>
+        <div *ngIf="week.length <= 0" class="block max-w-full" style="scroll-snap-align: start;">
+            <app-workout-day-card class="block" [more]="true"></app-workout-day-card>
+        </div>
+    </div>
+</div>

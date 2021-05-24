@@ -1,0 +1,14 @@
+<div class="group w-screen max-w-xs flex flex-row h-32 items-center space-x-7 bg-black-700 hover:ring rounded-lg border border-gray-400 mb-2 py-5 px-4">
+    <div *ngIf="iconPath" class="text-4xl group-hover:text-gray-200" style="line-height: 0;">
+        <app-path-svg [path]="iconPath"></app-path-svg>
+    </div>
+    <div class="flex flex-col justify-between h-full max-w-full overflow-hidden">
+        <p class="text-gray-200 font-bold text-lg max-w-full truncate">{{exName || 'Esercizio'}}</p>
+        <p *ngIf="exNote" class="truncate">Note: {{exNote}}</p>
+        <p *ngIf="!exNote" class="truncate">...</p>
+
+        <div class="flex flex-row max-w-full items-center space-x-5 mt-3">
+            <i-bs (click)="deleteExercise()" name="trashFill" class="cursor-pointer hover:text-red-400" width="1.2rem" height="1.2rem"></i-bs>
+        </div>
+    </div>
+</div>

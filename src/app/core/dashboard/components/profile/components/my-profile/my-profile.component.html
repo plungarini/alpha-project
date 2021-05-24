@@ -1,0 +1,50 @@
+<section aria-labelledby="payment_details_heading">
+    <form [formGroup]="form" (ngSubmit)="changeUserName()">
+        <div class="shadow sm:rounded-md sm:overflow-hidden">
+            <div class="bg-black-700 py-6 px-4 sm:p-6">
+                <div>
+                    <h2 id="payment_details_heading" class="text-lg leading-6 font-medium text-gray-100">Dati personali</h2>
+                    <p class="mt-1 text-sm">Aggiorna tutti i dati relativi al tuo profilo.</p>
+                </div>
+                
+                <input #profilePicture class="hidden" type="file" (change)="uploadImage($event.target)" accept="image/png, image/jpeg">
+                
+                <div class="mt-6 flex flex-row items-center space-x-6">
+
+                    <app-avatar
+                        class="transform scale-200 mx-6"
+                        (click)="profilePicture.click()"
+                        [user]="{
+                            img: user?.details?.imgUrl || '',
+                            fullName: user?.name || '',
+                            email: user?.email || '',
+                            color: user?.details?.imgColorBg || 'indigo'
+                        }"
+                        [enableProfileLink]="false"
+                        displayType="img"
+                    ></app-avatar>
+
+                    <div class="grid grid-cols-2 gap-6 w-full">
+                        <div class="col-span-2 sm:col-span-1">
+                            <label for="first_name" class="block text-sm font-medium text-gray-500">Nome</label>
+                            <input formControlName="firstName" type="text" name="first_name" id="first_name" autocomplete="cc-given-name" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-black-800 sm:text-sm">
+                        </div>
+                        <div class="col-span-2 sm:col-span-1">
+                            <label for="last_name" class="block text-sm font-medium text-gray-500">Cognome</label>
+                            <input formControlName="lastName" type="text" name="last_name" id="last_name" autocomplete="cc-family-name" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-black-800 sm:text-sm">
+                        </div>
+                        <div class="col-span-2">
+                            <label for="email_address" class="block text-sm font-medium text-gray-500">Indirizzo Email</label>
+                            <input formControlName="email" type="text" name="email_address" id="email_address" [disabled]="true" class="mt-1 block w-full cursor-not-allowed opacity-70 border border-gray-500 rounded-md shadow-sm py-2 px-3 focus:outline-none bg-black-800 sm:text-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-4 py-3 bg-black-800 text-right sm:px-6">
+                <button type="submit" class="btn primary">
+                    Salva
+                </button>
+            </div>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,13 @@
+:host { display: block; };
+
+@media (min-width: 768px) {
+    .user-container {
+        max-height: 69vh;
+    }
+}
+
+@layer components {
+    .user-container {
+        @apply container flex flex-col w-full max-w-full items-center justify-start mt-5 md:overflow-y-auto;
+    }
+}

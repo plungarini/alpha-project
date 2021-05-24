@@ -1,0 +1,41 @@
+<div class="w-full py-4 max-w-full">
+    
+    <div class="flex flex-row justify-between items-center mb-1">
+        <h4 class="text-gray-200 font-bold">Le ultime live</h4>
+    </div>
+
+    <div class="overflow-x-auto max-w-full">
+        <div class="flex flex-row w-max justify-between items-center pt-1 pb-3 sm:pb-1 px-1 pr-2 mt-4 space-x-8">
+            <ng-container *ngFor="let video of savedVideos">
+                <div (click)="togglePlayer(video.source, video.source === 'YouTube' ? video.videoId : video.link)" class="w-screen max-w-xs sm:max-w-sm h-40 sm:h-56 group relative cursor-pointer rounded-md shadow-xl bg-cover bg-center bg-no-repeat overflow-hidden hover:ring hover:ring-offset-black-900 hover:ring-indigo-500">
+                    <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat" [ngClass]="{ 'transform scale-175': video.source === 'YouTube' }" style="background: url('{{ video.thumbnail }}')"></div>
+                    <div class="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-70" style="backdrop-filter: blur(1.5px)"></div>
+                    <div class="absolute -mt-4 md:-mt-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <i-bs class="hidden sm:block text-gray-300 group-hover:text-gray-50" name="playCircleFill" width="3rem" height="3rem"></i-bs>
+                        <i-bs class="block sm:hidden text-gray-300 group-hover:text-gray-50" name="playCircleFill" width="2rem" height="2rem"></i-bs>
+                    </div>
+                    <div class="w-full max-w-full h-10 sm:h-12 flex flex-row items-center overflow-hidden px-4 absolute bottom-0 bg-black-900 bg-opacity-70" style="backdrop-filter: blur(8px);">
+                        <div class="w-full max-w-full overflow-hidden">
+                            <p class="text-sm sm:text-base text-gray-300 group-hover:text-gray-50 font-bold truncate">{{video.title}}</p>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <div routerLink="/dashboard/video" class="bg-black-800 group w-screen max-w-xs sm:max-w-sm h-40 sm:h-56 relative cursor-pointer rounded-md shadow-xl overflow-hidden ring ring-offset-black-900 ring-indigo-500">
+                <div class="w-10/12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <h5 class="text-gray-200">Vuoi vedere tutti i video?</h5>
+                    <p>Clicca sul seguente pulsante e non perderti neanche una nostra diretta!</p>
+                    <button routerLink="/dashboard/video" class="btn primary inline-flex items-center mt-4 group-hover:bg-indigo-500">
+                        Mostra tutti
+                        <i-bs name="arrowRightShort" class="ml-1"></i-bs>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<app-vimeo-player [show]="showVimeoPlayer" [url]="playerUrl" (onShow)="onShowVimeoPlayer($event)"></app-vimeo-player>
+<app-youtube-player [show]="showYoutubePlayer" [id]="playerId" (onShow)="onShowYoutubePlayer($event)"></app-youtube-player>

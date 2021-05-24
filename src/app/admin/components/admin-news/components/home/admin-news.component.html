@@ -1,0 +1,35 @@
+<div class="grid col-span-1 sm:grid-cols-6 gap-8">
+    <div class="bg-black-800 py-4 px-6 rounded-md sm:col-span-4">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <app-admin-news-form [resetForm]="resetForm" (formValueChanged)="setAnnouncementPreview($event)" (sendMessage)="sendMessage($event)"></app-admin-news-form>
+            <app-admin-news-users [resetForm]="resetForm" (selectedUsers)="updateSelectedUsers($event)"></app-admin-news-users>
+        </div>
+
+    </div>
+
+    <div class="block md:sticky top-4 sm:col-span-2 w-full max-w-full">
+        <h2 class="mb-3">Anteprima</h2>
+        <div class="bg-black-800 rounded-md overflow-hidden">
+            <app-notification-detail
+                class="block w-full"
+                [widthFix]="false"
+                [detailNotification]="announcement"
+            ></app-notification-detail>
+        </div>
+        <p *ngIf="announcement.sendTo.length as users; else noUsersSelected" class="mt-4 text-sm text-gray-500 text-center w-full block">
+            Questo messaggio verrà inviato a {{users}} {{users === 1 ? 'utente' : 'utenti'}}.
+        </p>
+        <ng-template #noUsersSelected>
+            <p class="mt-4 text-sm text-gray-500 text-center w-full block">
+                Questo messaggio verrà inviato a 0 utenti.
+            </p>
+        </ng-template>
+    </div>
+</div>
+<app-alert
+    [title]="!!errorMessage ? 'Impossibile salvare l\'annuncio' : 'Salvato con successo'"
+    [type]="!!errorMessage ? 'error' : 'success'"
+    [show]="!!errorMessage || !!successMessage"
+    [desc]="errorMessage || successMessage"
+></app-alert>

@@ -1,0 +1,118 @@
+<div class="h-max flex flex-col bg-black-800 shadow-xl rounded-md overflow-hidden" *ngIf="user">
+    <div class="pb-1 sm:pb-6">
+        <div class="mt-6 px-4 sm:mt-8 sm:flex sm:items-center sm:px-6">
+            <div class="flex-1">
+                <div class="flex flex-row relative space-x-4 items-center">
+                    <app-avatar
+                        [user]="getAvatarInfo(user)"
+                        [enableProfileLink]="false"
+                        displayType="img"
+                    ></app-avatar>
+                    <div *ngIf="user.roles.admin" class="absolute top-1 left-4 rounded-full text-yellow-400 bg-gray-800 ring-4 ring-gray-800">
+                        <i-bs name="shieldFillCheck" width=".8rem" height=".8rem"></i-bs>
+                    </div>
+                    <div>
+                        <div class="flex items-center">
+                            <h3 class="font-bold text-xl text-gray-100 sm:text-2xl">{{user.name || user.email}}</h3>
+                        </div>
+                        <p class="text-sm text-gray-400">{{user.email}}</p>
+                    </div>
+                </div>
+            </div>
+            <a *ngIf="user.stripeLink" [attr.href]="user.stripeLink" target="_blank" class="cursor-pointer w-min flex-grow-0 relative group hover:ring hover:shadow-xl rounded-md">
+                <app-path-svg path="assets/icons/stripe.svg" width="1.75rem" height="1.75rem"></app-path-svg>
+
+                <div class="opacity-0 group-hover:opacity-100 max-w-sm z-10 absolute top-9 right-0 bg-black-900 shadow-lg rounded-md px-4 py-2 pointer-events-none">
+                    <p class="text-sm text-gray-200 whitespace-nowrap">
+                        Visualizza su Stripe
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="px-4 pt-5 pb-5 sm:px-0 sm:pt-0">
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 px-4 sm:px-6">
+            <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40">
+                    Data di iscrizione
+                </dt>
+                <dd class="mt-1 text-sm sm:col-span-2">
+                    <time [attr.datetime]="getUserCreationTime() | date:'yyyy-MM-d'">
+                        {{getUserCreationTime() || 0 | date:'d MMMM, yyyy'}}
+                    </time>
+                </dd>
+            </div>
+            <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40">
+                    Importo speso
+                </dt>
+                <dd class="mt-1 text-sm sm:col-span-2">
+                    {{stripeDetails?.spent || 0 | currency:'EUR'}}
+                </dd>
+            </div>
+            <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40">
+                    Stato dell'abbonamento
+                </dt>
+                <dd class="mt-1 text-sm sm:col-span-2 {{stripeDetails.statusColor}}">
+                    {{stripeDetails.statusTranslated || '...'}}
+                </dd>
+            </div>
+            <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40">
+                    Tipo di abbonamento
+                </dt>
+                <dd class="mt-1 text-sm sm:col-span-2">
+                    {{stripeDetails.subType || '...'}}
+                </dd>
+            </div>
+            <div *ngIf="stripeDetails.subStatus === 'active' || stripeDetails.subStatus === 'trialing' || stripeDetails.hasCanceled" class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40">
+                    Abbonamento creato il
+                </dt>
+                <dd class="mt-1 text-sm sm:col-span-2">
+                    {{stripeDetails.subStartDate | date:'d MMMM, yyyy'}}
+                </dd>
+            </div>
+            <div *ngIf="stripeDetails.subStatus === 'active' || stripeDetails.subStatus === 'trialing'" class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40">
+                    Prossimo rinnovo
+                </dt>
+                <dd class="mt-1 text-sm sm:col-span-2">
+                    {{stripeDetails.subRecurring | date:'d MMMM, yyyy'}}
+                </dd>
+            </div>
+            <div *ngIf="stripeDetails.hasCanceled" class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500 sm:w-40">
+                    Cancellato il
+                </dt>
+                <dd class="mt-1 text-sm sm:col-span-2">
+                    {{stripeDetails.canceledDate | date:'d MMMM, yyyy'}}
+                </dd>
+            </div>
+        </dl>
+
+        <p class="text-sm text-gray-500 mx-6 mt-8">
+            Azioni recenti
+        </p>
+        <app-admin-user-feed
+            [user]="user" [subsInfo]="subsInfo"
+            class="mt-4"
+        ></app-admin-user-feed>
+
+        <div class="mt-8 px-4 sm:px-6">
+            <p class="text-sm font-medium mb-2 text-gray-500 sm:w-40">Azioni rapide</p>
+            <div class="inline-flex space-x-4">
+                <a [href]="'mailto:' + user.email" target="_blank" class="btn primary">
+                    Invia Email
+                </a>
+                <button class="btn primary">
+                    Resetta Password
+                </button>
+                <button class="btn danger">
+                    Disabilita
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

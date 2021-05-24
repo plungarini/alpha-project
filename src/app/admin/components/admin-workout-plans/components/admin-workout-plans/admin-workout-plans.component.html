@@ -1,0 +1,5 @@
+<app-admin-saved-weeks weekType="functional" [weeks]="weeks"></app-admin-saved-weeks>
+<app-admin-saved-weeks weekType="gym" [weeks]="weeks"></app-admin-saved-weeks>
+<app-admin-saved-weeks weekType="pro" [weeks]="weeks"></app-admin-saved-weeks>
+
+<app-admin-saved-exercises (onExerciseDeleted)="deleteSingleExercise($event)" [exercises]="exercises"></app-admin-saved-exercises>

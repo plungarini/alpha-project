@@ -1,0 +1,1087 @@
+<div *ngIf="serverError" class="fixed bottom-3 left-1/2 transform -translate-x-1/2 z-50">
+    <div class="rounded-md bg-red-50 p-4">
+        <div class="flex w-96 max-w-full">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800">
+                    Errore durante il salvataggio
+                </h3>
+                <div class="mt-2 text-sm text-red-700">
+                    {{serverError}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="block w-full relative">
+    <div class="flex flex-col md:flex-row space-y-8 md:space-x-8 md:space-y-0 items-start md:-mt-10">
+    
+        <div class="w-full md:w-1/2 md:pt-11">
+            <ng-container *ngTemplateOutlet="formTemplate; context: { err: false }"></ng-container>
+        </div>
+
+        <ng-template #previewTemplate let-fixed="fixed">
+            <app-workout-detail
+                [fixed]="fixed"
+                [preview]="true"
+                [difficulty]="viewDifficulty"
+                [show]="fixed ? showPreview : true"
+                [day]="selectedDay"
+                (onCloseModal)="showPreview = false"
+            ></app-workout-detail>
+        </ng-template>
+    
+        <div class="hidden md:block md:sticky top-4 w-full md:w-1/2">
+            <h2 class="mb-3">Anteprima</h2>
+            <div class="rounded">
+                <ng-container *ngIf="!!selectedDay && !selectedDay?.restDay; else restDayPlaceholder">
+                    <ng-container *ngTemplateOutlet="previewTemplate; context: { fixed: false }"></ng-container>
+                </ng-container>
+                <ng-template #restDayPlaceholder>
+                    <div class="bg-black-800 py-9 px-6 rounded shadow-2xl">
+                        <p class="block mx-auto max-w-prose text-center">
+                            Nessuna anteprima disponibile. Il caricamento è in corso o il giorno è selezionato come "Riposo".
+                        </p>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    
+    </div>
+</div>
+
+<div class="block md:hidden">
+    <ng-container *ngTemplateOutlet="previewTemplate; context: { fixed: true }"></ng-container>
+</div>
+
+
+<ng-template #formTemplate let-err="err">
+
+    <!-- Error templates -->
+    <ng-template #errorIcon>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <!-- Heroicon name: solid/exclamation-circle -->
+            <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+        </div>
+    </ng-template>
+    <ng-template #errorMsg let-msg="msg">
+        <p class="mt-2 text-sm text-red-600">{{msg}}</p>
+    </ng-template>
+
+
+    <!-- FORM -->
+    <form [formGroup]="workoutWeek">
+
+        <div
+            (click)="weekFormHided = !weekFormHided"
+            [ngClass]="{
+                'mb-4 rounded': weekFormHided,
+                'rounded-t': !weekFormHided
+            }"
+            class="transition-none flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-700 hover:bg-black-600 shadow-xl z-10"
+        >
+            <div class="text-gray-50 font-bold">Settimana</div>
+            <i-bs *ngIf="!weekFormHided" name="chevronDown"></i-bs>
+            <i-bs *ngIf="weekFormHided" name="chevronUp"></i-bs>
+        </div>
+        <div class="w-full bg-black-800 p-4 rounded-b mb-8" [class.hidden]="weekFormHided">
+
+            <!-- Form Row -->
+            <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 items-end">
+                
+                <!-- Form Control -->
+                <div class="w-full">
+                    <label for="weekNumber" class="block text-sm font-medium text-gray-300">
+                        Numero della settimana
+                    </label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <input
+                            type="number"
+        
+                            id="weekNumber"
+                            name="weekNumber"
+                            formControlName="weekNumber"
+        
+                            placeholder='Es: " 1 "'
+        
+                            class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                            [ngClass]="{
+                                'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                err
+                            }"
+                            [attr.aria-invalid]="err"
+                        >
+                        <ng-container *ngIf="err">
+                            <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                        </ng-container>
+                    </div>
+                    <ng-container *ngIf="err">
+                        <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                    </ng-container>
+                </div>
+    
+                <!-- Form Control -->
+                <div class="w-full">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                        Tipologia
+                    </label>
+                    <app-dropdown class="w-full mt-1" [wFull]="true" [closeOnOptionClick]="true" (onOptionClicked)="setFormValue('type', $event.value)"
+                        [options]="[
+                            { name: 'Funzionale', value: 'functional', action: true },
+                            { name: 'Palestra', value: 'gym', action: true },
+                            { name: 'Lorenz', value: 'pro', action: true }
+                        ]"
+                    >
+                        <div class="trigger w-full">
+                            <div class="btn primary inline-flex w-full justify-between text-sm border border-gray-500">
+                                <span *ngIf="workoutWeek.get('type')?.value === 'functional'">
+                                    Funzionale
+                                </span>
+                                <span *ngIf="workoutWeek.get('type')?.value === 'gym'">
+                                    Palestra
+                                </span>
+                                <span *ngIf="workoutWeek.get('type')?.value === 'pro'">
+                                    Lorenz
+                                </span>
+                                <i-bs name="chevronDown" class="mt-1 ml-2" width="0.875rem" height="0.875rem"></i-bs>
+                            </div>
+                        </div>
+                    </app-dropdown>
+                </div>
+
+                <!-- Form Control -->
+                <div class="w-full">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                        Stato
+                    </label>
+                    <app-dropdown class="w-full mt-1" [wFull]="true" [closeOnOptionClick]="true" (onOptionClicked)="setFormValue('status', $event.value)"
+                        [options]="[
+                            { name: 'Privato', value: 'private', icon: 'lock', action: true },
+                            { name: 'Pubblico', value: 'public', icon: 'unlock', action: true }
+                        ]"
+                    >
+                        <div class="trigger w-full">
+                            <div class="btn primary inline-flex w-full justify-between text-sm border border-gray-500">
+                                <span *ngIf="workoutWeek.get('status')?.value === 'private'" class="text-red-400">
+                                    <span class="inline-block bg-red-500 rounded-full mr-1" style="width: .5em; height: .5em; margin-bottom: .13em;"></span>
+                                    Privato
+                                </span>
+                                <span *ngIf="workoutWeek.get('status')?.value === 'public'" class="text-green-400">
+                                    <span class="inline-block bg-green-500 rounded-full mr-1" style="width: .5em; height: .5em; margin-bottom: .13em;"></span>
+                                    Pubblico
+                                </span>
+                                <i-bs name="chevronDown" class="mt-1 ml-2" width="0.875rem" height="0.875rem"></i-bs>
+                            </div>
+                        </div>
+                    </app-dropdown>
+                </div>
+    
+            </div>
+    
+            <!-- Day selector -->
+            <label class="block text-sm font-medium text-gray-300 mt-6 mb-2">
+                Seleziona un giorno della settimana:
+            </label>
+            <div class="flex flex-row justify-between space-x-4">
+                <div
+                    *ngFor="let day of weekDaysArray.controls; let i = index"
+                    (click)="daySelected = i + 1; viewDifficulty = 1"
+                    class="w-9 h-9 text-sm md:text-base cursor-pointer font-bold rounded flex items-center justify-center"
+                    [ngClass]="{
+                        'bg-black-700 hover:bg-black-600': !(daySelected === i + 1),
+                        'ring bg-black-800 text-gray-200': daySelected === i + 1
+                    }"
+                >
+                    {{getDayName(i + 1)}}
+                </div>
+            </div>
+
+        </div>
+
+        <ng-container formArrayName="week">
+            <ng-container *ngFor="let _ of weekDaysArray.controls; let i = index">
+                <ng-container *ngIf="i === daySelected - 1" [formGroupName]="i">
+
+                    <div
+                        (click)="dayFormHided = !dayFormHided"
+                        [ngClass]="{
+                            'mb-4 rounded': dayFormHided,
+                            'rounded-t': !dayFormHided
+                        }"
+                        class="transition-none flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-700 hover:bg-black-600 shadow-xl z-10"
+                    >
+                        <div class="text-gray-50 font-bold">Giorno</div>
+                        <i-bs *ngIf="!dayFormHided" name="chevronDown"></i-bs>
+                        <i-bs *ngIf="dayFormHided" name="chevronUp"></i-bs>
+                    </div>
+                    <div class="w-full bg-black-800 p-4 rounded-b mb-8"  [class.hidden]="dayFormHided">
+                        <div class="flex flex-row justify-between border-b border-gray-700 p-2 mb-4">
+                            <div>Stai modificando <span class="font-bold">{{getDayName(daySelected, true)}}</span></div>
+                            <div>
+                                <div class="relative flex items-start">
+                                    <div class="flex items-center h-5">
+                                        <input id="restDay" name="restDay" type="checkbox" formControlName="restDay" class="bg-black-700 focus:ring-indigo-500 focus:ring-offset-black-800 h-4 w-4 text-indigo-600 border-black-400 rounded">
+                                    </div>
+                                    <div class="ml-3 text-sm">
+                                        <label for="restDay" class="font-medium text-gray-400">Riposo</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="!weekDaysArray.at(daySelected - 1).get('restDay')?.value; else isRestDayTemplate">
+                            <!-- Form Col -->
+                            <div class="flex flex-col space-y-4">
+                                
+                                <!-- Form Control -->
+                                <div class="w-full">
+                                    <label for="exDayName" class="block text-sm font-medium text-gray-300">
+                                        Nome della scheda giornaliera
+                                    </label>
+                                    <div class="mt-1 relative rounded-md shadow-sm">
+                                        <input
+                                            type="text"
+                        
+                                            id="exDayName"
+                                            name="exDayName"
+                                            formControlName="exDayName"
+                        
+                                            placeholder='Es: "Giant Sets Day"'
+                        
+                                            class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                            [ngClass]="{
+                                                'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                err
+                                            }"
+                                            [attr.aria-invalid]="err"
+                                        >
+                                        <ng-container *ngIf="err">
+                                            <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                        </ng-container>
+                                    </div>
+                                    <ng-container *ngIf="err">
+                                        <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                    </ng-container>
+                                </div>
+                    
+                                <!-- Form Control -->
+                                <div class="w-full">
+                                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                                        Descrizione
+                                    </label>
+                                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                        <textarea
+                                            id="exDayDesc"
+                                            name="exDayDesc"
+                                            formControlName="exDayDesc"
+
+                                            placeholder="Scrivi una breve descrizione o premesse necessarie per la scheda giornaliera."
+                                            
+                                            rows="3" class="bg-black-700 shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></textarea>
+                                    </div>
+                                </div>
+                    
+                            </div>
+
+                            <ng-container *ngIf="workoutWeek.get('type')?.value === 'functional'">
+                                <!-- Form Row -->
+                                <label class="block text-sm font-medium text-gray-300 mt-6 mb-2">
+                                    Seleziona una difficoltà:
+                                </label>
+                                <div class="flex flex-row justify-between space-x-4">
+                                    <div
+                                        *ngFor="let difficulty of ['Principiante', 'Intermedio', 'Avanzato']; let i = index"
+                                        (click)="changeDifficulty(i + 1);"
+                                        class="cursor-pointer text-xs md:text-base font-bold rounded flex items-center justify-center py-2 px-4 w-full"
+                                        [ngClass]="{
+                                            'bg-black-700 hover:bg-black-600': !(viewDifficulty === i + 1),
+                                            'ring bg-black-800 text-gray-200': viewDifficulty === i + 1
+                                        }"
+                                    >
+                                        {{difficulty}}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+
+                        <ng-template #isRestDayTemplate>
+                            Nessuna modifica da aggiungere.
+                        </ng-template>
+
+                    </div>
+
+                    <div
+                        *ngIf="!weekDaysArray.at(daySelected - 1).get('restDay')?.value;"
+                        (click)="roundFormHided = !roundFormHided"
+                        [ngClass]="{
+                            'mb-4 rounded': roundFormHided,
+                            'rounded-t': !roundFormHided
+                        }"
+                        class="transition-none flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-700 hover:bg-black-600 shadow-xl z-10"
+                    >
+                        <div class="text-gray-50 font-bold">Rounds</div>
+                        <i-bs *ngIf="!roundFormHided" name="chevronDown"></i-bs>
+                        <i-bs *ngIf="roundFormHided" name="chevronUp"></i-bs>
+                    </div>
+                    <div *ngIf="!weekDaysArray.at(daySelected - 1).get('restDay')?.value;" [class.hidden]="roundFormHided" class="w-full bg-black-800 p-4 rounded-b mb-8">
+                        <div *ngIf="workoutWeek.get('type')?.value === 'functional'" class="border-b border-gray-700 p-2 mb-4">
+                            <div>Stai modificando la difficoltà <span class="font-bold">{{getDifficultyName(viewDifficulty)}}</span></div>
+                        </div>
+                        
+                        <ng-container *ngIf="viewDifficulty > 1">
+                            <p class="text-sm">
+                                <span (click)="copyFromDifficultyBefore()" class="text-indigo-400 hover:text-gray-100 underline font-bold cursor-pointer">Clicca qui</span> per copiare i Round dalla difficoltà
+                                <span class="font-bold">{{ viewDifficulty === 2 ? 'Principiante' : viewDifficulty === 3 ? 'Intermedio' : '' }}</span>
+                            </p>
+                        </ng-container>
+
+                        <ng-container [formArrayName]="'exercises' + viewDifficulty">
+
+                            <div class="mb-2 mt-4 text-gray-200 font-bold">Modifica i Round:</div>
+
+                            <ng-container *ngFor="let _ of getRoundsFormArray()?.controls; let i = index; let count = count;">
+                                <ng-container [formGroupName]="i">
+                                    <ng-container
+                                        *ngIf="getRoundsFormArray()?.at(i)?.get('hideView') as hideView"
+                                    >
+                                        <div class="border border-gray-700 rounded transition-none" [ngClass]="{ 'mb-4': !hideView?.value, 'mb-2': hideView?.value}">
+                                        
+                                            <div
+                                                (click)="hideView?.patchValue(!hideView?.value)"
+                                                [ngClass]="{
+                                                    'rounded': hideView?.value,
+                                                    'rounded-t': !hideView?.value
+                                                }"
+                                                class="transition-all duration-200 flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-900 hover:ring shadow-xl z-10"
+                                            >
+                                                <div class="text-gray-300 text-sm font-bold">Round {{i + 1}}/{{count}}</div>
+                                                <div class="w-min inline-flex">
+                                                    <i-bs (click)="duplicateRound(i, $event)" name="stickiesFill" class="cursor-pointer mr-3 hover:text-gray-200"></i-bs>
+                                                    <i-bs (click)="deleteRound(i, $event)" name="trashFill" class="cursor-pointer mr-3 hover:text-red-400"></i-bs>
+                                                    <i-bs *ngIf="!hideView?.value" name="chevronDown"></i-bs>
+                                                    <i-bs *ngIf="hideView?.value" name="chevronUp"></i-bs>
+                                                </div>
+                                            </div>
+
+                                            <div class="p-4" [class.hidden]="hideView?.value">
+                                                <!-- Form Row -->
+                                                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-end">
+                                                    
+                                                    <!-- Form Control -->
+                                                    <div class="w-full">
+                                                        <label for="roundTitle" class="block text-sm font-medium text-gray-300">
+                                                            Nome del Round
+                                                        </label>
+                                                        <div class="mt-1 relative rounded-md shadow-sm">
+                                                            <input
+                                                                type="text"
+                                                                autocomplete="false"
+                                                                id="roundTitle"
+                                                                name="roundTitle"
+                                                                formControlName="title"
+                                            
+                                                                placeholder='Es: "Set Gambe 1"'
+                                            
+                                                                class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                [ngClass]="{
+                                                                    'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                    err
+                                                                }"
+                                                                [attr.aria-invalid]="err"
+                                                            >
+                                                            <ng-container *ngIf="err">
+                                                                <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                            </ng-container>
+                                                        </div>
+                                                        <ng-container *ngIf="err">
+                                                            <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                        </ng-container>
+                                                    </div>
+                                                    
+                                                    <!-- Form Control -->
+                                                    <div class="w-full">
+                                                        <label for="roundRepetitions" class="block text-sm font-medium text-gray-300">
+                                                            Ripetizioni del Round
+                                                        </label>
+                                                        <div class="mt-1 relative rounded-md shadow-sm">
+                                                            <input
+                                                                type="number"
+                                                                min="1"
+                                                                id="roundRepetitions"
+                                                                name="roundRepetitions"
+                                                                formControlName="repetitions"
+                                            
+                                                                placeholder='Es: " 1 "'
+                                            
+                                                                class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                [ngClass]="{
+                                                                    'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                    err
+                                                                }"
+                                                                [attr.aria-invalid]="err"
+                                                            >
+                                                            <ng-container *ngIf="err">
+                                                                <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                            </ng-container>
+                                                        </div>
+                                                        <ng-container *ngIf="err">
+                                                            <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                        </ng-container>
+                                                    </div>
+                                        
+                                                </div>
+
+                                                <!-- Form Control -->
+                                                <div class="w-full mt-4">
+                                                    <label for="roundRepetitions" class="block text-sm font-medium text-gray-300">
+                                                        Note aggiuntive del round (Opzionale)
+                                                    </label>
+                                                    <div class="mt-1 relative rounded-md shadow-sm">
+                                                        <textarea
+                                                            id="roundRepetitions"
+                                                            name="roundRepetitions"
+                                                            formControlName="note"
+                                                            rows="2"
+                                        
+                                                            placeholder='Scrivi qualsiasi considerazione aggiuntiva per il set.'
+                                        
+                                                            class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                        ></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <ng-container formGroupName="duration">
+                                                    <!-- Label Row -->
+                                                    <div class="flex flex-row justify-between items-center mt-4">
+                                                        <label class="block text-sm font-medium text-gray-300">
+                                                            Durata (Opzionale)
+                                                        </label>
+                                                        <div>
+                                                            <div class="relative flex items-start">
+                                                                <div class="flex items-center h-5">
+                                                                    <input id="durationHideView" (click)="getRoundsFormArray()?.at(i)?.get('duration')?.get('isTime')?.patchValue(checkbox.checked)" name="durationHideView" #checkbox type="checkbox" formControlName="hideView" class="bg-black-700 focus:ring-indigo-500 focus:ring-offset-black-800 h-4 w-4 text-indigo-600 border-black-400 rounded">
+                                                                </div>
+                                                                <div class="ml-3 text-sm">
+                                                                    <label for="durationHideView" (click)="getRoundsFormArray()?.at(i)?.get('duration')?.get('isTime')?.patchValue(checkbox.checked)" class="font-medium text-gray-400">Attivo</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Form Row -->
+                                                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-end">
+
+                                                        <!-- Form Control -->
+                                                        <div class="w-full">
+                                                            <div class="mt-1 relative rounded-md shadow-sm">
+                                                                <input
+                                                                    type="number"
+                                                                    autocomplete="false"
+                                                                    id="hours"
+                                                                    name="hours"
+                                                                    formControlName="hours"
+                                                                    min="0"
+                                                                    [disabled]="!getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value"
+                                                                    [attr.disabled]="!getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value ? true : null"
+                                                
+                                                                    placeholder='Ore'
+                                                
+                                                                    class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                    [ngClass]="{
+                                                                        'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                        err,
+                                                                        'opacity-50': !getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value
+                                                                    }"
+                                                                    [attr.aria-invalid]="err"
+                                                                >
+                                                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                    h
+                                                                </div>
+                                                                <ng-container *ngIf="err">
+                                                                    <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                </ng-container>
+                                                            </div>
+                                                            <ng-container *ngIf="err">
+                                                                <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                            </ng-container>
+                                                        </div>
+
+                                                        <!-- Form Control -->
+                                                        <div class="w-full">
+                                                            <div class="mt-1 relative rounded-md shadow-sm">
+                                                                <input
+                                                                    type="number"
+                                                                    autocomplete="false"
+                                                                    id="minutes"
+                                                                    name="minutes"
+                                                                    formControlName="minutes"
+                                                                    min="0"
+                                                                    [disabled]="!getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value"
+                                                                    [attr.disabled]="!getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value ? true : null"
+                                                
+                                                                    placeholder='Minuti'
+                                                
+                                                                    class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                    [ngClass]="{
+                                                                        'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                        err,
+                                                                        'opacity-50': !getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value
+                                                                    }"
+                                                                    [attr.aria-invalid]="err"
+                                                                >
+                                                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                    min
+                                                                </div>
+                                                                <ng-container *ngIf="err">
+                                                                    <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                </ng-container>
+                                                            </div>
+                                                            <ng-container *ngIf="err">
+                                                                <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                            </ng-container>
+                                                        </div>
+
+                                                        <!-- Form Control -->
+                                                        <div class="w-full">
+                                                            <div class="mt-1 relative rounded-md shadow-sm">
+                                                                <input
+                                                                    type="text"
+                                                                    autocomplete="false"
+                                                                    id="seconds"
+                                                                    name="seconds"
+                                                                    formControlName="seconds"
+                                                                    min="0"
+                                                                    [disabled]="!getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value"
+                                                                    [attr.disabled]="!getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value ? true : null"
+                                                
+                                                                    placeholder='Secondi'
+                                                
+                                                                    class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                    [ngClass]="{
+                                                                        'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                        err,
+                                                                        'opacity-50': !getRoundsFormArray()?.at(i)?.get('duration')?.get('hideView')?.value
+                                                                    }"
+                                                                    [attr.aria-invalid]="err"
+                                                                >
+                                                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                    sec
+                                                                </div>
+                                                                <ng-container *ngIf="err">
+                                                                    <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                </ng-container>
+                                                            </div>
+                                                            <ng-container *ngIf="err">
+                                                                <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                            </ng-container>
+                                                        </div>
+
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-container formArrayName="exercises">
+                                                    <label class="block text-sm font-medium text-gray-300 mb-2 mt-4">
+                                                        Modifica gli Esercizi:
+                                                    </label>
+                                                    <ng-container *ngFor="let exGroup of getRoundExercisesFormArray(i).controls; let indexRoundExercises = index; let exercisesCount = count;">
+                                                        <ng-container [formGroupName]="indexRoundExercises">
+                                                            <div *ngIf="exGroup.get('hideView') as hideView" class="border border-gray-700 rounded transition-none" [ngClass]="{ 'mb-4': !hideView?.value, 'mb-2': hideView?.value}">
+                                                                <div
+                                                                    (click)="hideView?.patchValue(!hideView?.value)"
+                                                                    [ngClass]="{
+                                                                        'rounded': hideView?.value,
+                                                                        'rounded-t': !hideView?.value
+                                                                    }"
+                                                                    class="transition-all duration-200 flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-900 hover:ring shadow-xl z-10"
+                                                                >
+                                                                    <div *ngIf="!exGroup.get('title')?.value" class="text-gray-300 text-sm font-bold">Esercizio {{indexRoundExercises + 1}}/{{exercisesCount}}</div>
+                                                                    <div *ngIf="exGroup.get('title')?.value" class="text-gray-300 text-sm font-bold">{{exGroup.get('title')?.value}}</div>
+                                                                    <div class="w-min inline-flex">
+                                                                        <i-bs (click)="duplicateExercise(i, indexRoundExercises, $event)" name="stickiesFill" class="cursor-pointer mr-3 hover:text-gray-200"></i-bs>
+                                                                        <i-bs (click)="deleteExercise(i, indexRoundExercises, $event)" name="trashFill" class="cursor-pointer mr-3 hover:text-red-400"></i-bs>
+                                                                        <i-bs *ngIf="!hideView?.value" name="chevronDown"></i-bs>
+                                                                        <i-bs *ngIf="hideView?.value" name="chevronUp"></i-bs>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="p-4" *ngIf="!hideView?.value">
+
+                                                                    <!-- Form Row -->
+                                                                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 md:items-end">
+                                                                        
+                                                                        <div class="w-min" *ngIf="!exGroup.get('isTime')?.value">
+
+                                                                            <label class="block text-sm font-medium text-gray-300 mb-1">
+                                                                                Icona:
+                                                                            </label>
+
+                                                                            <app-dropdown  menuPosition="v-top-left" [menuAddSpacing]="3" [customOptions]="true" [closeOnOptionClick]="true" [wFull]="true">
+                                                                                <div class="trigger cursor-pointer bg-black-700 border border-gray-500 hover:bg-black-600 hover:text-gray-200 rounded shadow-xl h-12 w-12 flex justify-center items-center">
+                                                                                    <i-bs *ngIf="!exGroup.get('iconSrc')?.value" name="upload"></i-bs>
+                                                                                    <app-path-svg [path]="exGroup.get('iconSrc')?.value" width="1.2rem" height="1.2rem"></app-path-svg>
+                                                                                </div>
+                                                                                <div class="custom-options bg-black-800 shadow-3xl border border-gray-500 py-3 px-4 rounded overflow-hidden">
+                                                                                    <app-workout-icon-selector
+                                                                                        (onIconSelected)="
+                                                                                            setExerciseIcon($event, i, indexRoundExercises);
+                                                                                        "
+                                                                                    ></app-workout-icon-selector>
+                                                                                </div>
+                                                                            </app-dropdown>
+
+                                                                        </div>
+
+                                                                        <!-- Form Control -->
+                                                                        <div class="w-full">
+                                                                            <label for="exerciseTitle" class="block text-sm font-medium text-gray-300">
+                                                                                Nome dell'Esercizio
+                                                                            </label>
+                                                                            <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                <input
+                                                                                    type="text"
+                                                                                    autocomplete="false"
+                                                                                    id="exerciseTitle"
+                                                                                    name="exerciseTitle"
+                                                                                    formControlName="title"
+                                                                
+                                                                                    placeholder='Es: "PushUp"'
+                                                                
+                                                                                    class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                    [ngClass]="{
+                                                                                        'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                        err
+                                                                                    }"
+                                                                                    [attr.aria-invalid]="err"
+                                                                                >
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+                                                                            <ng-container *ngIf="err">
+                                                                                <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                            </ng-container>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <!-- Form Row -->
+                                                                    <div *ngIf="!exGroup.get('isTime')?.value" class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-end mt-4">
+
+                                                                        <!-- Form Control -->
+                                                                        <div class="w-full">
+                                                                            <label for="exerciseRepetitions" class="block text-sm font-medium text-gray-300">
+                                                                                Ripetizioni esercizio
+                                                                            </label>
+                                                                            <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                <input
+                                                                                    type="number"
+                                                                                    autocomplete="false"
+                                                                                    id="exerciseRepetitions"
+                                                                                    name="exerciseRepetitions"
+                                                                                    formControlName="quantity"
+                                                                                    min="1"
+                                                                
+                                                                                    placeholder='Es: " 2 "'
+                                                                
+                                                                                    class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                    [ngClass]="{
+                                                                                        'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                        err
+                                                                                    }"
+                                                                                    [attr.aria-invalid]="err"
+                                                                                >
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+                                                                            <ng-container *ngIf="err">
+                                                                                <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                            </ng-container>
+                                                                        </div>
+
+                                                                        <!-- Form Control -->
+                                                                        <div class="w-full">
+                                                                            <label for="videoLink" class="block text-sm font-medium text-gray-300">
+                                                                                Link del video (Vimeo)
+                                                                            </label>
+                                                                            <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                <input
+                                                                                    type="text"
+                                                                                    autocomplete="false"
+                                                                                    id="videoLink"
+                                                                                    name="videoLink"
+                                                                                    formControlName="videoLink"
+                                                                
+                                                                                    placeholder='Es: "https://vimeo.com/12345/abcd"'
+                                                                
+                                                                                    class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                    [ngClass]="{
+                                                                                        'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                        err
+                                                                                    }"
+                                                                                    [attr.aria-invalid]="err"
+                                                                                >
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+                                                                            <ng-container *ngIf="err">
+                                                                                <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                            </ng-container>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+
+                                                                    <!-- Form Control -->
+                                                                    <div class="w-full mt-4">
+                                                                        <label for="exNote" class="block text-sm font-medium text-gray-300">
+                                                                            Note aggiuntive (Opzionale)
+                                                                        </label>
+                                                                        <div class="mt-1 relative rounded-md shadow-sm">
+                                                                            <input
+                                                                                type="text"
+                                                                                autocomplete="false"
+                                                                                id="exNote"
+                                                                                name="exNote"
+                                                                                formControlName="note"
+                                                            
+                                                                                placeholder='Es: "Steso su una panca..."'
+                                                            
+                                                                                class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                [ngClass]="{
+                                                                                    'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                    err
+                                                                                }"
+                                                                                [attr.aria-invalid]="err"
+                                                                            >
+                                                                            <ng-container *ngIf="err">
+                                                                                <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                            </ng-container>
+                                                                        </div>
+                                                                        <ng-container *ngIf="err">
+                                                                            <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                        </ng-container>
+                                                                    </div>
+
+                                                                    <!-- Exercise Duration -->
+                                                                    <ng-container *ngIf="!exGroup.get('isTime')?.value" formGroupName="duration">
+                                                                        <!-- Label Row -->
+                                                                        <div class="flex flex-row justify-between items-center mt-4">
+                                                                            <label class="block text-sm font-medium text-gray-300">
+                                                                                Durata (Opzionale)
+                                                                            </label>
+                                                                            <div>
+                                                                                <div class="relative flex items-start">
+                                                                                    <div class="flex items-center h-5">
+                                                                                        <input id="durationHideView" (click)="exGroup.get('duration')?.get('isTime')?.patchValue(checkbox.checked)" name="durationHideView" #checkbox type="checkbox" formControlName="hideView" class="bg-black-700 focus:ring-indigo-500 focus:ring-offset-black-800 h-4 w-4 text-indigo-600 border-black-400 rounded">
+                                                                                    </div>
+                                                                                    <div class="ml-3 text-sm">
+                                                                                        <label for="durationHideView" (click)="exGroup.get('duration')?.get('isTime')?.patchValue(checkbox.checked)" class="font-medium text-gray-400">Attivo</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Form Row -->
+                                                                        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-end">
+    
+                                                                            <!-- Form Control -->
+                                                                            <div class="w-full">
+                                                                                <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        autocomplete="false"
+                                                                                        id="hours"
+                                                                                        name="hours"
+                                                                                        formControlName="hours"
+                                                                                        min="0"
+                                                                                        [disabled]="!exGroup.get('duration')?.get('hideView')?.value"
+                                                                                        [attr.disabled]="!exGroup.get('duration')?.get('hideView')?.value ? true : null"
+                                                                    
+                                                                                        placeholder='Ore'
+                                                                    
+                                                                                        class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                        [ngClass]="{
+                                                                                            'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                            err,
+                                                                                            'opacity-50': !exGroup.get('duration')?.get('hideView')?.value
+                                                                                        }"
+                                                                                        [attr.aria-invalid]="err"
+                                                                                    >
+                                                                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                                        h
+                                                                                    </div>
+                                                                                    <ng-container *ngIf="err">
+                                                                                        <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                    </ng-container>
+                                                                                </div>
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+    
+                                                                            <!-- Form Control -->
+                                                                            <div class="w-full">
+                                                                                <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        autocomplete="false"
+                                                                                        id="minutes"
+                                                                                        name="minutes"
+                                                                                        formControlName="minutes"
+                                                                                        min="0"
+                                                                                        [disabled]="!exGroup.get('duration')?.get('hideView')?.value"
+                                                                                        [attr.disabled]="!exGroup.get('duration')?.get('hideView')?.value ? true : null"
+                                                                    
+                                                                                        placeholder='Minuti'
+                                                                    
+                                                                                        class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                        [ngClass]="{
+                                                                                            'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                            err,
+                                                                                            'opacity-50': !exGroup.get('duration')?.get('hideView')?.value
+                                                                                        }"
+                                                                                        [attr.aria-invalid]="err"
+                                                                                    >
+                                                                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                                        min
+                                                                                    </div>
+                                                                                    <ng-container *ngIf="err">
+                                                                                        <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                    </ng-container>
+                                                                                </div>
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+    
+                                                                            <!-- Form Control -->
+                                                                            <div class="w-full">
+                                                                                <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        autocomplete="false"
+                                                                                        id="seconds"
+                                                                                        name="seconds"
+                                                                                        formControlName="seconds"
+                                                                                        min="0"
+                                                                                        [disabled]="!exGroup.get('duration')?.get('hideView')?.value"
+                                                                                        [attr.disabled]="!exGroup.get('duration')?.get('hideView')?.value ? true : null"
+                                                                    
+                                                                                        placeholder='Secondi'
+                                                                    
+                                                                                        class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                        [ngClass]="{
+                                                                                            'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                            err,
+                                                                                            'opacity-50': !exGroup.get('duration')?.get('hideView')?.value
+                                                                                        }"
+                                                                                        [attr.aria-invalid]="err"
+                                                                                    >
+                                                                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                                        sec
+                                                                                    </div>
+                                                                                    <ng-container *ngIf="err">
+                                                                                        <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                    </ng-container>
+                                                                                </div>
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+    
+                                                                        </div>
+                                                                    </ng-container>
+
+                                                                    <!-- Rest Time -->
+                                                                    <ng-container *ngIf="exGroup.get('isTime')?.value">
+                                                                        <!-- Label Row -->
+                                                                        <div class="flex flex-row justify-between items-center mt-4">
+                                                                            <label class="block text-sm font-medium text-gray-300">
+                                                                                Durata (Opzionale)
+                                                                            </label>
+                                                                        </div>
+                                                                        <!-- Form Row -->
+                                                                        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 items-end">
+    
+                                                                            <!-- Form Control -->
+                                                                            <div class="w-full">
+                                                                                <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        autocomplete="false"
+                                                                                        id="hours"
+                                                                                        name="hours"
+                                                                                        formControlName="hours"
+                                                                                        min="0"
+                                                                    
+                                                                                        placeholder='Ore'
+                                                                    
+                                                                                        class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                        [ngClass]="{
+                                                                                            'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                            err
+                                                                                        }"
+                                                                                        [attr.aria-invalid]="err"
+                                                                                    >
+                                                                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                                        h
+                                                                                    </div>
+                                                                                    <ng-container *ngIf="err">
+                                                                                        <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                    </ng-container>
+                                                                                </div>
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+    
+                                                                            <!-- Form Control -->
+                                                                            <div class="w-full">
+                                                                                <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                    <input
+                                                                                        type="number"
+                                                                                        autocomplete="false"
+                                                                                        id="minutes"
+                                                                                        name="minutes"
+                                                                                        formControlName="minutes"
+                                                                                        min="0"
+                                                                    
+                                                                                        placeholder='Minuti'
+                                                                    
+                                                                                        class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                        [ngClass]="{
+                                                                                            'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                            err
+                                                                                        }"
+                                                                                        [attr.aria-invalid]="err"
+                                                                                    >
+                                                                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                                        min
+                                                                                    </div>
+                                                                                    <ng-container *ngIf="err">
+                                                                                        <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                    </ng-container>
+                                                                                </div>
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+    
+                                                                            <!-- Form Control -->
+                                                                            <div class="w-full">
+                                                                                <div class="mt-1 relative rounded-md shadow-sm">
+                                                                                    <input
+                                                                                        type="text"
+                                                                                        autocomplete="false"
+                                                                                        id="seconds"
+                                                                                        name="seconds"
+                                                                                        formControlName="seconds"
+                                                                                        min="0"
+                                                                    
+                                                                                        placeholder='Secondi'
+                                                                    
+                                                                                        class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                                                                                        [ngClass]="{
+                                                                                            'border-red-300 text-red-900 placeholder-red-300 focus:border-red-500 focus:ring-red-500':
+                                                                                            err
+                                                                                        }"
+                                                                                        [attr.aria-invalid]="err"
+                                                                                    >
+                                                                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                                                        sec
+                                                                                    </div>
+                                                                                    <ng-container *ngIf="err">
+                                                                                        <ng-container *ngTemplateOutlet="errorIcon"></ng-container>
+                                                                                    </ng-container>
+                                                                                </div>
+                                                                                <ng-container *ngIf="err">
+                                                                                    <ng-container *ngTemplateOutlet="errorMsg; context: { msg: 'Your password must be less than 4 characters.' }"></ng-container>
+                                                                                </ng-container>
+                                                                            </div>
+    
+                                                                        </div>
+                                                                    </ng-container>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </ng-container>
+                                                    </ng-container>
+
+                                                    <div *ngIf="getRoundExercisesFormArray(i)?.controls?.length!! <= 0" class="text-yellow-500 text-sm w-full p-2 border-b border-gray-500 inline-flex">
+                                                        <i-bs name="exclamationSquare" width="1.2rem" height="1.2rem" class="mr-3"></i-bs>
+                                                        Nessun esercizio presente. Aggiungine uno per procedere.
+                                                    </div>
+
+                                                    <div class="ml-auto mt-4 w-full md:w-min md:block">
+                                                        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                                                            <div (click)="addRest(i)" class="btn secondary w-full md:w-min md:whitespace-nowrap text-center">
+                                                                Aggiungi un rest
+                                                            </div>
+                                                            
+                                                            <app-dropdown [wFull]="true" [menuPosition]="'v-top-left'" [menuAddSpacing]="1" [customOptions]="true">
+                                                                <div class="trigger">
+                                                                    <div class="btn primary w-full md:w-min text-center whitespace-nowrap">Aggiungi esercizio</div>
+                                                                </div>
+                                                                <div class="custom-options shadow-2xl w-max max-w-full bg-black-800 rounded border border-gray-500">
+                                                                    <div (click)="addExercise(i)" class="bg-black-800 w-full text-sm hover:bg-black-700 cursor-pointer border-b border-gray-500 inline-flex justify-center items-center py-2 px-4">
+                                                                        <i-bs name="plusCircleDotted" class="mr-3" width="1rem" height="1rem"></i-bs>
+                                                                        Aggiungi nuovo
+                                                                    </div>
+                                                                    <div class="bg-black-900 py-2 px-4 text-xs text-center border-b border-gray-500">
+                                                                        o utilizza un preset:
+                                                                    </div>
+                                                                    <div class="max-h-40 overflow-y-auto min-w-min w-60 max-w-full">
+                                                                        <div *ngFor="let savedEx of savedExercises" (click)="addExercise(i, savedEx)" class="flex flex-row space-x-4 items-center my-2 p-2 pr-4 hover:bg-black-700 cursor-pointer">
+                                                                            <app-path-svg *ngIf="savedEx.iconSrc" [path]="savedEx.iconSrc" width="1.2rem" height="1.2rem"></app-path-svg>
+                                                                            <p class="text-gray-200 font-bold text-xs w-full">
+                                                                                {{ savedEx.title }}
+                                                                                <span *ngIf="savedEx.note" class="block text-xs font-normal text-gray-500">{{savedEx.note}}</span>
+                                                                            </p>
+                                                                            <i-bs *ngIf="savedEx.videoLink" class="w-min" name="playCircleFill" width="1rem" height="1rem"></i-bs>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </app-dropdown>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+
+                                            </div>
+                                            
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+
+                            <div *ngIf="getRoundsFormArray()?.controls?.length!! <= 0" class="text-yellow-500 w-full p-2 border-b border-gray-500 inline-flex">
+                                <i-bs name="exclamationSquare" width="1.2rem" height="1.2rem" class="mr-3"></i-bs>
+                                Nessun round presente. Aggiungine uno per procedere.
+                            </div>
+
+                            <div class="ml-auto mt-4 w-full md:w-min md:block">
+                                <div (click)="addRound()" class="btn primary w-full md:w-min md:ml-auto text-center whitespace-nowrap">
+                                    Aggiungi un Round
+                                </div>
+                            </div>
+                        </ng-container>
+
+                    </div>
+
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <div class="flex flex-row fixed space-x-5 px-2 w-full md:w-min bottom-5 left-0 md:left-auto md:right-5 z-50">
+            <button (click)="showPreview = true" [disabled]="selectedDay?.restDay" type="button" class="block md:hidden btn primary w-full shadow-2xl">Anteprima</button>
+            <button (click)="submitAndSave()" type="button" class="btn success w-full shadow-2xl whitespace-nowrap">Salva modifiche</button>
+        </div>
+    </form>
+
+</ng-template>

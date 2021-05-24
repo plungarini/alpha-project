@@ -1,0 +1,64 @@
+<div class="relative bg-gray-800 md:bg-black-800 overflow-hidden rounded-md shadow-2xl">
+	<div class="max-w-7xl mx-auto">
+		<div class="relative z-10 pb-8 bg-gray-800 md:bg-black-800 sm:pb-16 md:pb-10 lg:max-w-2xl lg:w-full lg:pb-14 xl:pb-16">
+			<svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-gray-800 md:text-black-800 transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+				<polygon points="50,0 100,0 50,100 0,100" />
+			</svg>
+			<main class="pt-6 mx-auto max-w-7xl px-4 sm:pt-12 sm:px-6 md:pt-6 lg:pt-10 lg:px-8 xl:pt-14">
+				<div class="sm:text-center lg:text-left">
+					<h1 class="text-4xl tracking-tight font-extrabold text-gray-100 sm:text-5xl md:text-6xl">
+						<span class="block xl:inline">Scegli il tuo tipo di</span>
+						<span class="block text-indigo-500 xl:ml-4 xl:inline">allenamento</span>
+					</h1>
+					<p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+						Alpha Project ti offre diversi livelli di difficoltà e tre tipologie di allenamento, in base alle tue condizioni o possibilità. Seleziona una tipologia, potrai sempre cambiarla in un secondo momento oppure durante l'allenamento.
+					</p>
+				</div>
+			</main>
+		</div>
+	</div>
+	<div class="hidden lg:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+		<img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="assets/images/workout-hero-bg.jpg" alt="">
+	</div>
+</div>
+
+
+<div class="py-12">
+	<div class="max-w-xl mx-auto lg:max-w-7xl">
+		<dl class="space-y-10 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
+			<div routerLink="/dashboard/workout/functional" class="bg-black-800 rounded-md px-6 py-4 cursor-pointer transform translate-y-0 hover:-translate-y-2 hover:ring transition-all duration-300">
+				<dt>
+					<div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-gray-100">
+						<i-bs name="batteryHalf" width="1.5rem" height="1.5rem"></i-bs>
+					</div>
+					<p class="mt-5 text-lg leading-6 font-medium text-gray-100">Workout funzionale</p>
+				</dt>
+				<dd class="mt-2 text-base text-gray-500">
+					Seleziona il Workout funzionale se preferisci allenarti da casa e con attrezzi facilmente reperibili. Queste schede di allenamento sono ottime sia per principianti che esperti.
+				</dd>
+			</div>
+			<div routerLink="/dashboard/workout/gym" class="bg-black-800 rounded-md px-6 py-4 cursor-pointer transform translate-y-0 hover:-translate-y-2 hover:ring transition-all duration-300">
+				<dt>
+					<div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-gray-100">
+						<i-bs name="batteryFull" width="1.5rem" height="1.5rem"></i-bs>
+					</div>
+					<p class="mt-5 text-lg leading-6 font-medium text-gray-100">Workout in palestra</p>
+				</dt>
+				<dd class="mt-2 text-base text-gray-500">
+					Seleziona il Workout in palestra se alcuni giorni della settimana ti vuoi allenare in palestra. Questi allenamenti sono ottimi se cerchi un qualcosa in più. Affiancali a quelli funzionali!
+				</dd>
+			</div>
+			<div routerLink="/dashboard/workout/lorenz" class="bg-black-800 rounded-md px-6 py-4 cursor-pointer transform translate-y-0 hover:-translate-y-2 hover:ring transition-all duration-300">
+				<dt>
+					<div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-gray-100">
+						<i-bs name="batteryCharging" width="1.5rem" height="1.5rem"></i-bs>
+					</div>
+					<p class="mt-5 text-lg leading-6 font-medium text-gray-100">Workout con il Lorenz</p>
+				</dt>
+				<dd class="mt-2 text-base text-gray-500">
+					Seleziona il Workout con il Lorenz se ti senti pronto a sputare sangue. Fai gli stessi allenamenti che sta facendo il Lorenz per prepararsi all'Iron Man. Per i più esperti.
+				</dd>
+			</div>
+		</dl>
+	</div>
+</div>

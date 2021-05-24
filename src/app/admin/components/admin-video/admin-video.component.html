@@ -1,0 +1,124 @@
+<div class="w-full py-4">
+    
+    <div class="flex flex-row justify-between items-center mb-1">
+        <h4 class="text-gray-200 font-bold">Video Pubblicati</h4>
+        <div (click)="openModal(undefined)" class="btn secondary inline-flex transform scale-90 origin-right">
+            <i-bs name="folderPlus" class="mr-2" width="1.4rem" height="1.4rem"></i-bs>
+            Aggiungi
+        </div>
+    </div>
+
+    <div *ngIf="savedVideos.length > 0; else noSavedWeeks">
+        <div class="py-1 px-1 mt-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            <ng-container *ngFor="let video of savedVideos">
+                <div class="w-full h-40 sm:h-56 group relative rounded-md shadow-xl overflow-hidden hover:ring hover:ring-offset-black-900 hover:ring-indigo-500">
+                    <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat" [ngClass]="{ 'transform scale-175': video.source === 'YouTube' }" style="background: url('{{ video.thumbnail }}')"></div>
+                    <div class="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-70" style="backdrop-filter: blur(1.5px)"></div>
+                    <div class="absolute top-2 right-2">
+                        <div *ngIf="video.status === 'private'">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 shadow-lg">
+                                <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-red-500" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                                Privato
+                            </span>
+                        </div>
+                        <div *ngIf="video.status === 'public'">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-gray-800 shadow-lg">
+                                <svg class="-ml-0.5 mr-1.5 h-2 w-2 text-green-500" fill="currentColor" viewBox="0 0 8 8">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                                Pubblico
+                            </span>
+                        </div>
+                    </div>
+                    <div class="cursor-pointer absolute -mt-4 md:-mt-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <i-bs class="hidden sm:block text-gray-300 group-hover:text-gray-50" name="playCircleFill" width="3rem" height="3rem"></i-bs>
+                        <i-bs class="block sm:hidden text-gray-300 group-hover:text-gray-50" name="playCircleFill" width="2rem" height="2rem"></i-bs>
+                    </div>
+                    <div class="w-full max-w-full h-10 sm:h-12 flex flex-row items-center overflow-hidden px-4 absolute bottom-0 bg-black-900 bg-opacity-70" style="backdrop-filter: blur(8px);">
+                        <div class="w-full max-w-full overflow-hidden">
+                            <p class="text-sm sm:text-base text-gray-300 group-hover:text-gray-50 font-bold truncate">{{video.title}}</p>
+                        </div>
+                        <div class="inline-flex items-center ml-3 w-min">
+                            <i-bs name="gearFill" (click)="openModal(video)" class="cursor-pointer hover:text-gray-50" width="1.3em" height="1.3em"></i-bs>
+                            <i-bs name="trashFill" (click)="deleteVideo(video)" class="cursor-pointer hover:text-red-500 ml-3" width="1.3em" height="1.3em"></i-bs>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <ng-template #noSavedWeeks>
+        <div class="w-screen max-w-full mt-5 flex flex-row items-center bg-black-700 hover:ring rounded-lg border border-gray-400 mb-2 py-5 px-4">
+            <i-bs name="folderX" class="text-gray-200" width="3rem" height="3rem"></i-bs>
+            <div class="ml-8">
+                <p class="text-gray-200 font-bold text-lg">Nulla da vedere qui!</p>
+                <p>Non è ancora stata aggiunto alcun video. Clicca su "Aggiungi".</p>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<app-modal
+    [show]="showModal" [actions]="true" [body]="true" [showIcon]="false"
+    [modalTitle]="isNewItemModal ? itemNewTitleModal : itemEditTitleModal"
+    [desc]="isNewItemModal ? itemNewDescModal : itemEditDescModal"
+>
+    <div class="body">
+        <form [formGroup]="videoForm" class="mb-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-300">
+                        Stato
+                    </label>
+                    <app-dropdown class="w-full mt-1" [wFull]="true" [closeOnOptionClick]="true" (onOptionClicked)="videoForm.get('status')?.patchValue($event.value)"
+                        [options]="[
+                            { name: 'Privato', value: 'private', icon: 'lock', action: true },
+                            { name: 'Pubblico', value: 'public', icon: 'unlock', action: true }
+                        ]"
+                    >
+                        <div class="trigger w-full">
+                            <div class="btn primary inline-flex w-full justify-between text-sm border border-gray-500">
+                                <span *ngIf="videoForm.get('status')?.value === 'private'" class="text-red-400">
+                                    <span class="inline-block bg-red-500 rounded-full mr-1" style="width: .5em; height: .5em; margin-bottom: .13em;"></span>
+                                    Privato
+                                </span>
+                                <span *ngIf="videoForm.get('status')?.value === 'public'" class="text-green-400">
+                                    <span class="inline-block bg-green-500 rounded-full mr-1" style="width: .5em; height: .5em; margin-bottom: .13em;"></span>
+                                    Pubblico
+                                </span>
+                                <i-bs name="chevronDown" class="mt-1 ml-2" width="0.875rem" height="0.875rem"></i-bs>
+                            </div>
+                        </div>
+                    </app-dropdown>
+                </div>
+                <div>
+                    <label for="videoLink" class="block text-sm font-medium text-gray-300 mb-1">
+                        Link del video
+                    </label>
+                    <input
+                        type="text"
+                        autocomplete="false"
+                        id="videoLink"
+                        name="link"
+                        formControlName="link"
+        
+                        placeholder='Es: https://youtube.com/5432ad7t6'
+        
+                        class="block w-full pr-10 focus:outline-none sm:text-sm rounded-md bg-black-700"
+                    >
+                </div>
+            </div>
+        </form>
+    </div>
+    <ng-container class="actions">
+        <button type="button" (click)="showModal = false;" class="btn secondary">
+            Annulla
+        </button>
+        <button [disabled]="!videoForm.valid" (click)="saveVideo()" type="button" class="btn primary light mt-3 sm:mt-0 sm:ml-3">
+            Salva
+        </button>
+    </ng-container>
+</app-modal>

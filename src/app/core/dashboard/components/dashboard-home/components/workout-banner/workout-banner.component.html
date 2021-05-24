@@ -1,0 +1,22 @@
+<div class="bg-black-800 rounded-md h-full px-4 sm:px-6 lg:px-8 py-6 relative">
+    <div class="md:w-10/12 md:absolute md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2">
+        <h6
+            [ngClass]="{
+                'text-yellow-400': !workoutCompleted,
+                'text-green-400': workoutCompleted
+            }"
+        >Workout Funzionale</h6>
+        <ng-container *ngIf="!workoutCompleted">
+            <h2 class="hidden md:block">Non dimenticarti di completare l'allenamento di oggi!</h2>
+            <h3 class="block md:hidden text-gray-200">Non dimenticarti di completare l'allenamento di oggi!</h3>
+            <button routerLink="/dashboard/workout/functional" class="btn success mt-4 inline-flex items-center">
+                Completa il Workout
+                <i-bs name="arrowRightShort" class="ml-1"></i-bs>
+            </button>
+        </ng-container>
+        <ng-container *ngIf="workoutCompleted">
+            <h2 class="hidden md:block">Congratulazioni! Hai completato l'allenamento di oggi.<br><br>Goditi il meritato riposo 🎉</h2>
+            <h3 class="block md:hidden text-gray-200">Congratulazioni! Hai completato l'allenamento di oggi.<br><br>Goditi il meritato riposo 🎉</h3>
+        </ng-container>
+    </div>
+</div>

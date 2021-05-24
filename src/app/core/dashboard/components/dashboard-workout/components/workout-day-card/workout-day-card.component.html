@@ -1,0 +1,47 @@
+<div
+    *ngIf="day && !more && !rest"
+    [ngClass]="{
+        'ring ring-green-400': day.selected,
+        'hover:ring hover:ring-indigo-400': !day.selected
+    }"
+    class="relative overflow-hidden bg-black-800 px-4 py-6 h-full w-56 max-w-xs rounded-md bg-center bg-cover shadow-2xl"
+    style="background-image: url('https://images.pexels.com/photos/3490348/pexels-photo-3490348.jpeg?cs=srgb&dl=pexels-mister-mister-3490348.jpg&fm=jpg')"
+>
+    <div class="absolute z-0 top-0 left-0 w-full h-full bg-gray-900 bg-opacity-80" style="backdrop-filter: blur(1px)"></div>
+    <div class="relative z-10">
+        <h5 *ngIf="day.selected" class="text-base text-green-400">Oggi</h5>
+        <h4 class="text-gray-200 mb-20 text-2xl">{{day.exDayName}}</h4>
+        <p class="mb-4 line-clamp-2 text-sm">{{day.exDayDesc}}</p>
+        <button class="btn success w-full text-sm shadow-2xl" (click)="selectDay()" *ngIf="day.selected">Inizia workout</button>
+        <button class="btn primary w-full text-sm shadow-2xl" (click)="selectDay()" *ngIf="!day.selected">Visualizza workout</button>
+    </div>
+</div>
+
+<div
+    *ngIf="more"
+    class="relative overflow-hidden bg-gray-800 p-4 h-full w-56 max-w-xs rounded-md bg-center bg-cover shadow-2xl hover:ring hover:ring-indigo-400"
+>
+    <h4 class="text-gray-200 mb-20 text-2xl">Presto altri workout...</h4>
+    <p class="mb-4 text-sm">Rimani aggiornato, i workout verranno aggiunti in maniera automatica. Torna domani!</p>
+</div>
+
+<div
+    *ngIf="rest"
+    [ngClass]="{
+        'ring ring-green-400': day.selected,
+        'hover:ring hover:ring-indigo-400': !day.selected
+    }"
+    class="group cursor-pointer relative overflow-hidden bg-gray-800 p-4 h-full w-56 max-w-xs rounded-md bg-center bg-cover shadow-2xl hover:ring hover:ring-indigo-400"
+>
+    <h5 *ngIf="day.selected" class="text-base text-green-400">Oggi</h5>
+    <h4 class="text-gray-200 text-2xl">Giorno di riposo</h4>
+    <app-path-svg
+        [ngClass]="{
+            'opacity-60 group-hover:opacity-95 duration-300': !day.selected,
+            'opacity-95': day.selected
+        }"
+        class="flex justify-center items-center mt-10 opacity-60 group-hover:opacity-95 duration-300"
+        path="assets/images/man-meditating-bro.svg"
+        width="100%" height="100%"
+    ></app-path-svg>
+</div>

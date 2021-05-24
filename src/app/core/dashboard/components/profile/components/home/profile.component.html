@@ -1,0 +1,37 @@
+<div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
+    <aside class="py-6 px-2 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
+        <nav class="space-y-1">
+
+            <ng-container *ngFor="let item of settingsNav">
+                <div
+                    (click)="toggleSection(item.id)"
+                    [ngClass]="{
+                        'bg-black-700 text-gray-100 font-bold shadow-2xl ring-1 ring-indigo-400 mb-2': item.selected,
+                        'text-gray-400 hover:text-gray-200 hover:bg-gray-700': !item.selected
+                    }"
+                    class="group rounded-md px-4 py-3 flex items-center text-sm font-medium cursor-pointer"
+                >
+                    <i-bs
+                        width="1.3rem" height="1.3rem"
+                        class="flex-shrink-0 mr-3"
+                        [name]="item.icon"
+                        [ngClass]="{
+                            'text-gray-100': item.selected,
+                            'text-gray-400 group-hover:text-gray-200': !item.selected
+                        }"
+                    ></i-bs>
+                    <span class="truncate">
+                        {{item.title}}
+                    </span>
+                </div>
+            </ng-container>
+            
+        </nav>
+    </aside>
+    <!-- Payment details -->
+    <div class="space-y-6 sm:px-6 lg:px-0 lg:col-span-9">
+        <app-my-profile (onAlert)="toggleAlert($event)" *ngIf="showMyProfile"></app-my-profile>
+    </div>
+</div>
+
+<app-alert [show]="showAlert" [type]="alertType" [title]="alertTitle" [desc]="alertDesc"></app-alert>

@@ -1,0 +1,48 @@
+<div class="flex w-full mb-4">
+    <div class="w-full">
+        <label for="searchIcon" class="sr-only">Search icons</label>
+        <div class="relative text-gray-200 focus-within:text-gray-400">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <!-- Heroicon name: solid/search -->
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+            </svg>
+            </div>
+            <input
+                type="search"
+                placeholder='Cerca una icona. Es: "Trazioni"'
+                id="searchIcon"
+                name="searchIcon"
+                [formControl]="searchControl"
+                class="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-black-700 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring focus:placeholder-gray-400 focus:text-gray-50 sm:text-sm"
+            >
+        </div>
+    </div>
+</div>
+<div
+    [ngClass]="{
+        'grid grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-4 h-60': filteredIcons.length > 0
+    }"
+    class="w-full max-w-full overflow-x-hidden overflow-y-auto max-h-full"
+>
+    <ng-container *ngIf="filteredIcons.length > 0; else noIconFound">
+        <div *ngFor="let icon of filteredIcons">
+            <div
+                (click)="iconSelected(icon)"
+                class="mx-auto w-full sm:w-6 sm:h-6 md:w-5 md:h-5 lg:w-7 lg:h-7 xl:w-12 xl:h-12 hover:text-gray-200 lg:hover:bg-black-700 lg:p-2 rounded cursor-pointer">
+                <div class="hidden xl:block text-center flex-1 w-8 h-8">
+                    <app-path-svg [path]="icon.path" width="2rem" height="2rem"></app-path-svg>
+                </div>
+                <div class="hidden md:block xl:hidden text-center flex-1 w-5 h-5">
+                    <app-path-svg [path]="icon.path" width="1.25rem" height="1.25rem"></app-path-svg>
+                </div>
+                <div class="block md:hidden text-center flex-1 w-6 h-6">
+                    <app-path-svg [path]="icon.path" width="1.5rem" height="1.5rem"></app-path-svg>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noIconFound>
+        <div>Nessun'icona trovata.</div>
+    </ng-template>
+</div>

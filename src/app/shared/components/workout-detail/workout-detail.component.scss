@@ -1,0 +1,83 @@
+
+
+@keyframes opacityAnimationIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opacityAnimationOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes opacityAnimationPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(10rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0rem);
+  }
+}
+@keyframes opacityAnimationPanelOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10rem);
+  }
+}
+@keyframes opacityAnimationPanelMDIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-40%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+@keyframes opacityAnimationPanelMDOut {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-40%);
+  }
+}
+
+.show-workout-modal:not(.panel) {
+  animation: opacityAnimationIn .7s ease-in-out;
+}
+.hide-workout-modal:not(.panel) {
+  animation: opacityAnimationOut .7s ease-in-out;
+}
+
+@media (max-width: 767px) {
+  .show-workout-modal.panel {
+    animation: opacityAnimationPanelIn .7s ease-in-out;
+  }
+  .hide-workout-modal.panel {
+    animation: opacityAnimationPanelOut .7s ease-in-out;
+  }
+}
+
+@media (min-width: 768px) {
+  .show-workout-modal.panel {
+    animation: opacityAnimationPanelMDIn .7s ease-in-out;
+  }
+  .hide-workout-modal.panel {
+    animation: opacityAnimationPanelMDOut .7s ease-in-out;
+  }
+}

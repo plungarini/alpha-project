@@ -1,0 +1,26 @@
+<div class="w-screen h-screen auth-bg relative block">
+    <div class="flex w-full max-w-sm mx-auto bg-white dark:bg-black-800 rounded-lg shadow-2xl overflow-hidden lg:max-w-4xl absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2">
+        <div class="hidden lg:block lg:w-1/2 bg-cover" style="background-image:url('https://images.unsplash.com/photo-1602610411365-76e8c2a88e18?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=333&q=80')"></div>
+        
+        <div class="w-full lg:w-1/2">
+            <ngx-loading-bar [fixed]="false" ref="router" [includeSpinner]="false"></ngx-loading-bar>
+            <div class="py-8 px-6 md:px-8">
+                <h2 class="text-2xl font-semibold text-gray-700 dark:text-white text-center mb-8">Brand</h2>
+                <router-outlet></router-outlet>
+            </div>
+    
+            <ng-container *ngIf="showSignupBanner">
+                <div class="flex items-center justify-center py-4 bg-black-100 dark:bg-black-700 text-center">
+                    <span class="text-gray-600 dark:text-gray-200 text-sm">Non hai un'account? </span>
+                    <a routerLink="/auth/signup" class="text-blue-600 dark:text-blue-400 font-bold mx-2 text-sm hover:text-blue-500">Registrati</a>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="showLoginBanner">
+                <div class="flex items-center justify-center py-4 bg-black-100 dark:bg-black-700 text-center">
+                    <span class="text-gray-600 dark:text-gray-200 text-sm">Sei già registrato? </span>
+                    <a routerLink="/auth/login" class="text-blue-600 dark:text-blue-400 font-bold mx-2 text-sm hover:text-blue-500">Accedi</a>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

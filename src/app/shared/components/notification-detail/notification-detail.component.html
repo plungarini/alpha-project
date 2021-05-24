@@ -1,0 +1,27 @@
+<div
+    *ngIf="detailNotification as item"
+    class="block max-w-full"
+    [ngClass]="{
+        'w-screen': widthFix,
+        'w-full': !widthFix
+    }"
+>
+    <div class="inline-flex items-center py-2 px-4 bg-black-700 text-gray-400 text-sm w-full">
+        <span class="truncate block mr-2">da <b class="text-gray-300">{{item.senderName}}</b></span>
+        <span (click)="closeDetail()" class="ml-auto mr-0 block text-lg hover:text-gray-300 cursor-pointer">
+            <i-bs name="xCircleFill" width=".9em" height=".9em"></i-bs>
+        </span>
+    </div>
+
+    <p class="text-sm text-gray-400 py-3 px-4 max-w-full overflow-hidden">
+        {{item.senderMessage}}
+
+        <span class="block text-gray-500 text-xs text-right mt-0.5">
+            {{item.timeDiff === 'alcuni secondi fa' ? 'un minuto fa' : item.timeDiff}}
+        </span>
+    </p>
+
+    <div class="w-full px-2 pb-2">
+        <a *ngIf="item.senderLink" target="_self" [href]="item.senderLink" class="btn success w-full block text-center">Clicca qui</a>
+    </div>
+</div>

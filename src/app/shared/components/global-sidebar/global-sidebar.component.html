@@ -1,0 +1,47 @@
+
+<div class="flex flex-row h-full shadow-sidebar z-100 overflow-x-visible">
+    <nav class="bg-white dark:bg-black-800 h-screen justify-between flex flex-col flex-shrink-0 slex-grow w-full">
+        <div class="mb-10 transition duration-200" [class.mt-10]="isExpanded" [class.mt-4]="!isExpanded">
+
+            <div class="mb-10 px-3">
+                <img class="block mx-auto transform scale-110" src="./favicon.ico">
+            </div>
+            
+            <ul class="mt-10 px-4">
+                <li *ngFor="let item of nav" class="my-5">
+                    <div
+                        class="trigger sidebar-item focus:outline-none"
+                        #rla="routerLinkActive"
+                        routerLinkActive
+                        [routerLink]="item.url"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        [ngClass]="{
+                            'active-route': rla.isActive || (item.isHome && isHomeSelected) || (item.isWorkout && isWorkoutSelected),
+                            'expanded': isExpanded
+                        }"
+                    >
+                        <i-bs class="mx-auto" [class.mb-3]="isExpanded" [name]="item.icon" [width]="iconsSize" [height]="iconsSize"></i-bs>
+                        <p class="font-display transition-all duration-200" [class.hidden]="!isExpanded">
+                            {{item.name}}
+                        </p>
+                    </div>
+                </li>
+                <ng-container *ngIfRole="'admin'">
+                    <li class="my-5">
+                        <div
+                            routerLink="/admin"
+                            [class.expanded]="isExpanded"
+                            class="trigger sidebar-item focus:outline-none"
+                        >
+                            <i-bs class="mx-auto" [class.mb-3]="isExpanded" name="shieldFillCheck" [width]="iconsSize" [height]="iconsSize"></i-bs>
+                            <p class="font-display transition-all duration-200" [class.hidden]="!isExpanded">
+                                Admin
+                            </p>
+                        </div>
+                    </li>
+                </ng-container>
+            </ul>
+            
+        </div>
+    </nav>
+</div>

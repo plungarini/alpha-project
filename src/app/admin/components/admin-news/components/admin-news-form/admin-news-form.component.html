@@ -1,0 +1,127 @@
+<label for="senderName" class="block font-medium">Seleziona il mittente:</label>
+
+<input #profilePicture class="hidden" type="file" (change)="uploadImage($event.target)" accept="image/png, image/jpeg">
+
+<form [formGroup]="form" (ngSubmit)="saveAnnounce()" class="w-full">
+    <div class="grid grid-cols-6 gap-4 mt-1">
+        <app-dropdown
+            [customOptions]="true"
+            [closeOnOptionClick]="true"
+            menuPosition="v-bottom-left"
+        >
+            <div class="trigger">
+                <div class="group relative">
+                    <app-avatar
+                        class="col-span-1"
+                        [user]="{
+                            img: sender.img,
+                            fullName: sender.fullName,
+                            email: sender.email,
+                            color: sender.color
+                        }"
+                        [enableProfileLink]="false"
+                        displayType="img"
+                    ></app-avatar>
+                    <div class="absolute left-0 top-0 opacity-0 group-hover:opacity-100 cursor-pointer text-gray-100 flex items-center w-full h-full rounded-full overflow-hidden bg-black-900 bg-opacity-60">
+                        <i-bs name="pencilSquare" class="block mx-auto" width="1.2rem" height="1.2rem"></i-bs>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-options w-64">
+                <div class="bg-black-900 shadow-2xl py-2 px-4 rounded-md">
+                    <p class="pb-2 mb-2 border-b border-gray-700 text-gray-200 font-medium">Seleziona un'immagine:</p>
+    
+                    <div (click)="profilePicture.click()" class="bg-black-800 mb-2 hover:bg-black-700 hover:text-gray-200 rounded cursor-pointer text-center py-1 px-2">
+                        <div class="inline-flex items-center">
+                            <i-bs name="plusCircleFill" class="mr-2"></i-bs>
+                            Aggiungi un'immagine
+                        </div>
+                    </div>
+    
+                    <ng-container *ngIf="images.size > 0">
+                        <div class="grid grid-cols-4 gap-4 my-4 max-h-32 place-items-center overflow-auto">
+                            <img (click)="selectImage(image)" *ngFor="let image of images" [src]="image" class="object-cover w-10 h-10 rounded-full overflow-hidden">
+                        </div>
+                    </ng-container>
+    
+                    <div *ngIf="images.size <= 0" class="h-32 w-full flex items-center">
+                        <p class="block w-full text-xs text-center">
+                            Nessuna immagine dal server,<br>
+                            aggiungine una dal computer.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </app-dropdown>
+        
+        <div class="col-span-5">
+            <input
+                type="text"
+                id="senderName"
+                name="senderName"
+                formControlName="senderName"
+                placeholder='Inserisci qui il nome'
+                class="appearance-none block w-full pr-10 mt-.5 focus:outline-none sm:text-sm rounded-md bg-black-800"
+            >
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <label for="senderMessage" class="block font-medium">Scrivi il messaggio:</label>
+        <textarea
+            rows="8"
+            id="senderMessage"
+            name="senderMessage"
+            formControlName="senderMessage"
+            class="appearance-none block w-full pr-10 mt-1 focus:outline-none sm:text-sm rounded-md bg-black-800"
+        ></textarea>
+    </div>
+
+    <div class="mt-4">
+        <label for="senderLink" class="block font-medium">Inserisci un link: (Opzionale)</label>
+        <input
+            type="text"
+            id="senderLink"
+            name="senderLink"
+            formControlName="senderLink"
+            placeholder='https://www.google.it/'
+            class="appearance-none block w-full pr-10 mt-1 focus:outline-none sm:text-sm rounded-md bg-black-800"
+        >
+    </div>
+
+    <div class="mt-4">
+        <label for="senderDate" class="block font-medium mb-1">
+            Programma l'annuncio: (Opzionale)<br>
+            <span class="text-sm text-gray-500">Lascia vuoto per far partire subito l'annuncio.</span>
+        </label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <label class="text-gray-700" for="senderDate">
+                <input
+                    id="senderDate"
+                    name="senderDate"
+                    [min]="todayDate"
+                    type="date"
+                    formControlName="senderDate"
+                    class="placeholder-gray-400 text-gray-400 text-center block w-full pr-10 mt-1 focus:outline-none sm:text-sm rounded-md bg-black-800"
+                />
+            </label>
+            <label class="text-gray-700" for="senderTime">
+                <input
+                    id="senderTime"
+                    name="senderTime"
+                    type="time"
+                    formControlName="senderTime"
+                    class="placeholder-gray-400 text-gray-400 text-center block w-full pr-10 mt-1 focus:outline-none sm:text-sm rounded-md bg-black-800"
+                />
+            </label>
+        </div>
+
+        <p class="text-xs text-center text-yellow-400 w-72 mt-4 mx-auto">* Assicurati che data e orario siano nel futuro, o l'annuncio partirà immediatamente.</p>
+    </div>
+
+    <div class="w-full fixed bottom-4 left-0 shadow-2xl px-6 z-10 sm:bottom-0 sm:mt-4 sm:px-0 sm:shadow-none sm:relative">
+        <button type="submit" class="btn success inline-flex items-center w-full">
+            Salva l'annuncio
+        </button>
+    </div>
+</form>
