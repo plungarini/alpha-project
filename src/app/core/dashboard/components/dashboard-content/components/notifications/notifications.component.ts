@@ -53,7 +53,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next();
+    this.destroyed$.next(true);
   }
 
   hideItemByDate(item: Announcement, index: number): boolean {

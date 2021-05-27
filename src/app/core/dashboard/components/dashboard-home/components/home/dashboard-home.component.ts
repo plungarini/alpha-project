@@ -8,8 +8,7 @@ import { AuthenticationService } from 'src/app/auth/services/authentication.serv
 
 @Component({
   templateUrl: './dashboard-home.component.html',
-  styles: [
-  ],
+  styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardHomeComponent implements OnInit {

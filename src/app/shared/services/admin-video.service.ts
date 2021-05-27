@@ -83,7 +83,7 @@ export class AdminVideoService {
     const ytApiKey = 'AIzaSyAJnMQGGX7iDQLI8QS5RTvn0nyhGLDfmhA';
     // eslint-disable-next-line max-len
     const req = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${ytApiKey}&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics`;
-    const video = await this.http.get(req).pipe(take(1)).toPromise<any>();
+    const video = await this.http.get(req).pipe(take(1)).toPromise() as any;
     if (!video || video.items.length <= 0 || !video.items[0].snippet.title) throw new Error('');
     return video.items[0].snippet.title as string;
   }

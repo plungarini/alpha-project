@@ -1,4 +1,5 @@
-const { addTailwindPlugin } = require("@ngneat/tailwind");
+/* eslint-env es6 */
+/* const { addTailwindPlugin } = require("@ngneat/tailwind");
 const tailwindConfig = require("./tailwind.config.js");
 
 module.exports = (config) => {
@@ -8,4 +9,4 @@ module.exports = (config) => {
     patchComponentsStyles: true
   });
   return config;
-};
+}; */

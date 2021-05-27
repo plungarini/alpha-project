@@ -13,7 +13,7 @@ const routes: Routes = [
       {
         path: '',
         canActivate: [AuthGuard, SubscriptionGuard],
-        component: DashboardHomeComponent
+        loadChildren: () => import('./components/dashboard-home/dashboard-home.module').then(m => m.DashboardHomeModule)
       },
       {
         path: 'workout',

@@ -124,7 +124,7 @@ export class FirestoreExtendedService {
       .pipe(take(1))
       .toPromise();
 
-    return doc.then((snap) => snap.payload.exists ? this.update(ref, data) : this.set(ref, data));
+    return doc.then((snap) => snap?.payload.exists ? this.update(ref, data) : this.set(ref, data));
   }
 
   /**
