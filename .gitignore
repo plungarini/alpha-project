@@ -48,3 +48,7 @@ Thumbs.db
 # Protected Files
 /src/environments
 /functions
+/.firebase
+/e2e
+.firebaserc
+firebase.json
