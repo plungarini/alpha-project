@@ -44,6 +44,7 @@ export class VideoBannerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   toggleVimeoPlayer(url: string): void {

@@ -17,7 +17,7 @@ export class WorkoutIconSelectorComponent implements OnInit, OnDestroy {
 
   searchControl = new FormControl('');
   icons = WORKOUT_IMAGES;
-  destroyed = new Subject();
+  destroyed$ = new Subject();
 
 
   filteredIcons: {
@@ -30,14 +30,15 @@ export class WorkoutIconSelectorComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.searchControl.valueChanges
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(value => {
         this.filteredIcons = this.filter(value);
       });
   }
 
   ngOnDestroy(): void {
-    this.destroyed.next(true);
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   iconSelected(icon: { id: number; tags: string; path: string }): void {

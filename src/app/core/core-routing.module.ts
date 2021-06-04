@@ -33,8 +33,8 @@ const routes: Routes = [
   },
   {
     path: '',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
-    redirectTo: 'dashboard'
   }
 ];
 

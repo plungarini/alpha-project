@@ -67,6 +67,7 @@ export class AdminNewWeekComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   get selectedDay(): WorkoutWeekDay | undefined {

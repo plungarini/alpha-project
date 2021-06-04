@@ -18,10 +18,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
-          "allowedCommonJsDependencies": [
-            "ngx-bootstrap-icons"
-          ],
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/alpha-project",
             "index": "src/index.html",
@@ -36,10 +33,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "customWebpackConfig": {
-              "path": "webpack.config.js"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -102,10 +96,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "customWebpackConfig": {
-              "path": "webpack.config.js"
-            }
+            "scripts": []
           }
         },
         "lint": {

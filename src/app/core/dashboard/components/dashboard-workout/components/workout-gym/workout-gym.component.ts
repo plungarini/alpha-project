@@ -42,6 +42,7 @@ export class WorkoutGymComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   initWeeks(uid: string): void {

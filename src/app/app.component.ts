@@ -1,18 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import firebase from 'firebase/app';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UsersService } from './auth/services/users.service';
+import firebase from 'firebase/app';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(private usersService: UsersService) { }
+  destroyed$ = new Subject();
+
+  constructor(private usersService: UsersService, private afAuth: AngularFireAuth) { }
 
   ngOnInit(): void {
     this.usersService.initUserDb();
+    this.afAuth.authState.pipe(takeUntil(this.destroyed$)).subscribe(console.log);
+    firebase.firestore.setLogLevel('debug');
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
 }

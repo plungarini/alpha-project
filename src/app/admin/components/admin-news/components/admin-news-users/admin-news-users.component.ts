@@ -61,6 +61,7 @@ export class AdminNewsUsersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   selectUser(id: string | undefined): void {

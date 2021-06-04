@@ -29,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: 'news',
-        component: AdminNewsComponent
+        loadChildren: () => import('./components/admin-news/admin-news.module').then(m => m.AdminNewsModule)
       }
     ]
   }

@@ -39,6 +39,7 @@ export class WorkoutBannerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
 }

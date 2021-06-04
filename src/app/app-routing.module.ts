@@ -27,14 +27,6 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'auth/signup'
   },
-  {
-    path: 'profile',
-    loadChildren: () => import('./core/dashboard/components/profile/profile.module').then(m => m.ProfileModule)
-  },
-  {
-    path: 'admin-news',
-    loadChildren: () => import('./admin/components/admin-news/admin-news.module').then(m => m.AdminNewsModule)
-  },
 ];
 
 const routerOptions: ExtraOptions = {

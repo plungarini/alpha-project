@@ -35,7 +35,7 @@ export class UserNotificationsService {
     return this.db.colWithIds$<Announcement>(`users/${uid}${this.path}`);
   }
 
-  userHasToRead(uid: string): Observable<any> {
+  userHasToRead(uid: string): Observable<boolean> {
     return this.db.colWithIds$<Announcement>(`users/${uid}${this.path}`).pipe(
       switchMap(items => {
         let hasToRead = false;

@@ -58,6 +58,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   changeUserName(): void {

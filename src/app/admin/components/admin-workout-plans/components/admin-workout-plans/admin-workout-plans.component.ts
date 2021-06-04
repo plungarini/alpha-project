@@ -17,7 +17,7 @@ export class AdminWorkoutPlansComponent implements OnInit, OnDestroy {
   pageDesc = 'Gestisci tutte le schede di allenamento di Alpha Project.';
 
   weeks: WorkoutWeek[] = [];
-  destroyed = new Subject();
+  destroyed$ = new Subject();
   exercises: AdminWorkoutSingleExercise[] = [];
 
   constructor(
@@ -28,13 +28,13 @@ export class AdminWorkoutPlansComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.weeksService.getAll()
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(workoutWeeks => {
         this.weeks = workoutWeeks;
         this.cdRef.detectChanges();
       });
     this.exercisesService.getAll()
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(exercises => {
         this.exercises = exercises;
         this.cdRef.detectChanges();
@@ -42,7 +42,8 @@ export class AdminWorkoutPlansComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroyed.next(true);
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   deleteSingleExercise(exId: string): void {

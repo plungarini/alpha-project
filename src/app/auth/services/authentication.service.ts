@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/app';
 import 'firebase/functions';
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { FirestoreExtendedService } from 'src/app/shared/services/firestore-extended.service';
 import { User } from '../models/user.model';
 import { FirebaseErrorHandling } from '../namespaces/error-auth';
@@ -159,7 +159,9 @@ export class AuthenticationService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
-          return this.db.doc$<User>(`users/${user.uid}`).pipe(map(userDb => ({...userDb, id: user.uid})));
+          const user$ = this.db.doc$<User>(`users/${user.uid}`).pipe(map(userDb => ({ ...userDb, id: user.uid })));
+          user$.pipe(take(1)).subscribe(console.log);
+          return user$;
         } else {
           return of(null);
         }

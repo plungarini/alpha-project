@@ -18,7 +18,7 @@ export class GlobalSidebarComponent implements OnInit, OnDestroy {
   iconsSize = '1.3rem';
   isHomeSelected: boolean;
   isWorkoutSelected: boolean;
-  destroyed = new Subject();
+  destroyed$ = new Subject();
 
   constructor(private router: Router) { }
 
@@ -26,14 +26,15 @@ export class GlobalSidebarComponent implements OnInit, OnDestroy {
     this.checkActiveUrl();
 
     this.router.events
-      .pipe(takeUntil(this.destroyed))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(data => {
         this.checkActiveUrl();
       });
   }
 
   ngOnDestroy(): void {
-    this.destroyed.next(true);
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
   private checkActiveUrl(): void {
