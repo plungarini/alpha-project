@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AuthenticationService } from './auth/services/authentication.service';
 
 
 
@@ -15,11 +16,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   destroyed$ = new Subject();
 
-  constructor(private usersService: UsersService, private afAuth: AngularFireAuth) { }
+  constructor(private usersService: UsersService, private afAuth: AngularFireAuth, private auth: AuthenticationService) { }
 
   ngOnInit(): void {
     this.usersService.initUserDb();
     this.afAuth.authState.pipe(takeUntil(this.destroyed$)).subscribe(console.log);
+    this.auth.user$.pipe(takeUntil(this.destroyed$)).subscribe(console.log);
     firebase.firestore.setLogLevel('debug');
   }
 
