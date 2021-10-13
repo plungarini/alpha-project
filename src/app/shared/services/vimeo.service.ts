@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/app';
-
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 
 interface VimeoReq {
@@ -33,8 +32,8 @@ export interface VimeoVideo {
 })
 export class VimeoService {
 
-  firebaseFunctions = firebase.app().functions('europe-west2');
-  vimeoReq = this.firebaseFunctions.httpsCallable('vimeoRequest');
+  ffn = getFunctions(undefined, 'europe-west2');
+  vimeoReq = httpsCallable(this.ffn, 'vimeoRequest');
 
   constructor() {
   }

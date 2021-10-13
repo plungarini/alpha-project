@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { AdminWorkoutSingleExercise } from '../models/workout-week.model';
-import { FirestoreExtendedService } from './firestore-extended.service';
+import { FirestoreExtCol, FirestoreExtDoc, FirestoreExtendedService } from './firestore-extended.service';
 import { VimeoService, VimeoVideo } from './vimeo.service';
 
 @Injectable({
@@ -35,16 +34,15 @@ export class WorkoutExercisesService {
       ex = await this.getThumbVimeo(ex);
     }
 
-    const id = ex.exerciseId ? ex.exerciseId : this.db.generateId();
-    ex.exerciseId = id;
+    const id = ex.exerciseId ? ex.exerciseId : null;
     this.db.upsert(`workout-exercises/${id}`, ex);
   }
 
-  get(id: string): Observable<AdminWorkoutSingleExercise> {
+  get(id: string): FirestoreExtDoc<AdminWorkoutSingleExercise> {
     return this.db.doc$<AdminWorkoutSingleExercise>(`workout-exercises/${id}`);
   }
 
-  getAll(): Observable<AdminWorkoutSingleExercise[]> {
+  getAll(): FirestoreExtCol<AdminWorkoutSingleExercise> {
     return this.db.col$<AdminWorkoutSingleExercise>('workout-exercises');
   }
 

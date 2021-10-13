@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { Injectable, Optional } from '@angular/core';
+import { AngularFireAuth, Auth } from '@angular/fire/auth';
+import { orderBy } from '@firebase/firestore';
 import firebase from 'firebase/app';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Roles } from '../models/roles.model';
 import { UserDetails } from '../models/user-details.model';
 import { UserStripeSession } from '../models/user-stripe-session.model';
 import { UserStripeSubscription, USS_Status } from '../models/user-stripe-subscription.model';
 import { User } from '../models/user.model';
-import { FirestoreExtendedService } from './../../shared/services/firestore-extended.service';
+import { FirestoreExtCol, FirestoreExtDoc, FirestoreExtendedService } from './../../shared/services/firestore-extended.service';
 
 
 @Injectable({
@@ -34,14 +35,15 @@ export class UsersService {
     'indigo',
     'purple',
     'pink'
-  ];
+		];
 
-  constructor(private db: FirestoreExtendedService, private afAuth: AngularFireAuth) { }
+  constructor(private db: FirestoreExtendedService, @Optional() private auth: Auth, private afAuth: AngularFireAuth) { }
 
   /**
    * Initialize User db
    */
-  public initUserDb() {
+	public initUserDb() {
+
     this.getCurrentDb().then(user$ => {
       if (!user$) return;
       user$.subscribe(user => {
@@ -91,8 +93,8 @@ export class UsersService {
    *
    * @returns an Observable with a list of Users.
    */
-  getAll(query?: any): Observable<User[]> {
-    return this.db.colWithIds$('users', query);
+  getAll(query?: any): FirestoreExtCol<User> {
+    return this.db.col$('users', query);
   }
 
   /**
@@ -100,23 +102,23 @@ export class UsersService {
    *
    * @param id Set it to firebase.User.uid
    */
-  get(id: string): Observable<User> {
+  get(id: string): FirestoreExtDoc<User> {
     return this.db.doc$(`users/${id}`);
   }
 
   getSubscriptionInfo(uid: string):
-    Observable<{
-      subs: UserStripeSubscription[];
-      sessions: UserStripeSession[];
-    }>
+    {
+      subs: FirestoreExtCol<UserStripeSubscription>;
+      sessions: FirestoreExtCol<UserStripeSession>;
+    }
   {
-    const subs$ = this.db.colWithIds$<UserStripeSubscription>(`users/${uid}/subscriptions`);
-    const sessions$ = this.db.colWithIds$<UserStripeSession>(`users/${uid}/checkout_sessions`);
-    return combineLatest([subs$, sessions$])
-      .pipe(map(([subs, sessions]) => ({
-          subs,
-          sessions
-        })));
+    const subs$ = this.db.col$<UserStripeSubscription>(`users/${uid}/subscriptions`);
+		const sessions$ = this.db.col$<UserStripeSession>(`users/${uid}/checkout_sessions`);
+
+		return {
+			subs: subs$,
+			sessions: sessions$
+		};
   }
 
   /**
@@ -128,12 +130,16 @@ export class UsersService {
   async userSubscriptionStatus(): Promise<USS_Status | null> {
     const uid = (await this.getCurrentFire())?.uid;
     if (!uid) return null;
-    return new Promise((resolve, reject) => {
-      this.db.colWithIds$<UserStripeSubscription>(
-        `users/${uid}/subscriptions`,
-        (ref: any) => ref.orderBy('created', 'desc')
-      )
-        .pipe(take(1))
+		return new Promise((resolve, reject) => {
+			const ref = `users/${uid}/subscriptions`;
+			const subscription = this.db.col$<UserStripeSubscription>(
+				ref,
+				undefined,
+				orderBy('created', 'desc')
+			);
+
+			subscription.unsubscribe();
+			subscription.data.pipe(take(1))
         .subscribe((subs: UserStripeSubscription[]) => {
           let timestamp: number | null = null;
           let status: string | null = null;
@@ -164,9 +170,9 @@ export class UsersService {
   /**
    * Get current user from db.
    */
-  private async getCurrentDb(): Promise<Observable<User> | null> {
+  private async getCurrentDb(): Promise<FirestoreExtDoc<User> | null> {
     const afUser = await this.getCurrentFire();
-    if (!afUser) return null;
+		if (!afUser) return null;
     return this.get(afUser.uid);
   }
 

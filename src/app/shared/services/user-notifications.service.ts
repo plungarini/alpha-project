@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { take, switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { Announcement } from '../models/announce.model';
 import { FirestoreExtendedService } from './firestore-extended.service';
@@ -20,8 +20,7 @@ export class UserNotificationsService {
   ) { }
 
   async add(msg: Announcement): Promise<void> {
-    const id = msg.id ? msg.id : this.db.generateId();
-    msg.id = id;
+    const id = msg.id ? msg.id : null;
     msg.sendTo.forEach(user => {
       const normMsg = msg;
       normMsg.toRead = true;
@@ -32,11 +31,11 @@ export class UserNotificationsService {
   }
 
   getByUser(uid: string): Observable<Announcement[]> {
-    return this.db.colWithIds$<Announcement>(`users/${uid}${this.path}`);
+    return this.db.col$<Announcement>(`users/${uid}${this.path}`);
   }
 
   userHasToRead(uid: string): Observable<boolean> {
-    return this.db.colWithIds$<Announcement>(`users/${uid}${this.path}`).pipe(
+    return this.db.col$<Announcement>(`users/${uid}${this.path}`).pipe(
       switchMap(items => {
         let hasToRead = false;
         items.forEach(item => {

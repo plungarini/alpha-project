@@ -26,7 +26,7 @@ export class SubscriptionGuard implements CanActivate {
             }),
             switchMap(u => {
                 if (!u || !u.uid) return of(null);
-                return this.fext.colWithIds$<UserStripeSubscription>(
+                return this.fext.col$<UserStripeSubscription>(
                     `users/${u.uid}/subscriptions`,
                     (ref: any) => ref.orderBy('created', 'desc')
                 )

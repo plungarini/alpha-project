@@ -1,182 +1,137 @@
-import { Timestamp } from './../../auth/models/timestamp.model';
-import { map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/app';
+import {
+	collection, deleteDoc, doc, DocumentSnapshot, Firestore, onSnapshot,
+	query, QuerySnapshot, setDoc, Timestamp as fTimestamp, Unsubscribe
+} from '@angular/fire/firestore';
+import { Observable, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
-// Custom Types
-type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;
-type DocPredicate<T> = string | AngularFirestoreDocument<T>;
-
+export interface FirestoreExtDoc<T> {
+	data: Observable<T>;
+	unsubscribe: Unsubscribe;
+}
+export interface FirestoreExtCol<T> {
+	data: Observable<T[]>;
+	unsubscribe: Unsubscribe;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreExtendedService {
 
-  constructor(private afs: AngularFirestore) { }
-
-  /**
-   * Get data from document.
-   *
-   * @param ref Reference of the document.
-   *
-   * @returns Observable of the requested document.
-   */
-  doc$<T>(ref: DocPredicate<T>): Observable <T> {
-    return this.doc(ref)
-      .snapshotChanges()
-      .pipe(
-        map((doc) => doc.payload.data() as T),
-      );
-  }
-
-  /**
-   * Get data from collection.
-   *
-   * @param ref Reference of the collection.
-   * @param queryFn Filters to query collection items.
-   *
-   * @returns Observable of the requested collection.
-   */
-  col$<T>(ref: CollectionPredicate <T> , queryFn?: any ): Observable <T[]> {
-    return this.col(ref, queryFn)
-      .snapshotChanges()
-      .pipe(
-        map((docs: DocumentChangeAction<T>[]) => docs.map((a: DocumentChangeAction<T>) => a.payload.doc.data()) as T[]),
-      );
-  }
-
-  /**
-   * Set data into Firestore.
-   * It will delete existing data.
-   *
-   * // Adds "createdAt" field.
-   *
-   * @param ref Reference of the document.
-   * @param data Data to insert in the document.
-   */
-  set<T>(ref: DocPredicate<T>, data: any): Promise<void> {
-    const timestamp = this.timestamp;
-    return this.doc(ref).set({
-      ...data,
-      updatedAt: timestamp,
-      createdAt: timestamp,
-    });
-  }
-
-  /**
-   * Update data into Firestore.
-   *
-   * // Adds "updatedAt" field.
-   *
-   * @param ref Reference of the document.
-   * @param data Data to upsert in the document.
-   */
-  update<T>(ref: DocPredicate<T>, data: any): Promise<void> {
-    return this.doc(ref).update({
-      ...data,
-      updatedAt: this.timestamp,
-    });
-  }
+  constructor(private db: Firestore) { }
 
   /**
    * Deletes a document from Firestore.
    *
    * @param ref Reference of the document.
    */
-  delete<T>(ref: DocPredicate<T>): Promise<any> {
-    return this.doc(ref).delete();
+	delete(ref: string): Promise<any> {
+		const docRef = doc(this.db, ref);
+    return deleteDoc(docRef);
   }
 
-  /**
-   * Add data into Firestore.
-   *
-   * // Adds "createdAt" field.
-   *
-   * @param ref Reference of the collection.
-   * @param data Data to insert in the collection.
-   */
-  add<T>(ref: CollectionPredicate<T>, data: any): Promise<firebase.firestore.DocumentReference> {
-    const timestamp = this.timestamp;
-    return this.col(ref).add({
-      ...data,
-      updatedAt: timestamp,
-      createdAt: timestamp,
-    });
-  }
-
-  /**
-   * Upsert data into Firestore.
-   * If data exists, it will update
-   * it. Else it will set it.
-   *
-   * // Adds "createdAt" field.
-   * // or "updatedAt" field.
-   *
-   * @param ref Reference of the document.
-   * @param data Data to upsert in the document.
-   */
-  async upsert<T>(ref: DocPredicate<T>, data: any): Promise<void> {
-    const doc = this.doc(ref)
-      .snapshotChanges()
-      .pipe(take(1))
-      .toPromise();
-
-    return doc.then((snap) => snap?.payload.exists ? this.update(ref, data) : this.set(ref, data));
-  }
+	/**
+	 * Upsert data into Firestore.
+	 * If data exists, it will update
+	 * it. Else it will set it.
+	 *
+	 * // Adds "createdAt" field.
+	 * // or "updatedAt" field.
+	 *
+	 * @param ref Reference of the document.
+	 * @param data Data to upsert in the document.
+	 */
+	upsert<DocumentData>(ref: string, data: any): Promise<void> {
+		const docRef = doc(this.db, ref);
+		const timestamp = fTimestamp.now();
+		const newData = {
+			...data,
+			updatedAt: timestamp,
+			createdAt: timestamp,
+		};
+		const updatedData = {
+			...data,
+			updatedAt: timestamp,
+		};
+		const snapshot = this.getDoc<DocumentData>(ref).data.pipe(take(1)).toPromise();
+		return snapshot.then(
+			snap => (snap as any).exists ?
+				setDoc(docRef, updatedData, { merge: true }) :
+				setDoc(docRef, newData, { merge: true })
+			);
+	};
 
   /**
    * It returns an entire collection
    * of documents with ids.
    *
-   * @param ref Collection Reference.
-   * @param queryFn Filters to query the collection.
+   * @param ref Collection reference.
+   * @param where Filters to query the collection.
+   * @param orderBy Order or sort the collection.
    */
-  colWithIds$<T>(ref: CollectionPredicate<T>, queryFn?: any): Observable<T[]> {
-    return this.col(ref, queryFn)
-      .snapshotChanges()
-      .pipe(
-        map((actions: DocumentChangeAction<T>[]) => actions.map((a: DocumentChangeAction<T>) => {
-            const data = a.payload.doc.data() as T;
-            const thisId = a.payload.doc.id;
-            return { id: thisId, ...data };
-          })),
-      );
-  }
+	col$<DocumentData>(ref: string, where?: any, orderBy?: any): FirestoreExtCol<DocumentData> {
+		const colRef = collection(this.db, ref);
+
+		if (where || orderBy) {
+			return this.getCols<DocumentData>(
+				query(colRef, where, orderBy)
+			);
+		}
+
+		return this.getCols<DocumentData>(colRef);
+	}
 
   /**
-   * @returns Unique id in the database.
-   */
-  generateId<T>(): string {
-    return this.afs.createId();
-  }
-
-  /**
-   * @returns Firebase Server Timestamp.
-   */
-  get timestamp(): Timestamp {
-    return firebase.firestore.FieldValue.serverTimestamp() as unknown as Timestamp;
-  }
-
-  /**
-   * Sanityze CollectionReference and return Collection.
+   * It returns an entire collection
+   * of documents with ids.
    *
-   * @param ref CollectionPredicate
-   * @param queryFn Filters to query the collection
+   * @param ref Collection reference.
+   * @param where Filters to query the collection.
+   * @param orderBy Order or sort the collection.
    */
-  private col<T>(ref: CollectionPredicate <T> , queryFn?: any ): AngularFirestoreCollection <T> {
-    return typeof ref === 'string' ? this.afs.collection<T>(ref, queryFn) : ref;
-  }
+	doc$<DocumentData>(ref: string): FirestoreExtDoc<DocumentData> {
+		const docRef = doc(this.db, ref);
+		return this.getDoc<DocumentData>(docRef);
+	}
 
-  /**
-   * Sanityze DocumentReference and return Document.
-   *
-   * @param ref DocumentPredicate
-   */
-  private doc<T>(ref: DocPredicate<T>): AngularFirestoreDocument <T> {
-    return typeof ref === 'string' ? this.afs.doc<T>(ref) : ref;
-  }
+	private getDoc<DocumentData>(ref: any): FirestoreExtDoc<DocumentData> {
+		const res = new Subject<DocumentData>();
+		const snapshot = onSnapshot<DocumentData>(ref,
+			(snap: DocumentSnapshot<DocumentData>) => {
+				res.next({
+					id: snap.id,
+					exists: snap.exists(),
+					...snap.data() as DocumentData
+				});
+			});
+
+		return {
+			data: res.asObservable(),
+			unsubscribe: snapshot,
+		};
+	}
+
+	private getCols<DocumentData>(ref: any): FirestoreExtCol<DocumentData> {
+		const res = new Subject<DocumentData[]>();
+		const snapshot = onSnapshot<DocumentData>(ref,
+			(snap: QuerySnapshot<DocumentData>) => {
+				const dataArray: DocumentData[] = [];
+				snap.forEach(item => {
+					dataArray.push({
+						id: item.id,
+						exists: item.exists(),
+						...item.data() as DocumentData
+					});
+				});
+				res.next(dataArray);
+			});
+
+		return {
+			data: res.asObservable(),
+			unsubscribe: snapshot,
+		};
+	}
 
 }

@@ -1,9 +1,8 @@
 /* eslint-disable radix */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { FirestoreExtendedService } from 'src/app/shared/services/firestore-extended.service';
+import { FirestoreExtCol, FirestoreExtendedService } from 'src/app/shared/services/firestore-extended.service';
 import { VimeoService, VimeoVideo } from './vimeo.service';
 
 
@@ -33,8 +32,7 @@ export class AdminVideoService {
   async upsert(video: AdminVideo): Promise<void> {
     const linkErr = 'Le informazioni inserite non sono corrette. Controllare di aver inserito un link valido.';
     if (!video || !video.link) throw new Error(linkErr);
-    const id = video.id ? video.id : this.db.generateId();
-    video.id = id;
+    const id = video.id ? video.id : null;
     const source = this.getSource(video.link);
     if (!source || !source.source || !source.videoId) throw new Error(linkErr);
     video.source = source.source;
@@ -53,7 +51,7 @@ export class AdminVideoService {
     }
   }
 
-  getAll(orderByRecent?: boolean): Observable<AdminVideo[]> {
+  getAll(orderByRecent?: boolean): FirestoreExtCol<AdminVideo> {
     if (!orderByRecent)
       return this.db.col$<AdminVideo>('videos');
     else

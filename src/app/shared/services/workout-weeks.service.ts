@@ -1,8 +1,8 @@
-import { take } from 'rxjs/operators';
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AdminWorkoutSingleExercise, WorkoutSingleExercise, WorkoutWeek, WorkoutWeekDay } from '../models/workout-week.model';
 import { FirestoreExtendedService } from './firestore-extended.service';
 import { WorkoutExercisesService } from './workout-exercises.service';
@@ -80,33 +80,33 @@ export class WorkoutWeeksService {
     }));
     day.exercises1?.forEach(exLv1 => {
       if ('hideView' in exLv1)
-        delete exLv1['hideView'];
+        delete (exLv1 as any).hideView;
       exLv1.exercises.forEach(ex => {
         if (!ex) return;
         if ('hideView' in ex)
-          delete ex['hideView'];
+          delete (ex as any).hideView;
         if (status === 'public')
           this.elabSingleExercise(mapdSavedExs, ex);
       });
     });
     day.exercises2?.forEach(exLv2 => {
       if ('hideView' in exLv2)
-        delete exLv2['hideView'];
+        delete (exLv2 as any).hideView;
       exLv2.exercises.forEach(ex => {
         if (!ex) return;
         if ('hideView' in ex)
-          delete ex['hideView'];
+          delete (ex as any).hideView;
         if (status === 'public')
           this.elabSingleExercise(mapdSavedExs, ex);
       });
     });
     day.exercises3?.forEach(exLv3 => {
       if ('hideView' in exLv3)
-        delete exLv3['hideView'];
+        delete (exLv3 as any).hideView;
       exLv3.exercises.forEach(ex => {
         if (!ex) return;
         if ('hideView' in ex)
-          delete ex['hideView'];
+          delete (ex as any).hideView;
         if (status === 'public')
           this.elabSingleExercise(mapdSavedExs, ex);
       });

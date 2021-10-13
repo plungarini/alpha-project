@@ -23,7 +23,7 @@ export class UserWorkoutService {
     if (!uid) return of(undefined);
     const dbWeeks$ = this.db.col$<WorkoutWeek>('workout-weeks');
     let completedWeeks = 0;
-    return this.db.colWithIds$<WorkoutWeek>(`users/${uid}/${type}-workout`).pipe(
+    return this.db.col$<WorkoutWeek>(`users/${uid}/${type}-workout`).pipe(
       switchMap(uWeeks => {
         const normDbWeeks$ = dbWeeks$.pipe(map(dbWeeks => {
           if (!dbWeeks || dbWeeks.length <= 0) return [];
