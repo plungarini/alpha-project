@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -18,27 +18,27 @@ export class AdminSidebarComponent implements OnChanges {
   navigation = [
     {
       title: 'Dashboard',
-      icon: 'houseFill',
+      icon: IconNamesEnum.HouseFill,
       url: '/admin'
     },
     {
       title: 'Schede',
-      icon: 'fileMedicalFill',
+      icon: IconNamesEnum.FileMedicalFill,
       url: '/admin/workout'
     },
     {
       title: 'Utenti',
-      icon: 'peopleFill',
+      icon: IconNamesEnum.PeopleFill,
       url: '/admin/users'
     },
     {
       title: 'Video',
-      icon: 'cameraVideoFill',
+      icon: IconNamesEnum.CameraVideoFill,
       url: '/admin/video'
     },
     {
       title: 'Annunci',
-      icon: 'megaphoneFill',
+      icon: IconNamesEnum.MegaphoneFill,
       url: '/admin/news'
     },
   ];

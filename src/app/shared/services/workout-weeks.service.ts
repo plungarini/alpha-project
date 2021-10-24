@@ -44,7 +44,7 @@ export class WorkoutWeeksService {
         }
 
         const savedExs$ = this.workoutExsService.getAll();
-        savedExs$.pipe(take(1)).subscribe(async (savedExs) => {
+        savedExs$.pipe(take(1)).subscribe(async (savedExs: AdminWorkoutSingleExercise[]) => {
           workoutWeek.weekId = id;
           workoutWeek.week.forEach(day => {
             this.elabSingleDay(savedExs, day, workoutWeek.status);

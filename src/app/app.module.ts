@@ -27,10 +27,11 @@ import { SharedModule } from './shared/shared.module';
     // AngularFire
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => {
-				const firestore = getFirestore();
-				/* connectEmulator(firestore, 'localhost', 8080); */
-				enableIndexedDbPersistence(firestore);
-				return firestore;
+			const firestore = getFirestore();
+			/* connectEmulator(firestore, 'localhost', 8080); */
+			/* { provide: USE_EMULATOR, useValue: ['localhost', 8080] }, */
+			enableIndexedDbPersistence(firestore);
+			return firestore;
 		}),
 		provideStorage(() => getStorage()),
 		provideAnalytics(() => getAnalytics())
@@ -41,7 +42,7 @@ import { SharedModule } from './shared/shared.module';
       provide: CONFIG,
       useValue: {
         send_page_view: true,
-        DEBUG_MODE: false
+        DEBUG_MODE: true
       }
     },
 		UserTrackingService,

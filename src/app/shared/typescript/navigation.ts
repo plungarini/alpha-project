@@ -1,19 +1,21 @@
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
+
 export const USER_NAV = [
     {
         url: '/dashboard',
         name: 'Home',
-        icon: 'houseFill',
+        icon: IconNamesEnum.HouseFill,
         isHome: true
     },
     {
         url: '/dashboard/workout',
         name: 'WorkOut',
-        icon: 'lightningFill',
+        icon: IconNamesEnum.LightningFill,
         isWorkout: true,
     },
     {
         url: '/dashboard/video',
         name: 'Video',
-        icon: 'cameraVideoFill',
+        icon: IconNamesEnum.CameraVideoFill,
     },
 ];

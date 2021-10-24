@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { deleteObject, getDownloadURL, getStorage, ref, StorageReference, uploadBytesResumable } from '@angular/fire/storage';
-import { Observable, Subject } from 'rxjs';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/compat/storage';
+import { from, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 
 
 export interface FilesUploadMetadata {
-  uploadProgress$: Observable<number>;
+  uploadProgress$: Observable<number | undefined>;
   downloadUrl$: Observable<string>;
   fileReference?: string;
 }
@@ -14,47 +15,39 @@ export interface FilesUploadMetadata {
   providedIn: 'root',
 })
 export class StorageService {
-	storage = getStorage();
-
-  constructor() {}
+  constructor(private readonly storage: AngularFireStorage) {}
 
   uploadFileAndGetMetadata(
     mediaFolderPath: string,
     fileToUpload: File,
   ): FilesUploadMetadata {
     const { name } = fileToUpload;
-		const filePath = `${mediaFolderPath}/${new Date().getTime()}_${name}`;
-		const uploadRef = ref(this.storage, filePath);
-		const uploadTask = uploadBytesResumable(uploadRef, fileToUpload);
-
-		const res = {
-			uploadProgress$: new Subject<number>(),
-			downloadUrl$: new Subject<string>(),
-			fileReference: filePath,
-		};
-		uploadTask.on('state_changed', (snapshot) => {
-			const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-			res.uploadProgress$.next(progress);
-		}, (err) => {
-			console.log(err);
-		}, () => {
-			getDownloadURL(uploadTask.snapshot.ref).then(url => {
-				res.downloadUrl$.next(url);
-			});
-		});
-
-		return {
-			uploadProgress$: res.uploadProgress$.asObservable(),
-			downloadUrl$: res.downloadUrl$.asObservable(),
-			fileReference: res.fileReference,
-		};
+    const filePath = `${mediaFolderPath}/${new Date().getTime()}_${name}`;
+    const uploadTask: AngularFireUploadTask = this.storage.upload(
+      filePath,
+      fileToUpload,
+    );
+    return {
+      uploadProgress$: uploadTask.percentageChanges(),
+      downloadUrl$: this.getDownloadUrl$(uploadTask, filePath),
+      fileReference: filePath,
+    };
   }
 
-  deleteFile(reference: StorageReference): Promise<void> {
-		return deleteObject(reference);
+  deleteFile(reference: string): Observable<any> {
+    return this.getFileReference(reference).delete();
   }
 
-  getFileReference(path: string): StorageReference {
-    return ref(this.storage, path);
+  getFileReference(path: string): AngularFireStorageReference {
+    return this.storage.ref(path);
+  }
+
+  private getDownloadUrl$(
+    uploadTask: AngularFireUploadTask,
+    path: string,
+  ): Observable<string> {
+    return from(uploadTask).pipe(
+      switchMap((_) => this.getFileReference(path).getDownloadURL()),
+    );
   }
 }

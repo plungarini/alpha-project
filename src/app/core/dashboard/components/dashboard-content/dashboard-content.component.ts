@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
@@ -39,7 +40,7 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
     },
     {
       name: 'Esci',
-      icon: 'power',
+      icon: IconNamesEnum.Power,
       value: 'logout',
       action: true
     }

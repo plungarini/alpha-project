@@ -41,16 +41,16 @@ export class AdminUserFeedComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getIconName(type: UserFeedItem['type']): string {
+  getIconName(type: UserFeedItem['type']) {
     switch (type) {
       case 'error':
         return 'x';
       case 'success':
         return 'check2';
       case 'new_user':
-        return 'personPlusFill';
+        return 'person-plus-fill';
       case 'updated_user':
-        return 'personLinesFill';
+        return 'person-lines-fill';
       default:
         return 'exclamation';
     }

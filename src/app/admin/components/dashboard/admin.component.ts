@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
 import { DropdownOptions } from 'src/app/shared/models/dropdown-options.model';
 
 @Component({
@@ -27,7 +28,7 @@ export class AdminComponent implements OnInit {
     },
     {
       name: 'Esci',
-      icon: 'power'
+      icon: IconNamesEnum.Power
     }
   ];
 

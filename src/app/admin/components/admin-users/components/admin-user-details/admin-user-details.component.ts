@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { Subscription } from 'rxjs';
 import { UserStripeSession } from 'src/app/auth/models/user-stripe-session.model';
 import { UserStripeSubscription } from 'src/app/auth/models/user-stripe-subscription.model';

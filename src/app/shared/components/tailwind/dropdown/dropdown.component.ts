@@ -1,14 +1,15 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnInit,
-  Output
+	ChangeDetectionStrategy,
+	ChangeDetectorRef,
+	Component,
+	ElementRef,
+	EventEmitter,
+	HostListener,
+	Input,
+	OnInit,
+	Output
 } from '@angular/core';
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
 import { DropdownOptions } from '../../../models/dropdown-options.model';
 
 
@@ -37,7 +38,7 @@ export class DropdownComponent implements OnInit {
     {
       url: '/',
       name: 'Logout',
-      icon: 'houseFill',
+      icon: IconNamesEnum.HouseFill,
     }
   ];
   @Input('isOpen') set setOpen(value: boolean) {

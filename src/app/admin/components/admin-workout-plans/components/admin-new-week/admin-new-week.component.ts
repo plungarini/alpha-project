@@ -3,9 +3,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AdminWorkoutSingleExercise, WorkoutWeek, WorkoutWeekDay } from 'src/app/shared/models/workout-week.model';
+import { AdminWorkoutSingleExercise, WorkoutWeekDay } from 'src/app/shared/models/workout-week.model';
 import { WorkoutExercisesService } from 'src/app/shared/services/workout-exercises.service';
 import { WorkoutWeeksService } from 'src/app/shared/services/workout-weeks.service';
 import { WeekFormService } from '../../services/week-form.service';
@@ -28,7 +29,10 @@ export class AdminNewWeekComponent implements OnInit, OnDestroy {
   daySelected = 1;
   serverError = '';
   showPreview = false;
-  destroyed$ = new Subject();
+	destroyed$ = new Subject();
+
+	lockIcon = IconNamesEnum.Lock;
+	unlockIcon = IconNamesEnum.Unlock;
 
   workoutWeek = this.weekFB.workoutWeek;
   savedExercises: AdminWorkoutSingleExercise[] = [];

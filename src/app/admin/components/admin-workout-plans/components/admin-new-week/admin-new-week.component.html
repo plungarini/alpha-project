@@ -88,8 +88,8 @@
             class="transition-none flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-700 hover:bg-black-600 shadow-xl z-10"
         >
             <div class="text-gray-50 font-bold">Settimana</div>
-            <i-bs *ngIf="!weekFormHided" name="chevronDown"></i-bs>
-            <i-bs *ngIf="weekFormHided" name="chevronUp"></i-bs>
+            <i-bs *ngIf="!weekFormHided" name="chevron-down"></i-bs>
+            <i-bs *ngIf="weekFormHided" name="chevron-up"></i-bs>
         </div>
         <div class="w-full bg-black-800 p-4 rounded-b mb-8" [class.hidden]="weekFormHided">
 
@@ -150,7 +150,7 @@
                                 <span *ngIf="workoutWeek.get('type')?.value === 'pro'">
                                     Lorenz
                                 </span>
-                                <i-bs name="chevronDown" class="mt-1 ml-2" width="0.875rem" height="0.875rem"></i-bs>
+                                <i-bs name="chevron-down" class="mt-1 ml-2" width="0.875rem" height="0.875rem"></i-bs>
                             </div>
                         </div>
                     </app-dropdown>
@@ -163,8 +163,8 @@
                     </label>
                     <app-dropdown class="w-full mt-1" [wFull]="true" [closeOnOptionClick]="true" (onOptionClicked)="setFormValue('status', $event.value)"
                         [options]="[
-                            { name: 'Privato', value: 'private', icon: 'lock', action: true },
-                            { name: 'Pubblico', value: 'public', icon: 'unlock', action: true }
+                            { name: 'Privato', value: 'private', icon: lockIcon, action: true },
+                            { name: 'Pubblico', value: 'public', icon: unlockIcon, action: true }
                         ]"
                     >
                         <div class="trigger w-full">
@@ -177,7 +177,7 @@
                                     <span class="inline-block bg-green-500 rounded-full mr-1" style="width: .5em; height: .5em; margin-bottom: .13em;"></span>
                                     Pubblico
                                 </span>
-                                <i-bs name="chevronDown" class="mt-1 ml-2" width="0.875rem" height="0.875rem"></i-bs>
+                                <i-bs name="chevron-down" class="mt-1 ml-2" width="0.875rem" height="0.875rem"></i-bs>
                             </div>
                         </div>
                     </app-dropdown>
@@ -218,8 +218,8 @@
                         class="transition-none flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-700 hover:bg-black-600 shadow-xl z-10"
                     >
                         <div class="text-gray-50 font-bold">Giorno</div>
-                        <i-bs *ngIf="!dayFormHided" name="chevronDown"></i-bs>
-                        <i-bs *ngIf="dayFormHided" name="chevronUp"></i-bs>
+                        <i-bs *ngIf="!dayFormHided" name="chevron-down"></i-bs>
+                        <i-bs *ngIf="dayFormHided" name="chevron-up"></i-bs>
                     </div>
                     <div class="w-full bg-black-800 p-4 rounded-b mb-8"  [class.hidden]="dayFormHided">
                         <div class="flex flex-row justify-between border-b border-gray-700 p-2 mb-4">
@@ -327,8 +327,8 @@
                         class="transition-none flex flex-row cursor-pointer justify-between items-center py-2 px-4 rounded-t bg-black-700 hover:bg-black-600 shadow-xl z-10"
                     >
                         <div class="text-gray-50 font-bold">Rounds</div>
-                        <i-bs *ngIf="!roundFormHided" name="chevronDown"></i-bs>
-                        <i-bs *ngIf="roundFormHided" name="chevronUp"></i-bs>
+                        <i-bs *ngIf="!roundFormHided" name="chevron-down"></i-bs>
+                        <i-bs *ngIf="roundFormHided" name="chevron-up"></i-bs>
                     </div>
                     <div *ngIf="!weekDaysArray.at(daySelected - 1).get('restDay')?.value;" [class.hidden]="roundFormHided" class="w-full bg-black-800 p-4 rounded-b mb-8">
                         <div *ngIf="workoutWeek.get('type')?.value === 'functional'" class="border-b border-gray-700 p-2 mb-4">
@@ -363,10 +363,10 @@
                                             >
                                                 <div class="text-gray-300 text-sm font-bold">Round {{i + 1}}/{{count}}</div>
                                                 <div class="w-min inline-flex">
-                                                    <i-bs (click)="duplicateRound(i, $event)" name="stickiesFill" class="cursor-pointer mr-3 hover:text-gray-200"></i-bs>
-                                                    <i-bs (click)="deleteRound(i, $event)" name="trashFill" class="cursor-pointer mr-3 hover:text-red-400"></i-bs>
-                                                    <i-bs *ngIf="!hideView?.value" name="chevronDown"></i-bs>
-                                                    <i-bs *ngIf="hideView?.value" name="chevronUp"></i-bs>
+                                                    <i-bs (click)="duplicateRound(i, $event)" name="stickies-fill" class="cursor-pointer mr-3 hover:text-gray-200"></i-bs>
+                                                    <i-bs (click)="deleteRound(i, $event)" name="trash-fill" class="cursor-pointer mr-3 hover:text-red-400"></i-bs>
+                                                    <i-bs *ngIf="!hideView?.value" name="chevron-down"></i-bs>
+                                                    <i-bs *ngIf="hideView?.value" name="chevron-up"></i-bs>
                                                 </div>
                                             </div>
 
@@ -603,10 +603,10 @@
                                                                     <div *ngIf="!exGroup.get('title')?.value" class="text-gray-300 text-sm font-bold">Esercizio {{indexRoundExercises + 1}}/{{exercisesCount}}</div>
                                                                     <div *ngIf="exGroup.get('title')?.value" class="text-gray-300 text-sm font-bold">{{exGroup.get('title')?.value}}</div>
                                                                     <div class="w-min inline-flex">
-                                                                        <i-bs (click)="duplicateExercise(i, indexRoundExercises, $event)" name="stickiesFill" class="cursor-pointer mr-3 hover:text-gray-200"></i-bs>
-                                                                        <i-bs (click)="deleteExercise(i, indexRoundExercises, $event)" name="trashFill" class="cursor-pointer mr-3 hover:text-red-400"></i-bs>
-                                                                        <i-bs *ngIf="!hideView?.value" name="chevronDown"></i-bs>
-                                                                        <i-bs *ngIf="hideView?.value" name="chevronUp"></i-bs>
+                                                                        <i-bs (click)="duplicateExercise(i, indexRoundExercises, $event)" name="stickies-fill" class="cursor-pointer mr-3 hover:text-gray-200"></i-bs>
+                                                                        <i-bs (click)="deleteExercise(i, indexRoundExercises, $event)" name="trash-fill" class="cursor-pointer mr-3 hover:text-red-400"></i-bs>
+                                                                        <i-bs *ngIf="!hideView?.value" name="chevron-down"></i-bs>
+                                                                        <i-bs *ngIf="hideView?.value" name="chevron-up"></i-bs>
                                                                     </div>
                                                                 </div>
 
@@ -1015,7 +1015,7 @@
                                                     </ng-container>
 
                                                     <div *ngIf="getRoundExercisesFormArray(i)?.controls?.length!! <= 0" class="text-yellow-500 text-sm w-full p-2 border-b border-gray-500 inline-flex">
-                                                        <i-bs name="exclamationSquare" width="1.2rem" height="1.2rem" class="mr-3"></i-bs>
+                                                        <i-bs name="exclamation-square" width="1.2rem" height="1.2rem" class="mr-3"></i-bs>
                                                         Nessun esercizio presente. Aggiungine uno per procedere.
                                                     </div>
 
@@ -1031,7 +1031,7 @@
                                                                 </div>
                                                                 <div class="custom-options shadow-2xl w-max max-w-full bg-black-800 rounded border border-gray-500">
                                                                     <div (click)="addExercise(i)" class="bg-black-800 w-full text-sm hover:bg-black-700 cursor-pointer border-b border-gray-500 inline-flex justify-center items-center py-2 px-4">
-                                                                        <i-bs name="plusCircleDotted" class="mr-3" width="1rem" height="1rem"></i-bs>
+                                                                        <i-bs name="plus-circle-dotted" class="mr-3" width="1rem" height="1rem"></i-bs>
                                                                         Aggiungi nuovo
                                                                     </div>
                                                                     <div class="bg-black-900 py-2 px-4 text-xs text-center border-b border-gray-500">
@@ -1044,7 +1044,7 @@
                                                                                 {{ savedEx.title }}
                                                                                 <span *ngIf="savedEx.note" class="block text-xs font-normal text-gray-500">{{savedEx.note}}</span>
                                                                             </p>
-                                                                            <i-bs *ngIf="savedEx.videoLink" class="w-min" name="playCircleFill" width="1rem" height="1rem"></i-bs>
+                                                                            <i-bs *ngIf="savedEx.videoLink" class="w-min" name="play-circle-fill" width="1rem" height="1rem"></i-bs>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -1061,7 +1061,7 @@
                             </ng-container>
 
                             <div *ngIf="getRoundsFormArray()?.controls?.length!! <= 0" class="text-yellow-500 w-full p-2 border-b border-gray-500 inline-flex">
-                                <i-bs name="exclamationSquare" width="1.2rem" height="1.2rem" class="mr-3"></i-bs>
+                                <i-bs name="exclamation-square" width="1.2rem" height="1.2rem" class="mr-3"></i-bs>
                                 Nessun round presente. Aggiungine uno per procedere.
                             </div>
 

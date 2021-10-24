@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AdminVideo, AdminVideoService } from '../../../shared/services/admin-video.service';
@@ -17,7 +18,10 @@ export class AdminVideoComponent implements OnInit, OnDestroy {
 
   pageTitle = 'Tutti i video';
 
-  savedVideos: AdminVideo[] = [];
+	savedVideos: AdminVideo[] = [];
+
+	lockIcon = IconNamesEnum.Lock;
+	unlockIcon = IconNamesEnum.Unlock;
 
   destroyed$ = new Subject();
   showModal = false;

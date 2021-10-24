@@ -1,8 +1,9 @@
 /* eslint-disable radix */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { FirestoreExtCol, FirestoreExtendedService } from 'src/app/shared/services/firestore-extended.service';
+import { FirestoreExtendedService } from 'src/app/shared/services/firestore-extended.service';
 import { VimeoService, VimeoVideo } from './vimeo.service';
 
 
@@ -51,7 +52,7 @@ export class AdminVideoService {
     }
   }
 
-  getAll(orderByRecent?: boolean): FirestoreExtCol<AdminVideo> {
+  getAll(orderByRecent?: boolean): Observable<AdminVideo[]> {
     if (!orderByRecent)
       return this.db.col$<AdminVideo>('videos');
     else

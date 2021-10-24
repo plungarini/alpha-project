@@ -5,7 +5,7 @@
             <div class="mt-1 flex rounded-md shadow-sm">
                 <div class="relative flex items-stretch flex-grow focus-within:z-10">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i-bs name="peopleFill" width="1.2rem" height="1.2rem"></i-bs>
+                        <i-bs name="people-fill" width="1.2rem" height="1.2rem"></i-bs>
                     </div>
                     <input
                         type="text"
@@ -18,7 +18,7 @@
                     >
                 </div>
                 <button class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-500 text-sm font-medium rounded-r-md text-gray-300 bg-black-700 hover:bg-black-600 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                    <i-bs name="funnelFill" width="1.2rem" height="1.2rem"></i-bs>
+                    <i-bs name="funnel-fill" width="1.2rem" height="1.2rem"></i-bs>
                     <span>Filtra</span>
                 </button>
             </div>
@@ -45,7 +45,7 @@
                                     {{user.name || user.email}}
                                 </div>
                                 <div *ngIf="user.roles.admin" class="text-sm text-yellow-400 inline-flex items-center">
-                                    <i-bs name="shieldFillCheck" class="mr-1" width=".8rem" height=".8rem"></i-bs>
+                                    <i-bs name="shield-fill-check" class="mr-1" width=".8rem" height=".8rem"></i-bs>
                                     Admin
                                 </div>
                                 <div *ngIf="user.roles.subscriber && !user.roles.admin" class="text-sm">

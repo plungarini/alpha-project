@@ -4,7 +4,7 @@
         <div class="mt-1 flex rounded-md shadow-sm">
             <div class="relative flex items-stretch flex-grow focus-within:z-10">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i-bs name="peopleFill" width="1.2rem" height="1.2rem"></i-bs>
+                    <i-bs name="people-fill" width="1.2rem" height="1.2rem"></i-bs>
                 </div>
                 <input
                     type="text"
@@ -17,7 +17,7 @@
                 >
             </div>
             <button class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-500 text-sm font-medium rounded-r-md text-gray-300 bg-black-700 hover:bg-black-600 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                <i-bs name="funnelFill" width="1.2rem" height="1.2rem"></i-bs>
+                <i-bs name="funnel-fill" width="1.2rem" height="1.2rem"></i-bs>
                 <span>Filtra</span>
             </button>
         </div>
@@ -26,7 +26,7 @@
     <ul class="flex flex-col w-full max-w-full">
         <li (click)="selectAllUsers()" class="btn primary w-full inline-flex items-center mb-2">
             <i-bs *ngIf="!allSelected" name="circle" class="mr-2" style="margin-bottom: -2px; transform: translateY(-2px)"></i-bs>
-            <i-bs *ngIf="allSelected" name="check2Circle" class="mr-2 text-green-400" width="1.2rem" height="1.2rem" style="margin-bottom: -2px; transform: translateY(-2px)"></i-bs>
+            <i-bs *ngIf="allSelected" name="check2-circle" class="mr-2 text-green-400" width="1.2rem" height="1.2rem" style="margin-bottom: -2px; transform: translateY(-2px)"></i-bs>
             {{ !allSelected ? 'Seleziona tutti' : 'Deseleziona tutti' }}
         </li>
     </ul>

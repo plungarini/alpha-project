@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
-
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
 
 
 @Component({
@@ -18,7 +18,7 @@ export class AlertComponent implements OnInit {
   @Input() title = 'Successfully saved!';
   @Input() desc = '';
   @Input() type: 'success' | 'warn' | 'error' | 'info' = 'info';
-  @Input() icon = '';
+  @Input() icon = IconNamesEnum.Exclamation;
 
   transitionStarted = false;
   show = false;

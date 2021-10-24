@@ -1,10 +1,10 @@
-import { environment } from 'src/environments/environment';
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
+import firebase from 'firebase/compat/app';
 import { UsersService } from 'src/app/auth/services/users.service';
-import firebase from 'firebase/app';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({

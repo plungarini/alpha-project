@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import 'firebase/functions';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -9,8 +9,6 @@ import { FirestoreExtendedService } from 'src/app/shared/services/firestore-exte
 import { User } from '../models/user.model';
 import { FirebaseErrorHandling } from '../namespaces/error-auth';
 import { UsersService } from './users.service';
-
-
 
 
 @Injectable({
@@ -63,7 +61,7 @@ export class AuthenticationService {
       await this.userService.editOrCreate(credential.user, additionalDetails, true);
       this.redirectAfterSignIn();
       return true;
-    } catch (e) {
+    } catch (e: any) {
       return e;
     }
   }
@@ -178,7 +176,7 @@ export class AuthenticationService {
       return this.userService.editOrCreate(credential.user, forceEdits).then(() => {
         this.redirectAfterSignIn();
       });
-    } catch (err) {
+    } catch (err: any) {
       return FirebaseErrorHandling.convertMessage(err.code);
     }
   }

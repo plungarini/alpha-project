@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
+import { IconNamesEnum } from 'ngx-bootstrap-icons';
 
 
 
@@ -13,10 +14,10 @@ export class ProfileComponent implements OnInit {
   showSaved = true;
 
   settingsNav = [
-    { id: 1, selected: true, icon: 'personCircle', title: 'Profilo' },
-    { id: 2, selected: false, icon: 'gearFill', title: 'Preferenze' },
-    { id: 3, selected: false, icon: 'bellFill', title: 'Notifiche' },
-    { id: 4, selected: false, icon: 'creditCardFill', title: 'Pagamenti' },
+    { id: 1, selected: true, icon: IconNamesEnum.PersonCircle, title: 'Profilo' },
+    { id: 2, selected: false, icon: IconNamesEnum.GearFill, title: 'Preferenze' },
+    { id: 3, selected: false, icon: IconNamesEnum.BellFill, title: 'Notifiche' },
+    { id: 4, selected: false, icon: IconNamesEnum.CreditCardFill, title: 'Pagamenti' },
   ];
   showMyProfile = false;
   showPreferences = false;

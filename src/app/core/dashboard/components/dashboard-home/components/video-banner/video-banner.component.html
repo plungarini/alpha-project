@@ -11,8 +11,8 @@
                     <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat" [ngClass]="{ 'transform scale-175': video.source === 'YouTube' }" style="background: url('{{ video.thumbnail }}')"></div>
                     <div class="absolute top-0 left-0 w-full h-full bg-gray-800 bg-opacity-70" style="backdrop-filter: blur(1.5px)"></div>
                     <div class="absolute -mt-4 md:-mt-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        <i-bs class="hidden sm:block text-gray-300 group-hover:text-gray-50" name="playCircleFill" width="3rem" height="3rem"></i-bs>
-                        <i-bs class="block sm:hidden text-gray-300 group-hover:text-gray-50" name="playCircleFill" width="2rem" height="2rem"></i-bs>
+                        <i-bs class="hidden sm:block text-gray-300 group-hover:text-gray-50" name="play-circle-fill" width="3rem" height="3rem"></i-bs>
+                        <i-bs class="block sm:hidden text-gray-300 group-hover:text-gray-50" name="play-circle-fill" width="2rem" height="2rem"></i-bs>
                     </div>
                     <div class="w-full max-w-full h-10 sm:h-12 flex flex-row items-center overflow-hidden px-4 absolute bottom-0 bg-black-900 bg-opacity-70" style="backdrop-filter: blur(8px);">
                         <div class="w-full max-w-full overflow-hidden">
@@ -28,7 +28,7 @@
                     <p>Clicca sul seguente pulsante e non perderti neanche una nostra diretta!</p>
                     <button routerLink="/dashboard/video" class="btn primary inline-flex items-center mt-4 group-hover:bg-indigo-500">
                         Mostra tutti
-                        <i-bs name="arrowRightShort" class="ml-1"></i-bs>
+                        <i-bs name="arrow-right-short" class="ml-1"></i-bs>
                     </button>
                 </div>
             </div>
