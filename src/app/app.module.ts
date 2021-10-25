@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 import { CONFIG, ScreenTrackingService, UserTrackingService } from '@angular/fire/compat/analytics';
 import { enableIndexedDbPersistence, getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
@@ -22,7 +24,8 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    SharedModule,
+		SharedModule,
+		HttpClientModule,
 
     // AngularFire
     provideFirebaseApp(() => initializeApp(environment.firebase)),
@@ -34,7 +37,8 @@ import { SharedModule } from './shared/shared.module';
 			return firestore;
 		}),
 		provideStorage(() => getStorage()),
-		provideAnalytics(() => getAnalytics())
+		provideAnalytics(() => getAnalytics()),
+		provideAuth(() => getAuth()),
   ],
   providers: [
     { provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } },
@@ -44,7 +48,7 @@ import { SharedModule } from './shared/shared.module';
         send_page_view: true,
         DEBUG_MODE: true
       }
-    },
+		},
 		UserTrackingService,
 		ScreenTrackingService
   ],
