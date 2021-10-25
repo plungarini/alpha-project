@@ -50,7 +50,6 @@ export class PaymentComponent implements OnInit {
       .then(res => {
         this.loadingBtnMonth = false;
         this.disableBtn = false;
-        console.log(res);
       })
       .catch(err => {
         this.loadingBtnMonth = false;
@@ -73,7 +72,6 @@ export class PaymentComponent implements OnInit {
       .then(res => {
         this.loadingBtnYear = false;
         this.disableBtn = false;
-        console.log(res);
       })
       .catch(err => {
         this.loadingBtnYear = false;

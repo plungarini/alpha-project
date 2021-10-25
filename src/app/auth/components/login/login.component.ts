@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import firebase from 'firebase/compat/app';
+import firebase from 'firebase/app';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FirebaseErrorHandling } from './../../namespaces/error-auth';
 
@@ -77,10 +77,7 @@ export class LoginComponent implements OnInit {
     return this.db.emailLogin(
       form.value.email,
       form.value.password
-    ).then(res => {
-      console.log(res);
-      return res;
-    }).catch(err => {
+    ).then(res => res).catch(err => {
       // eslint-disable-next-line @typescript-eslint/dot-notation
       this.loginError = FirebaseErrorHandling.convertMessage(err['code'], 'it');
       this.cdRef.detectChanges();

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
 	AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentChangeAction
-} from '@angular/fire/compat/firestore';
-import firebase from 'firebase/compat/app';
+} from '@angular/fire/firestore';
+import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Timestamp } from './../../auth/models/timestamp.model';

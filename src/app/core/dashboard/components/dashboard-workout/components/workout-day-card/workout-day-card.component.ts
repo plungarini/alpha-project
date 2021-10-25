@@ -1,5 +1,5 @@
-import { WorkoutWeekDay } from 'src/app/shared/models/workout-week.model';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { WorkoutWeekDay } from 'src/app/shared/models/workout-week.model';
 
 
 
@@ -14,7 +14,7 @@ export class WorkoutDayCardComponent implements OnInit {
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onDaySelected = new EventEmitter();
 
-  @Input('day') set setDay(value: WorkoutWeekDay | undefined) {
+	@Input('day') set setDay(value: WorkoutWeekDay | undefined) {
     if (value) this.day = value;
   }
   @Input() more = false;

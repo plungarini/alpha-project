@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import firebase from 'firebase/compat/app';
+import firebase from 'firebase/app';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FirebaseErrorHandling } from './../../namespaces/error-auth';
 

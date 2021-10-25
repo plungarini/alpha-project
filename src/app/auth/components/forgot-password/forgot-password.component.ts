@@ -1,10 +1,9 @@
-import { map } from 'rxjs/operators';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { FirebaseErrorHandling } from '../../namespaces/error-auth';
 import { AuthenticationService } from '../../services/authentication.service';
-import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -125,7 +124,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     const email = this.verifyEmail.get('verifyEmailInput')?.value;
     this.authService.sendResetPswEmail(email)
       .then((res: any) => {
-        console.log('Success?', res);
         this.mode = 'verifyEmailCode';
         this.pageTitle = 'Link Inviato';
         this.sendPswEmailTries++;

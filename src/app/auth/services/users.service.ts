@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat/app';
+import { AngularFireAuth } from '@angular/fire/auth';
+import firebase from 'firebase/app';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Roles } from '../models/roles.model';
