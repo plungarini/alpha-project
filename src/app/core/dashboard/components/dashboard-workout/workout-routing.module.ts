@@ -6,26 +6,26 @@ import { WorkoutGymComponent } from './components/workout-gym/workout-gym.compon
 import { WorkoutLorenzComponent } from './components/workout-lorenz/workout-lorenz.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: WorkoutComponent
-  },
-  {
-    path: 'functional',
-    component: WorkoutFunctionalComponent
-  },
-  {
-    path: 'gym',
-    component: WorkoutGymComponent
-  },
-  {
-    path: 'lorenz',
-    component: WorkoutLorenzComponent
-  },
+	{
+		path: '',
+		component: WorkoutComponent
+	},
+	{
+		path: 'functional',
+		component: WorkoutFunctionalComponent
+	},
+	{
+		path: 'gym',
+		component: WorkoutGymComponent
+	},
+	{
+		path: 'lorenz',
+		component: WorkoutLorenzComponent
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class WorkoutRoutingModule { }

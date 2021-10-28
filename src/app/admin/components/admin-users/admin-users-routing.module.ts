@@ -5,7 +5,7 @@ import { AdminUsersComponent } from './components/home/admin-users.component';
 const routes: Routes = [{ path: '', component: AdminUsersComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class AdminUsersRoutingModule { }

@@ -1,4 +1,4 @@
-<div class="w-full overflow-x-auto">
+<div class="w-full max-w-full overflow-x-auto" style="max-width: 100%;">
     <div class="flex flex-row p-1 pb-2 flex-nowrap w-max items-center mt-8 space-x-6" style="scroll-snap-type: x mandatory;">
         <ng-container *ngIf="week.length > 0">
             <ng-container *ngFor="let day of week; let last = last;">
@@ -20,3 +20,5 @@
         </div>
     </div>
 </div>
+
+<!-- TODO: Sistemare Width eccessiva -->

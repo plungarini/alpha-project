@@ -14,24 +14,24 @@ import { SocialLoginComponent } from './components/social-login/social-login.com
 
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    SignupComponent,
-    ForgotPasswordComponent,
-    SocialLoginComponent,
-    AuthComponent
-  ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    ReactiveFormsModule,
-    NgxBootstrapIconsModule.pick(allIcons), // TODO Fix
-    FormsModule,
-    LoadingBarRouterModule,
-    LoadingBarModule
-  ],
-  providers: [
-    { provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } }
-  ]
+	declarations: [
+		LoginComponent,
+		SignupComponent,
+		ForgotPasswordComponent,
+		SocialLoginComponent,
+		AuthComponent
+	],
+	imports: [
+		CommonModule,
+		AuthRoutingModule,
+		ReactiveFormsModule,
+		NgxBootstrapIconsModule.pick(allIcons), // TODO Fix
+		FormsModule,
+		LoadingBarRouterModule,
+		LoadingBarModule
+	],
+	providers: [
+		{ provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } }
+	]
 })
 export class AuthModule { }

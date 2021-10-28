@@ -9,9 +9,9 @@ import { AdminVideo } from './../../../../../../shared/services/admin-video.serv
 
 
 @Component({
-  selector: 'app-dashboard-video',
-  styles: [` :host { display: block; } `],
-  templateUrl: './dashboard-video.component.html'
+	selector: 'app-dashboard-video',
+	styles: [` :host { display: block; } `],
+	templateUrl: './dashboard-video.component.html'
 })
 export class DashboardVideoComponent implements OnInit, OnDestroy {
 
@@ -32,51 +32,51 @@ export class DashboardVideoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.exService.getAll()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(async exs => {
-        this.savedExercises = exs;
-      });
-    this.videoService.getAll(true)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(videos => {
-        this.savedVideos = [];
-        videos.forEach(v => {
-          if (v.status === 'private') return;
-          this.savedVideos.push(v);
-        });
-      });
+  	this.exService.getAll()
+  		.pipe(takeUntil(this.destroyed$))
+  		.subscribe(async exs => {
+  			this.savedExercises = exs;
+  		});
+  	this.videoService.getAll(true)
+  		.pipe(takeUntil(this.destroyed$))
+  		.subscribe(videos => {
+  			this.savedVideos = [];
+  			videos.forEach(v => {
+  				if (v.status === 'private') return;
+  				this.savedVideos.push(v);
+  			});
+  		});
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
+  	this.destroyed$.next(true);
+  	this.destroyed$.complete();
   }
 
   toggleVimeoPlayer(url: string): void {
-    if (!url) return;
-    this.playerUrl = url;
-    this.showVimeoPlayer = true;
+  	if (!url) return;
+  	this.playerUrl = url;
+  	this.showVimeoPlayer = true;
   }
 
   toggleYoutubePlayer(id: string): void {
-    if (!id) return;
-    this.playerId = id;
-    this.showYoutubePlayer = true;
+  	if (!id) return;
+  	this.playerId = id;
+  	this.showYoutubePlayer = true;
   }
 
   togglePlayer(source: 'YouTube' | 'Vimeo' | undefined, idOrUrl: string | number | undefined | null): void {
-    if (!idOrUrl || !source) return;
-    if (source === 'YouTube') this.toggleYoutubePlayer(idOrUrl + '');
-    else if (source === 'Vimeo') this.toggleVimeoPlayer(idOrUrl as string);
+  	if (!idOrUrl || !source) return;
+  	if (source === 'YouTube') this.toggleYoutubePlayer(idOrUrl + '');
+  	else if (source === 'Vimeo') this.toggleVimeoPlayer(idOrUrl as string);
   }
 
   onShowVimeoPlayer(value: boolean): void {
-    this.showVimeoPlayer = value;
+  	this.showVimeoPlayer = value;
   }
 
   onShowYoutubePlayer(value: boolean): void {
-    this.showYoutubePlayer = value;
+  	this.showYoutubePlayer = value;
   }
 
 }

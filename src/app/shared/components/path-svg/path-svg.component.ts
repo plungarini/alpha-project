@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-path-svg',
-  templateUrl: './path-svg.component.html',
-  styles: [` :host { @apply flex justify-center items-center; } `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-path-svg',
+	templateUrl: './path-svg.component.html',
+	styles: [` :host { @apply flex justify-center items-center; } `],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PathSvgComponent implements OnInit {
 

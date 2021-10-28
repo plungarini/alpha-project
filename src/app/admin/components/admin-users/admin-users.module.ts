@@ -10,16 +10,16 @@ import { AdminUsersComponent } from './components/home/admin-users.component';
 
 
 @NgModule({
-  declarations: [
-    AdminUsersComponent,
-    AdminUserDetailsComponent,
-    AdminUserFeedComponent
-  ],
-  imports: [
-    CommonModule,
-    AdminUsersRoutingModule,
-    ReactiveFormsModule,
-    SharedModule
-  ]
+	declarations: [
+		AdminUsersComponent,
+		AdminUserDetailsComponent,
+		AdminUserFeedComponent
+	],
+	imports: [
+		CommonModule,
+		AdminUsersRoutingModule,
+		ReactiveFormsModule,
+		SharedModule
+	]
 })
 export class AdminUsersModule { }

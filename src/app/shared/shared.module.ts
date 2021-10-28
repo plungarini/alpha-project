@@ -15,7 +15,6 @@ import { DropdownComponent } from './components/tailwind/dropdown/dropdown.compo
 import { ModalComponent } from './components/tailwind/modal/modal.component';
 import { TooltipComponent } from './components/tailwind/tooltip/tooltip.component';
 import { VimeoPlayerComponent } from './components/vimeo-player/vimeo-player.component';
-import { WorkoutDetailComponent } from './components/workout-detail/workout-detail.component';
 import { WorkoutIconSelectorComponent } from './components/workout-icon-selector/workout-icon-selector.component';
 import { YoutubePlayerComponent } from './components/youtube-player/youtube-player.component';
 import { BaseRoleDirective } from './directives/role-guard.directive';
@@ -24,46 +23,44 @@ import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 
 @NgModule({
-  declarations: [
-    GlobalSidebarComponent,
-    AvatarComponent,
-    DropdownComponent,
-    TooltipComponent,
-    PathSvgComponent,
-    WorkoutDetailComponent,
-    WorkoutIconSelectorComponent,
-    BaseRoleDirective,
-    ModalComponent,
-    VimeoPlayerComponent,
-    YoutubePlayerComponent,
-    SafeUrlPipe,
-    AlertComponent,
-    NotificationDetailComponent,
-  ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    NgxBootstrapIconsModule.pick(allIcons),
-    HttpClientModule,
-    InlineSVGModule.forRoot(),
-    YouTubePlayerModule
-  ],
-  exports: [
-    SafeUrlPipe,
-    GlobalSidebarComponent,
-    WorkoutDetailComponent,
-    AvatarComponent,
-    DropdownComponent,
-    NgxBootstrapIconsModule,
-    PathSvgComponent,
-    WorkoutIconSelectorComponent,
-    BaseRoleDirective,
-    ModalComponent,
-    VimeoPlayerComponent,
-    YoutubePlayerComponent,
-    AlertComponent,
-    NotificationDetailComponent,
-  ]
+	declarations: [
+		GlobalSidebarComponent,
+		AvatarComponent,
+		DropdownComponent,
+		TooltipComponent,
+		PathSvgComponent,
+		WorkoutIconSelectorComponent,
+		BaseRoleDirective,
+		ModalComponent,
+		VimeoPlayerComponent,
+		YoutubePlayerComponent,
+		SafeUrlPipe,
+		AlertComponent,
+		NotificationDetailComponent,
+	],
+	imports: [
+		CommonModule,
+		RouterModule,
+		ReactiveFormsModule,
+		NgxBootstrapIconsModule.pick(allIcons),
+		HttpClientModule,
+		InlineSVGModule.forRoot(),
+		YouTubePlayerModule,
+	],
+	exports: [
+		SafeUrlPipe,
+		GlobalSidebarComponent,
+		AvatarComponent,
+		DropdownComponent,
+		NgxBootstrapIconsModule,
+		PathSvgComponent,
+		WorkoutIconSelectorComponent,
+		BaseRoleDirective,
+		ModalComponent,
+		VimeoPlayerComponent,
+		YoutubePlayerComponent,
+		AlertComponent,
+		NotificationDetailComponent,
+	]
 })
 export class SharedModule { }

@@ -7,8 +7,8 @@ import { PaymentService } from '../../services/payment.service';
 
 
 @Component({
-  selector: 'app-payment',
-  templateUrl: './payment.component.html',
+	selector: 'app-payment',
+	templateUrl: './payment.component.html',
 })
 export class PaymentComponent implements OnInit {
 
@@ -28,67 +28,67 @@ export class PaymentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    /**
-     * For test purpose only
-     */
-    // Stripe Test RestrictedApiKey
-    // rk_test_51HwSHjAM7M4RC2nW1TJRMTt4Jjck436n8VDg8sbFpRCOGH22BSjlJNkD45Fe3hvq5mkiY1chHSLHrUeRyfZCICQc00Qzz6uU0T
-    /* this.payService.testMode = true; */
-    this.userService.userSubscriptionStatus().then(status => {
-      if (status === 'active' || status === 'trialing') {
-        this.router.navigateByUrl('/dashboard');
-      }
-    });
-    this.returnUrl = this.route.snapshot.queryParamMap.get('subReturnUrl') || undefined;
-    this.firstSub = !(this.route.snapshot.queryParamMap.get('firstSub') === 'false');
+  	/**
+    * For test purpose only
+    */
+  	// Stripe Test RestrictedApiKey
+  	// rk_test_51HwSHjAM7M4RC2nW1TJRMTt4Jjck436n8VDg8sbFpRCOGH22BSjlJNkD45Fe3hvq5mkiY1chHSLHrUeRyfZCICQc00Qzz6uU0T
+  	/* this.payService.testMode = true; */
+  	this.userService.userSubscriptionStatus().then(status => {
+  		if (status === 'active' || status === 'trialing') {
+  			this.router.navigateByUrl('/dashboard');
+  		}
+  	});
+  	this.returnUrl = this.route.snapshot.queryParamMap.get('subReturnUrl') || undefined;
+  	this.firstSub = !(this.route.snapshot.queryParamMap.get('firstSub') === 'false');
   }
 
   buyMonthly(): void {
-    this.disableBtn = true;
-    this.loadingBtnMonth = true;
-    this.payService.buySubscription(true, this.returnUrl)
-      .then(res => {
-        this.loadingBtnMonth = false;
-        this.disableBtn = false;
-      })
-      .catch(err => {
-        this.loadingBtnMonth = false;
-        this.disableBtn = false;
-        this.errorMsg = err;
-        setTimeout(() => {
-          this.errorMsg = '';
-        }, 7000);
-      })
-      .finally(() => {
-        this.loadingBtnMonth = false;
-        this.disableBtn = false;
-      });
+  	this.disableBtn = true;
+  	this.loadingBtnMonth = true;
+  	this.payService.buySubscription(true, this.returnUrl)
+  		.then(res => {
+  			this.loadingBtnMonth = false;
+  			this.disableBtn = false;
+  		})
+  		.catch(err => {
+  			this.loadingBtnMonth = false;
+  			this.disableBtn = false;
+  			this.errorMsg = err;
+  			setTimeout(() => {
+  				this.errorMsg = '';
+  			}, 7000);
+  		})
+  		.finally(() => {
+  			this.loadingBtnMonth = false;
+  			this.disableBtn = false;
+  		});
   }
 
   buyYearly(): void {
-    this.disableBtn = true;
-    this.loadingBtnYear = true;
-    this.payService.buySubscription(false)
-      .then(res => {
-        this.loadingBtnYear = false;
-        this.disableBtn = false;
-      })
-      .catch(err => {
-        this.loadingBtnYear = false;
-        this.disableBtn = false;
-        this.errorMsg = err;
-        setTimeout(() => {
-          this.errorMsg = '';
-        }, 7000);
-      })
-      .finally(() => {
-        this.loadingBtnYear = false;
-        this.disableBtn = false;
-      });
+  	this.disableBtn = true;
+  	this.loadingBtnYear = true;
+  	this.payService.buySubscription(false)
+  		.then(res => {
+  			this.loadingBtnYear = false;
+  			this.disableBtn = false;
+  		})
+  		.catch(err => {
+  			this.loadingBtnYear = false;
+  			this.disableBtn = false;
+  			this.errorMsg = err;
+  			setTimeout(() => {
+  				this.errorMsg = '';
+  			}, 7000);
+  		})
+  		.finally(() => {
+  			this.loadingBtnYear = false;
+  			this.disableBtn = false;
+  		});
   }
 
   logout(): void {
-    this.auth.signOut();
+  	this.auth.signOut();
   }
 
 }

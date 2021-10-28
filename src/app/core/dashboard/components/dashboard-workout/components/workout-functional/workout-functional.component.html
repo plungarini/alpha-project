@@ -1,41 +1,41 @@
 <button routerLink="/dashboard/workout" class="text-sm active:outline-none focus:outline-none focus:text-indigo-500 inline-flex items-center underline hover:text-gray-200 transition-all duration-200">
-    <i-bs name="arrow-left-short" width="1.3rem" height="1.3rem"></i-bs>
-    Cambia tipo di workout
+	<i-bs name="arrow-left-short" width="1.3rem" height="1.3rem"></i-bs>
+	Cambia tipo di workout
 </button>
 
 <div class="relative bg-gray-800 bg-center bg-cover rounded-md shadow-2xl mb-10" style="background-image: url('assets/images/workout-functional-hero-bg.jpg');">
     <div class="absolute z-10 w-full h-full top-0 left-0 bg-gray-900 bg-opacity-90 md:bg-opacity-70"></div>
     <div class="relative z-10 max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-        <div class="max-w-xl">
-            <h1 class="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">Workout funzionale</h1>
-            <p class="mt-5 text-xl text-gray-400 line-clamp-3">Allenamenti studiati per ogni situazione. Sono consigliati sia a principianti, che ad esperti.</p>
-        </div>
+			<div class="max-w-xl">
+				<h1 class="text-4xl font-extrabold text-white sm:text-5xl sm:tracking-tight lg:text-6xl">Workout funzionale</h1>
+				<p class="mt-5 text-xl text-gray-400 line-clamp-3">Allenamenti studiati per ogni situazione. Sono consigliati sia a principianti, che ad esperti.</p>
+			</div>
     </div>
 </div>
 
 <div class="pb-5 border-b border-gray-500 flex flex-row justify-between">
     <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
-        <h2 class="ml-2 mt-2 leading-6 font-medium text-gray-100">
-            I tuoi allenamenti
-        </h2>        
+			<h2 class="ml-2 mt-2 leading-6 font-medium text-gray-100">
+				I tuoi allenamenti
+			</h2>        
     </div>
     
     <app-dropdown class="mr-6 w-max" [closeOnOptionClick]="true" [options]="difficultyOptions" [menuPosition]="'v-bottom-right'" (onOptionClicked)="changeDifficulty($event)">
-        <ng-container class="trigger">
-            <p class="btn secondary whitespace-nowrap transform scale-75 md:scale-100 origin-right md:origin-center" style="margin-top: -0.45rem;">
-                <span class="hidden md:inline-block whitespace-nowrap">{{difficultySelectedText}}</span>
-                <span class="inline-block md:hidden whitespace-nowrap">{{difficultySelectedTextMobile}}</span>
-                <i-bs name="chevron-down" class="ml-1 inline-block transform translate-y-1 origin-bottom"></i-bs>
-            </p>
-        </ng-container>
+			<ng-container class="trigger">
+					<p class="btn secondary whitespace-nowrap transform scale-75 md:scale-100 origin-right md:origin-center" style="margin-top: -0.45rem;">
+						<span class="hidden md:inline-block whitespace-nowrap">{{difficultySelectedText}}</span>
+						<span class="inline-block md:hidden whitespace-nowrap">{{difficultySelectedTextMobile}}</span>
+						<i-bs name="chevron-down" class="ml-1 inline-block transform translate-y-1 origin-bottom"></i-bs>
+					</p>
+			</ng-container>
     </app-dropdown>
 </div>
 <app-workout-week-cards *ngIf="week" [week]="week.week" (onDaySelected)="toggleDayModal($event)"></app-workout-week-cards>
 
 <app-workout-detail
-    [show]="showDayDetails"
-    [day]="modalDaySelected"
-    [difficulty]="difficultySelected"
-    (onCloseModal)="toggleDayModal()"
-    (onCompleteEx)="completeEx($event)"
+	[show]="false"
+	[day]="modalDaySelected"
+	[difficulty]="difficultySelected"
+	(onCloseModal)="toggleDayModal()"
+	(onCompleteEx)="completeEx($event)"
 ></app-workout-detail>

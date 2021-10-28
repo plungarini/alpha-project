@@ -11,20 +11,20 @@ import { DashboardComponent } from './dashboard.component';
 
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    DashboardContentComponent,
-    NotificationsComponent,
-  ],
-  imports: [
-    CommonModule,
-    DashboardRoutingModule,
-    SharedModule,
-    LoadingBarRouterModule,
-    LoadingBarModule
-  ],
-  providers: [
-    { provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } }
-  ]
+	declarations: [
+		DashboardComponent,
+		DashboardContentComponent,
+		NotificationsComponent,
+	],
+	imports: [
+		CommonModule,
+		DashboardRoutingModule,
+		SharedModule,
+		LoadingBarRouterModule,
+		LoadingBarModule
+	],
+	providers: [
+		{ provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } }
+	]
 })
 export class DashboardModule { }

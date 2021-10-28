@@ -6,10 +6,10 @@ import WORKOUT_IMAGES from 'src/app/shared/typescript/workout-images';
 
 
 @Component({
-  selector: 'app-admin-saved-exercises',
-  templateUrl: './admin-saved-exercises.component.html',
-  styles: [` :host { display: block; } `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-admin-saved-exercises',
+	templateUrl: './admin-saved-exercises.component.html',
+	styles: [` :host { display: block; } `],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminSavedExercisesComponent implements OnInit {
 
@@ -23,15 +23,15 @@ export class AdminSavedExercisesComponent implements OnInit {
   }
 
   getIconPath(id: number | undefined | null): string {
-    const resIcon = this.icons.filter(icon => icon.id === id)[0];
-    if (resIcon && resIcon.path)
-      return resIcon.path;
-    return '';
+  	const resIcon = this.icons.filter(icon => icon.id === id)[0];
+  	if (resIcon && resIcon.path)
+  		return resIcon.path;
+  	return '';
   }
 
   deleteExercise(exId: string | undefined | null): void {
-    if (exId)
-      this.onExerciseDeleted.emit(exId);
+  	if (exId)
+  		this.onExerciseDeleted.emit(exId);
   }
 
 }

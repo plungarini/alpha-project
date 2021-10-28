@@ -12,42 +12,42 @@ export interface FilesUploadMetadata {
 }
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
 export class StorageService {
-  constructor(private readonly storage: AngularFireStorage) {}
+	constructor(private readonly storage: AngularFireStorage) {}
 
-  uploadFileAndGetMetadata(
-    mediaFolderPath: string,
-    fileToUpload: File,
-  ): FilesUploadMetadata {
-    const { name } = fileToUpload;
-    const filePath = `${mediaFolderPath}/${new Date().getTime()}_${name}`;
-    const uploadTask: AngularFireUploadTask = this.storage.upload(
-      filePath,
-      fileToUpload,
-    );
-    return {
-      uploadProgress$: uploadTask.percentageChanges(),
-      downloadUrl$: this.getDownloadUrl$(uploadTask, filePath),
-      fileReference: filePath,
-    };
-  }
+	uploadFileAndGetMetadata(
+		mediaFolderPath: string,
+		fileToUpload: File,
+	): FilesUploadMetadata {
+		const { name } = fileToUpload;
+		const filePath = `${mediaFolderPath}/${new Date().getTime()}_${name}`;
+		const uploadTask: AngularFireUploadTask = this.storage.upload(
+			filePath,
+			fileToUpload,
+		);
+		return {
+			uploadProgress$: uploadTask.percentageChanges(),
+			downloadUrl$: this.getDownloadUrl$(uploadTask, filePath),
+			fileReference: filePath,
+		};
+	}
 
-  deleteFile(reference: string): Observable<any> {
-    return this.getFileReference(reference).delete();
-  }
+	deleteFile(reference: string): Observable<any> {
+		return this.getFileReference(reference).delete();
+	}
 
-  getFileReference(path: string): AngularFireStorageReference {
-    return this.storage.ref(path);
-  }
+	getFileReference(path: string): AngularFireStorageReference {
+		return this.storage.ref(path);
+	}
 
-  private getDownloadUrl$(
-    uploadTask: AngularFireUploadTask,
-    path: string,
-  ): Observable<string> {
-    return from(uploadTask).pipe(
-      switchMap((_) => this.getFileReference(path).getDownloadURL()),
-    );
-  }
+	private getDownloadUrl$(
+		uploadTask: AngularFireUploadTask,
+		path: string,
+	): Observable<string> {
+		return from(uploadTask).pipe(
+			switchMap((_) => this.getFileReference(path).getDownloadURL()),
+		);
+	}
 }

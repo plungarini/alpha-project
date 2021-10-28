@@ -6,22 +6,22 @@ import { AdminWorkoutPlansComponent } from './components/admin-workout-plans/adm
 
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AdminWorkoutPlansComponent
-  },
-  {
-    path: 'new/:weekType',
-    component: AdminNewWeekComponent
-  },
-  {
-    path: 'edit/:id',
-    component: AdminNewWeekComponent
-  }
+	{
+		path: '',
+		component: AdminWorkoutPlansComponent
+	},
+	{
+		path: 'new/:weekType',
+		component: AdminNewWeekComponent
+	},
+	{
+		path: 'edit/:id',
+		component: AdminNewWeekComponent
+	}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class AdminWorkoutPlansRoutingModule { }

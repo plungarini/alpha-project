@@ -7,36 +7,36 @@ import { AdminUsersComponent } from './components/admin-users/components/home/ad
 import { AdminComponent } from './components/dashboard/admin.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AdminComponent,
-    children: [
-      {
-        path: '',
-        component: AdminHomeComponent
-      },
-      {
-        path: 'workout',
-        loadChildren: () => import('./components/admin-workout-plans/admin-workout-plans.module').then((m) => m.AdminWorkoutPlansModule),
-      },
-      {
-        path: 'users',
-        loadChildren: () => import('./components/admin-users/admin-users.module').then((m) => m.AdminUsersModule),
-      },
-      {
-        path: 'video',
-        component: AdminVideoComponent
-      },
-      {
-        path: 'news',
-        loadChildren: () => import('./components/admin-news/admin-news.module').then(m => m.AdminNewsModule)
-      }
-    ]
-  }
+	{
+		path: '',
+		component: AdminComponent,
+		children: [
+			{
+				path: '',
+				component: AdminHomeComponent
+			},
+			{
+				path: 'workout',
+				loadChildren: () => import('./components/admin-workout-plans/admin-workout-plans.module').then((m) => m.AdminWorkoutPlansModule),
+			},
+			{
+				path: 'users',
+				loadChildren: () => import('./components/admin-users/admin-users.module').then((m) => m.AdminUsersModule),
+			},
+			{
+				path: 'video',
+				component: AdminVideoComponent
+			},
+			{
+				path: 'news',
+				loadChildren: () => import('./components/admin-news/admin-news.module').then(m => m.AdminNewsModule)
+			}
+		]
+	}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class AdminRoutingModule { }

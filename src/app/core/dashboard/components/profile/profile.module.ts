@@ -10,12 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [ProfileComponent, MyProfileComponent, NotificationsComponent],
-  imports: [
-    CommonModule,
-    ProfileRoutingModule,
-    SharedModule,
-    ReactiveFormsModule
-  ]
+	declarations: [ProfileComponent, MyProfileComponent, NotificationsComponent],
+	imports: [
+		CommonModule,
+		ProfileRoutingModule,
+		SharedModule,
+		ReactiveFormsModule
+	]
 })
 export class ProfileModule { }

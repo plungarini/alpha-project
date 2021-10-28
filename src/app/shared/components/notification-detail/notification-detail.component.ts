@@ -4,10 +4,10 @@ import { Announcement } from 'src/app/shared/models/announce.model';
 
 
 @Component({
-  selector: 'app-notification-detail',
-  templateUrl: './notification-detail.component.html',
-  styles: [ ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-notification-detail',
+	templateUrl: './notification-detail.component.html',
+	styles: [ ],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationDetailComponent implements OnInit {
 
@@ -22,7 +22,7 @@ export class NotificationDetailComponent implements OnInit {
   }
 
   closeDetail(): void {
-    this.onCloseDetail.emit(false);
+  	this.onCloseDetail.emit(false);
   }
 
 }

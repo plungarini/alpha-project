@@ -3,18 +3,18 @@ import { IconNamesEnum } from 'ngx-bootstrap-icons';
 
 
 @Component({
-  selector: 'app-alert',
-  templateUrl: './alert.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-alert',
+	templateUrl: './alert.component.html',
+	styles: [],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AlertComponent implements OnInit {
 
   @Input('show') set showModal(value: boolean) {
-    if (value !== undefined && value !== null) {
-      this.toggleModal(value);
-    }
-  };
+		if (value !== undefined && value !== null) {
+			this.toggleModal(value);
+		}
+	}
   @Input() title = 'Successfully saved!';
   @Input() desc = '';
   @Input() type: 'success' | 'warn' | 'error' | 'info' = 'info';
@@ -30,15 +30,15 @@ export class AlertComponent implements OnInit {
   }
 
   toggleModal(value: boolean): void {
-    if (this.transitionStarted) return;
-    if (value === true) this.hide = false;
-    this.show = value;
-    this.transitionStarted = true;
-    this.cdRef.detectChanges();
-    setTimeout(() => {
-      this.transitionStarted = false;
-      if (value === false) this.hide = true;
-      this.cdRef.detectChanges();
-    }, 300);
+  	if (this.transitionStarted) return;
+  	if (value === true) this.hide = false;
+  	this.show = value;
+  	this.transitionStarted = true;
+  	this.cdRef.detectChanges();
+  	setTimeout(() => {
+  		this.transitionStarted = false;
+  		if (value === false) this.hide = true;
+  		this.cdRef.detectChanges();
+  	}, 300);
   }
 }

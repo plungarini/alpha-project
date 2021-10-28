@@ -5,7 +5,7 @@ import { AdminNewsComponent } from './components/home/admin-news.component';
 const routes: Routes = [{ path: '', component: AdminNewsComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule]
 })
 export class AdminNewsRoutingModule { }

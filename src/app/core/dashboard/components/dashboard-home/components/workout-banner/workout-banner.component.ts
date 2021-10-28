@@ -7,10 +7,10 @@ import { UserWorkoutService } from 'src/app/shared/services/user-workout.service
 
 
 @Component({
-  selector: 'app-workout-banner',
-  templateUrl: './workout-banner.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-workout-banner',
+	templateUrl: './workout-banner.component.html',
+	styles: [],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkoutBannerComponent implements OnInit, OnDestroy {
 
@@ -24,22 +24,22 @@ export class WorkoutBannerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.authService.user$.pipe(
-      takeUntil(this.destroyed$)
-    ).subscribe(user => {
-      if (!user || !user.id) return;
-      this.userWeekService.isTodayCompleted(user.id).pipe(
-        takeUntil(this.destroyed$)
-      ).subscribe(isToday => {
-        this.workoutCompleted = isToday;
-        this.cdRef.detectChanges();
-      });
-    });
+  	this.authService.user$.pipe(
+  		takeUntil(this.destroyed$)
+  	).subscribe(user => {
+  		if (!user || !user.id) return;
+  		this.userWeekService.isTodayCompleted(user.id).pipe(
+  			takeUntil(this.destroyed$)
+  		).subscribe(isToday => {
+  			this.workoutCompleted = isToday;
+  			this.cdRef.detectChanges();
+  		});
+  	});
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
+  	this.destroyed$.next(true);
+  	this.destroyed$.complete();
   }
 
 }

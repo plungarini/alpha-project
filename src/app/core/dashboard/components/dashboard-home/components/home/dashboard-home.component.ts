@@ -7,9 +7,9 @@ import { AuthenticationService } from 'src/app/auth/services/authentication.serv
 
 
 @Component({
-  templateUrl: './dashboard-home.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	templateUrl: './dashboard-home.component.html',
+	styles: [],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardHomeComponent implements OnInit {
 
@@ -19,18 +19,18 @@ export class DashboardHomeComponent implements OnInit {
   constructor(private authService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.user$ = this.authService.fireUser$.pipe(
-      switchMap((fUser) => {
-        if (!fUser) return this.authService.user$;
-        return this.authService.user$.pipe(
-          map(user => {
-            if (!!user)
-              user.id = fUser.uid;
-            return user;
-          })
-        );
-      })
-    );
+  	this.user$ = this.authService.fireUser$.pipe(
+  		switchMap((fUser) => {
+  			if (!fUser) return this.authService.user$;
+  			return this.authService.user$.pipe(
+  				map(user => {
+  					if (user)
+  						user.id = fUser.uid;
+  					return user;
+  				})
+  			);
+  		})
+  	);
   }
 
 }

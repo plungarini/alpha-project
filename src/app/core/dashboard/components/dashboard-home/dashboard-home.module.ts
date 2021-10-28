@@ -10,16 +10,16 @@ import { VideoBannerComponent } from './components/video-banner/video-banner.com
 
 
 @NgModule({
-  declarations: [
-    DashboardHomeComponent,
-    WelcomeBannerComponent,
-    WorkoutBannerComponent,
-    VideoBannerComponent
-  ],
-  imports: [
-    CommonModule,
-    DashboardHomeRoutingModule,
-    SharedModule
-  ]
+	declarations: [
+		DashboardHomeComponent,
+		WelcomeBannerComponent,
+		WorkoutBannerComponent,
+		VideoBannerComponent
+	],
+	imports: [
+		CommonModule,
+		DashboardHomeRoutingModule,
+		SharedModule
+	]
 })
 export class DashboardHomeModule { }

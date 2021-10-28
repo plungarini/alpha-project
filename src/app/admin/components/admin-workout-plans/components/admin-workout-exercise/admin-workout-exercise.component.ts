@@ -2,10 +2,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-admin-workout-exercise',
-  templateUrl: './admin-workout-exercise.component.html',
-  styles: [` :host { display: block; } `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-admin-workout-exercise',
+	templateUrl: './admin-workout-exercise.component.html',
+	styles: [` :host { display: block; } `],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminWorkoutExerciseComponent implements OnInit {
 
@@ -21,7 +21,7 @@ export class AdminWorkoutExerciseComponent implements OnInit {
   }
 
   deleteExercise(): void {
-    this.onExerciseDeleted.emit();
+  	this.onExerciseDeleted.emit();
   }
 
 }

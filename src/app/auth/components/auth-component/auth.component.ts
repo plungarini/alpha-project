@@ -4,9 +4,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	templateUrl: './auth.component.html',
+	styleUrls: ['./auth.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthComponent implements OnInit, OnDestroy {
 
@@ -17,32 +17,32 @@ export class AuthComponent implements OnInit, OnDestroy {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    if (this.router.url.includes('/signup')) {
-      this.showLoginBanner = true;
-      this.showSignupBanner = false;
-    }
-    if (this.router.url.includes('/login')) {
-      this.showSignupBanner = true;
-      this.showLoginBanner = false;
-    }
+  	if (this.router.url.includes('/signup')) {
+  		this.showLoginBanner = true;
+  		this.showSignupBanner = false;
+  	}
+  	if (this.router.url.includes('/login')) {
+  		this.showSignupBanner = true;
+  		this.showLoginBanner = false;
+  	}
 
-    this.router.events
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(event => {
-        if (this.router.url.includes('/signup')) {
-          this.showLoginBanner = true;
-          this.showSignupBanner = false;
-        }
-        if (this.router.url.includes('/login')) {
-          this.showSignupBanner = true;
-          this.showLoginBanner = false;
-        }
-      });
+  	this.router.events
+  		.pipe(takeUntil(this.destroyed$))
+  		.subscribe(event => {
+  			if (this.router.url.includes('/signup')) {
+  				this.showLoginBanner = true;
+  				this.showSignupBanner = false;
+  			}
+  			if (this.router.url.includes('/login')) {
+  				this.showSignupBanner = true;
+  				this.showLoginBanner = false;
+  			}
+  		});
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
+  	this.destroyed$.next(true);
+  	this.destroyed$.complete();
   }
 
 }

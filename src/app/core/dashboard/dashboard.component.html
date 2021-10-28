@@ -5,7 +5,7 @@
         [class.w-16]="!isSidebarExpanded"
         class="flex-shrink-0 flex-grow sm:flex-grow-0 hidden md:block z-10 transition-all duration-200"
     ></app-global-sidebar>
-    <div class="dashboard-content w-full flex-auto z-0">
+    <div class="dashboard-content w-full flex-1 max-w-full">
         <app-dashboard-content [dashboardPageTitle]="childPageTitle" (onExpand)="sidebarExpand($event)">
             <ngx-loading-bar [fixed]="false" ref="router" [includeSpinner]="false"></ngx-loading-bar>
             <router-outlet (activate)="routeChanged($event)"></router-outlet>

@@ -11,9 +11,9 @@ import { USER_NAV } from 'src/app/shared/typescript/navigation';
 
 
 @Component({
-  selector: 'app-dashboard-content',
-  templateUrl: './dashboard-content.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-dashboard-content',
+	templateUrl: './dashboard-content.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardContentComponent implements OnInit, OnDestroy {
 
@@ -29,21 +29,21 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
   isMobileMenuOpened = false;
   options: DropdownOptions[] = [
-    {
-      type: 'group',
-      childrens: [
-        {
-          name: 'Il mio account',
-          url: '/dashboard/profile',
-        },
-      ]
-    },
-    {
-      name: 'Esci',
-      icon: IconNamesEnum.Power,
-      value: 'logout',
-      action: true
-    }
+  	{
+  		type: 'group',
+  		childrens: [
+  			{
+  				name: 'Il mio account',
+  				url: '/dashboard/profile',
+  			},
+  		]
+  	},
+  	{
+  		name: 'Esci',
+  		icon: IconNamesEnum.Power,
+  		value: 'logout',
+  		action: true
+  	}
   ];
   isHomeSelected: boolean;
   isWorkoutSelected: boolean;
@@ -59,68 +59,68 @@ export class DashboardContentComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.userSubscription = this.auth.user$
-      .subscribe(user => {
-        if (!user) return;
-        this.user = {
-          img: user.details?.imgUrl || '',
-          fullName: user.name || '',
-          email: user.email || '',
-          color: user.details?.imgColorBg || 'indigo'
-        };
-        this.cdRef.detectChanges();
-      });
+  	this.userSubscription = this.auth.user$
+  		.subscribe(user => {
+  			if (!user) return;
+  			this.user = {
+  				img: user.details?.imgUrl || '',
+  				fullName: user.name || '',
+  				email: user.email || '',
+  				color: user.details?.imgColorBg || 'indigo'
+  			};
+  			this.cdRef.detectChanges();
+  		});
 
-    this.checkActiveUrl();
+  	this.checkActiveUrl();
 
-    this.router.events
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => {
-        this.checkActiveUrl();
-      });
+  	this.router.events
+  		.pipe(takeUntil(this.destroyed))
+  		.subscribe(() => {
+  			this.checkActiveUrl();
+  		});
   }
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+  	this.userSubscription.unsubscribe();
   }
 
   notificationMenuToggled(open: boolean): void {
-    if (open) this.readAllNotifications = !this.readAllNotifications;
+  	if (open) this.readAllNotifications = !this.readAllNotifications;
   }
 
   updateToRead(value: boolean | undefined): void {
-    if (value === undefined) return;
-    this.hasToRead = value;
-    this.cdRef.detectChanges();
+  	if (value === undefined) return;
+  	this.hasToRead = value;
+  	this.cdRef.detectChanges();
   }
 
   toggleSidebar(): void {
-    this.isExpanded = !this.isExpanded;
-    this.onExpand.emit(this.isExpanded);
+  	this.isExpanded = !this.isExpanded;
+  	this.onExpand.emit(this.isExpanded);
   }
 
   optClicked(option: DropdownOptions): void {
-    if (option.value === 'logout') this.logout();
+  	if (option.value === 'logout') this.logout();
   }
 
   private logout(): void {
-    this.auth.signOut();
+  	this.auth.signOut();
   }
 
   private checkActiveUrl(): void {
-    if (this.router.url === '/dashboard') {
-      this.isHomeSelected = true;
-    } else if (this.router.url.includes('/workout')) {
-      this.isWorkoutSelected = true;
-    }
+  	if (this.router.url === '/dashboard') {
+  		this.isHomeSelected = true;
+  	} else if (this.router.url.includes('/workout')) {
+  		this.isWorkoutSelected = true;
+  	}
 
-    if (this.router.url !== '/dashboard') {
-      this.isHomeSelected = false;
-    }
+  	if (this.router.url !== '/dashboard') {
+  		this.isHomeSelected = false;
+  	}
 
-    if (!this.router.url.includes('/workout')) {
-      this.isWorkoutSelected = false;
-    }
+  	if (!this.router.url.includes('/workout')) {
+  		this.isWorkoutSelected = false;
+  	}
   }
 
 }

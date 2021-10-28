@@ -8,12 +8,12 @@ import { DashboardVideoRoutingModule } from './dashboard-video-routing.module';
 
 
 @NgModule({
-  declarations: [DashboardVideoComponent],
-  imports: [
-    CommonModule,
-    DashboardVideoRoutingModule,
-    HttpClientModule,
-    SharedModule
-  ]
+	declarations: [DashboardVideoComponent],
+	imports: [
+		CommonModule,
+		DashboardVideoRoutingModule,
+		HttpClientModule,
+		SharedModule
+	]
 })
 export class DashboardVideoModule { }

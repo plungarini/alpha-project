@@ -10,12 +10,12 @@ import { AdminNewsFormComponent } from './components/admin-news-form/admin-news-
 
 
 @NgModule({
-  declarations: [AdminNewsComponent, AdminNewsUsersComponent, AdminNewsFormComponent],
-  imports: [
-    CommonModule,
-    AdminNewsRoutingModule,
-    SharedModule,
-    ReactiveFormsModule
-  ]
+	declarations: [AdminNewsComponent, AdminNewsUsersComponent, AdminNewsFormComponent],
+	imports: [
+		CommonModule,
+		AdminNewsRoutingModule,
+		SharedModule,
+		ReactiveFormsModule
+	]
 })
 export class AdminNewsModule { }

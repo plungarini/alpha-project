@@ -5,10 +5,10 @@ import { CoreRoutingModule } from './core-routing.module';
 
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    CoreRoutingModule,
-  ],
+	declarations: [],
+	imports: [
+		CommonModule,
+		CoreRoutingModule,
+	],
 })
 export class CoreModule { }

@@ -4,10 +4,10 @@ import { WorkoutWeekDay } from 'src/app/shared/models/workout-week.model';
 
 
 @Component({
-  selector: 'app-workout-day-card',
-  templateUrl: './workout-day-card.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-workout-day-card',
+	templateUrl: './workout-day-card.component.html',
+	styles: [],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkoutDayCardComponent implements OnInit {
 
@@ -15,7 +15,7 @@ export class WorkoutDayCardComponent implements OnInit {
   @Output() onDaySelected = new EventEmitter();
 
 	@Input('day') set setDay(value: WorkoutWeekDay | undefined) {
-    if (value) this.day = value;
+  	if (value) this.day = value;
   }
   @Input() more = false;
   @Input() rest = false;
@@ -28,7 +28,7 @@ export class WorkoutDayCardComponent implements OnInit {
   }
 
   selectDay(): void {
-    this.onDaySelected.emit();
+  	this.onDaySelected.emit();
   }
 
 }

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styles: [` :host { display: block; } `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-modal',
+	templateUrl: './modal.component.html',
+	styles: [` :host { display: block; } `],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalComponent implements OnInit {
 
@@ -14,10 +14,10 @@ export class ModalComponent implements OnInit {
   @Input() actions = false;
   @Input() body = false;
   @Input('show') set showModal(value: boolean) {
-    if (value !== undefined && value !== null) {
-      this.toggleModal(value);
-    }
-  };
+  	if (value !== undefined && value !== null) {
+  		this.toggleModal(value);
+  	}
+  }
 
   transitionStarted = false;
   show = false;
@@ -29,16 +29,16 @@ export class ModalComponent implements OnInit {
   }
 
   toggleModal(value: boolean): void {
-    if (this.transitionStarted) return;
-    if (value === true) this.hide = false;
-    this.show = value;
-    this.transitionStarted = true;
-    this.cdRef.detectChanges();
-    setTimeout(() => {
-      this.transitionStarted = false;
-      if (value === false) this.hide = true;
-      this.cdRef.detectChanges();
-    }, 300);
+  	if (this.transitionStarted) return;
+  	if (value === true) this.hide = false;
+  	this.show = value;
+  	this.transitionStarted = true;
+  	this.cdRef.detectChanges();
+  	setTimeout(() => {
+  		this.transitionStarted = false;
+  		if (value === false) this.hide = true;
+  		this.cdRef.detectChanges();
+  	}, 300);
   }
 
 }

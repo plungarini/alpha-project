@@ -6,10 +6,10 @@ import { AdminWorkoutSingleExercise, WorkoutWeek } from 'src/app/shared/models/w
 import { WorkoutWeeksService } from 'src/app/shared/services/workout-weeks.service';
 
 @Component({
-  selector: 'app-admin-workout-plans',
-  templateUrl: './admin-workout-plans.component.html',
-  styles: [` :host { display: block; } `],
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-admin-workout-plans',
+	templateUrl: './admin-workout-plans.component.html',
+	styles: [` :host { display: block; } `],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminWorkoutPlansComponent implements OnInit, OnDestroy {
 
@@ -27,27 +27,27 @@ export class AdminWorkoutPlansComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.weeksService.getAll()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(workoutWeeks => {
-        this.weeks = workoutWeeks;
-        this.cdRef.detectChanges();
-      });
-    this.exercisesService.getAll()
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(exercises => {
-        this.exercises = exercises;
-        this.cdRef.detectChanges();
-      });
+  	this.weeksService.getAll()
+  		.pipe(takeUntil(this.destroyed$))
+  		.subscribe(workoutWeeks => {
+  			this.weeks = workoutWeeks;
+  			this.cdRef.detectChanges();
+  		});
+  	this.exercisesService.getAll()
+  		.pipe(takeUntil(this.destroyed$))
+  		.subscribe(exercises => {
+  			this.exercises = exercises;
+  			this.cdRef.detectChanges();
+  		});
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
+  	this.destroyed$.next(true);
+  	this.destroyed$.complete();
   }
 
   deleteSingleExercise(exId: string): void {
-    this.exercisesService.delete(exId);
+  	this.exercisesService.delete(exId);
   }
 
 }

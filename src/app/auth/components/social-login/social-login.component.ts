@@ -3,22 +3,22 @@ import { AuthenticationService } from '../../services/authentication.service';
 
 
 @Component({
-  selector: 'app-social-login',
-  templateUrl: './social-login.component.html',
+	selector: 'app-social-login',
+	templateUrl: './social-login.component.html',
 })
 export class SocialLoginComponent {
 
-  constructor(
+	constructor(
     private db: AuthenticationService
-  ) {
-  }
+	) {
+	}
 
-  googleLogin(): void {
-    this.db.googleLogin();
-  }
+	googleLogin(): void {
+		this.db.googleLogin();
+	}
 
-  facebookLogin(): void {
-    this.db.facebookLogin();
-  }
+	facebookLogin(): void {
+		this.db.facebookLogin();
+	}
 
 }

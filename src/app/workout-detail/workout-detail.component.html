@@ -1,0 +1,183 @@
+<div *ngIf="hide && !transitionStarted" class="fixed z-50 w-full top-0 left-0 overflow-hidden block min-h-screen">
+	<div
+		[ngClass]="{
+			'show-workout-modal': show,
+			'hide-workout-modal': !show
+		}"
+		class="transition-all ease-in-out duration-700 absolute w-full h-full top-0 left-0 bg-black-900 bg-opacity-60 show-workout-modal"
+		style="backdrop-filter: blur(5px) !important;"
+	></div>
+
+	<div
+		[ngClass]="{
+			'show-workout-modal': show,
+			'hide-workout-modal': !show
+		}"
+		class="panel bg-black-800 w-full max-w-full pb-16 md:pb-0 rounded-t-lg md:rounded-t-md md:rounded-md show-workout-modal md:transform md:-translate-x-1/2 md:-translate-y-1/2 origin-bottom md:max-w-lg h-max absolute bottom-0 md:top-1/2 md:bottom-auto md:left-1/2"
+		role="dialog" aria-modal="true"
+	>
+		<app-headbar (closeEvent)="closeModal()"></app-headbar>
+		<div class="relative overflow-y-auto h-full" style="max-height: 75vh;">
+			<app-header></app-header>
+			<div class="relative px-4 md:px-6 pt-6 pb-32 md:pb-6">
+				<div class="absolute z-20 top-0 left-0 w-full h-full bg-black-900 bg-opacity-80 opacity-0 transition-opacity duration-500 ease-in-out pointer-events-none" style="backdrop-filter: blur(2px);"></div>
+				<div class="mb-2">
+					<p class="inline-block text-gray-300 text-sm">
+						Round 1/1 
+					</p>
+				</div>
+				<div class="shadow-xl">
+					<div class="relative overflow-hidden flex flex-row items-center border-t border-gray-500 transition-all duration-500 ease-in-out h-14 bg-black-800 cursor-pointer hover:bg-gray-700 rounded-t">
+						<div class="flex-grow-0 flex-shrink-0 flex justify-center items-center w-14 h-14 mr-5 bg-white text-gray-700">
+							<app-path-svg width="1.5rem" height="1.5rem">
+								<div class="flex-1 w-max">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" enable-background="new 0 0 32 32" viewBox="0 0 32 32" fill="currentColor">
+										<path d="M 15.998047 0 A 3 3 0 0 0 12.998047 3 A 3 3 0 0 0 15.998047 6 A 3 3 0 0 0 18.998047 3 A 3 3 0 0 0 15.998047 0 z M 12.998047 7 C 12.990647 7 12.983883 7.0037262 12.976562 7.0039062 C 12.585328 6.9981662 12.192627 7.1408691 11.894531 7.4394531 L 7.4179688 11.916016 C 6.8320312 12.501953 6.8320311 13.45166 7.4179688 14.037109 L 11.943359 18.560547 C 11.959659 18.576847 12 18.582276 12 18.597656 L 12 20.117188 L 9.1816406 25.28125 C 9.1142576 25.404785 9.0639648 25.536621 9.0332031 25.673828 L 8.0332031 30.173828 C 7.8535156 30.982422 8.362793 31.785157 9.171875 31.964844 C 9.28125 31.989254 9.3901368 32 9.4980469 32 C 10.185547 32 10.805662 31.523438 10.960938 30.824219 L 11.916016 26.53125 L 13.849609 22.984375 C 13.898982 22.988044 13.947754 23 13.998047 23 L 17.998047 23 C 18.048337 23 18.095151 22.988035 18.144531 22.984375 L 20.078125 26.53125 L 21.033203 30.824219 C 21.188477 31.523438 21.808594 32 22.496094 32 C 22.604004 32 22.712891 31.989254 22.822266 31.964844 C 23.631348 31.785157 24.140626 30.982422 23.960938 30.173828 L 22.960938 25.673828 C 22.930177 25.536621 22.883784 25.404785 22.816406 25.28125 L 20 20.117188 L 20 18.599609 C 20 18.582819 20.040714 18.578427 20.058594 18.560547 L 24.582031 14.037109 C 25.167969 13.45166 25.167969 12.501954 24.582031 11.916016 L 20.105469 7.4394531 C 19.806214 7.1401977 19.413452 6.9974976 19.021484 7.0039062 C 19.013305 7.0037231 19.006286 7 18.998047 7 L 12.998047 7 z M 20 11.574219 L 21.402344 12.976562 L 20 14.378906 L 20 11.574219 z M 12 11.580078 L 12 14.373047 L 10.603516 12.976562 L 12 11.580078 z "></path>
+									</svg>
+								</div>
+							</app-path-svg>
+						</div>
+						<div class="flex flex-row w-full items-center flex-nowrap pr-4">
+							<p class="text-gray-300 font-bold text-xs md:text-sm"> x15 </p>
+							<p class="text-gray-300 text-xs md:text-sm w-full max-w-full px-3 line-clamp-3 md:line-clamp-2">
+								jump squat 
+							</p>
+							<i-bs width="1rem" height="1rem">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
+								</svg>
+							</i-bs>
+						</div>
+					</div>
+					<div class="flex relative z-30 h-max max-h-0 transform -translate-y-6 opacity-0 transition-all duration-500 ease-in-out bg-black-800 rounded-b pointer-events-none">
+						<div class="flex flex-row flex-1 w-full h-full justify-evenly items-center mt-1 pt-3 pb-4">
+							<button class="flex-1 flex items-center justify-center h-full text-gray-300 hover:text-gray-100 focus:outline-none active:outline-none focus:text-indigo-400">
+								<i-bs name="camera-video" width="1.5rem" height="1.5rem">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+										<path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175l3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"></path>
+									</svg>
+								</i-bs>
+								<span class="ml-4">Video</span>
+							</button>
+						</div>
+					</div>
+					<div class="relative overflow-hidden flex flex-row items-center border-t border-gray-500 transition-all duration-500 ease-in-out h-14 bg-black-800 cursor-pointer hover:bg-gray-700">
+						<div class="flex-grow-0 flex-shrink-0 flex justify-center items-center w-14 h-14 mr-5 bg-white text-gray-700">
+							<app-path-svg width="1.5rem" height="1.5rem">
+								<div class="flex-1 w-max">
+									<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 66 66" viewBox="0 0 66 66" width="1.5rem" height="1.5rem" fill="currentColor">
+										<path d="M17 2.6c-.4.1-.8.4-1 .7h3.2C18.6 2.7 17.8 2.4 17 2.6zM50 6.3h-4.2c-2.7 7.7-5.5 12.3-7.1 14.4-3.9-2-7.8-2.2-11.5-.1-1.6-2.1-4.3-6.6-7-14.3H16c3.6 11.1 7.7 16.5 9.1 18.1l1.6 21.1c-.1.6-1.3 8.3-2.5 15.9-.3 1.6.9 3.2 2.5 3.4 1.6.3 3.2-.9 3.4-2.5 2.1-13.5 2.5-15.4 2.5-16.2h.6c0 .5.4 2.7 2.5 16.2.3 1.7 1.8 2.8 3.4 2.5 1.6-.3 2.8-1.8 2.5-3.4-.5-3.5-2.4-15.4-2.5-15.9l1.6-21.2C42.3 22.7 46.4 17.3 50 6.3zM49 2.6c-.8-.3-1.7.1-2.2.7H50C49.8 3 49.4 2.8 49 2.6z"></path>
+										<circle cx="33" cy="13.5" r="5.1"></circle>
+										<path d="M61.5,4.3h-1.4V2h-1.9v2.3h-0.3V1.6h-1.9v2.8h-0.3V1h-1.9v3.3H12.4V1h-1.9v3.3h-0.3V1.6H8.2v2.8H7.8V2H5.9v2.3H4.5
+											C4.2,4.3,4,4.6,4,4.8c0,0.3,0.2,0.5,0.5,0.5h1.4v2.3h1.9V5.3h0.3v2.8h1.9V5.3h0.3v3.3h1.9V5.3h41.2v3.3h1.9V5.3h0.3v2.8h1.9V5.3
+											h0.3v2.3h1.9V5.3h1.4c0.3,0,0.5-0.2,0.5-0.5C62,4.6,61.8,4.3,61.5,4.3z"></path>
+									</svg>
+								</div>
+							</app-path-svg>
+						</div>
+						<div class="flex flex-row w-full items-center flex-nowrap pr-4">
+							<p class="text-gray-300 font-bold text-xs md:text-sm"> x10 </p>
+							<p class="text-gray-300 text-xs md:text-sm w-full max-w-full px-3 line-clamp-3 md:line-clamp-2">
+								thruster  
+							</p>
+							<i-bs width="1rem" height="1rem">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
+								</svg>
+							</i-bs>
+						</div>
+					</div>
+					<div class="flex relative z-30 h-max max-h-0 transform -translate-y-6 opacity-0 transition-all duration-500 ease-in-out bg-black-800 rounded-b pointer-events-none">
+						<div class="flex flex-row flex-1 w-full h-full justify-evenly items-center mt-1 pt-3 pb-4">
+							<button class="flex-1 flex items-center justify-center h-full text-gray-300 hover:text-gray-100 focus:outline-none active:outline-none focus:text-indigo-400">
+								<i-bs name="camera-video" width="1.5rem" height="1.5rem">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+										<path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175l3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"></path>
+									</svg>
+								</i-bs>
+								<span class="ml-4">Video</span>
+							</button>
+						</div>
+					</div>
+					<div class="relative overflow-hidden flex flex-row items-center border-t border-gray-500 transition-all duration-500 ease-in-out h-14 bg-black-800 cursor-pointer hover:bg-gray-700">
+						<div class="flex-grow-0 flex-shrink-0 flex justify-center items-center w-14 h-14 mr-5 bg-white text-gray-700">
+							<app-path-svg width="1.5rem" height="1.5rem">
+								<div class="flex-1 w-max">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" enable-background="new 0 0 32 32" viewBox="0 0 32 32" fill="currentColor">
+										<path d="M 6.5 7.375 C 5.1193237 7.375 4 8.4317627 4 9.8125 C 4 11.193176 5.1193237 12.40625 6.5 12.40625 C 7.5245972 12.40625 8.4029541 12 8.7890625 11 L 10.542969 11 L 9.0566406 12.328125 C 8.8952636 12.441467 8.7429199 12.504944 8.6074219 12.660156 C 7.6982422 13.699219 7.8041992 15.249023 8.84375 16.158203 L 16.855469 23.148438 C 17.32959 23.563477 17.916016 23.757812 18.5 23.757812 C 18.90332 23.757812 19.299133 23.644653 19.662109 23.453125 C 19.68927 23.441284 19.711731 23.421753 19.738281 23.408203 C 19.888123 23.322144 20.029785 23.218689 20.162109 23.099609 C 20.16394 23.097656 20.166199 23.095703 20.167969 23.09375 L 20.173828 23.085938 C 20.243225 23.022583 20.319519 22.968933 20.382812 22.896484 C 20.425354 22.847839 20.454041 22.791138 20.492188 22.740234 L 23.052734 19.955078 L 26.423828 23.451172 C 26.697266 23.724609 27.050354 24 27.408203 24 L 18.5 24 L 2.5 24 C 2.2236328 24 2 24.223633 2 24.5 C 2 24.776367 2.2236328 25 2.5 25 L 29.5 25 C 29.776367 25 30 24.776367 30 24.5 C 30 24.223633 29.776367 24 29.5 24 L 27.558594 24 C 27.916443 24 28.271484 23.722656 28.544922 23.449219 C 29.130859 22.863281 29.130859 21.851563 28.544922 21.265625 L 24.068359 16.757812 C 23.779785 16.46875 23.409668 16.302734 22.974609 16.302734 C 22.565918 16.311523 22.179199 16.479492 21.902344 16.78125 L 19.796875 19.068359 L 12.132812 12.363281 C 12.063599 12.302673 11.987732 12.258667 11.914062 12.207031 L 13.693359 10.464844 C 13.983887 10.180664 14.07373 9.875 13.919922 9.4980469 C 13.766602 9.1220703 13.400391 9 12.994141 9 L 8.7890625 9 C 8.4030152 8 7.5246582 7.375 6.5 7.375 z "></path>
+									</svg>
+								</div>
+							</app-path-svg>
+						</div>
+						<div class="flex flex-row w-full items-center flex-nowrap pr-4">
+							<p class="text-gray-300 font-bold text-xs md:text-sm"> 1min </p>
+							<p class="text-gray-300 text-xs md:text-sm w-full max-w-full px-3 line-clamp-3 md:line-clamp-2">
+								sit up 
+							</p>
+							<i-bs width="1rem" height="1rem">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
+								</svg>
+							</i-bs>
+						</div>
+					</div>
+					<div class="flex relative z-30 h-max max-h-0 transform -translate-y-6 opacity-0 transition-all duration-500 ease-in-out bg-black-800 rounded-b pointer-events-none">
+						<div class="flex flex-row flex-1 w-full h-full justify-evenly items-center mt-1 pt-3 pb-4">
+							<button class="flex-1 flex items-center justify-center h-full text-gray-300 hover:text-gray-100 focus:outline-none active:outline-none focus:text-indigo-400">
+								<i-bs name="camera-video" width="1.5rem" height="1.5rem">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+										<path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175l3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"></path>
+									</svg>
+								</i-bs>
+								<span class="ml-4">Video</span>
+							</button>
+						</div>
+					</div>
+					<div class="relative overflow-hidden flex flex-row items-center border-t border-gray-500 transition-all duration-500 ease-in-out h-14 bg-black-800 cursor-pointer hover:bg-gray-700 border-b rounded-b">
+						<div class="flex-grow-0 flex-shrink-0 flex justify-center items-center w-14 h-14 mr-5 bg-white text-gray-700">
+							<app-path-svg width="1.5rem" height="1.5rem">
+								<div class="flex-1 w-max">
+									<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 66 66" viewBox="0 0 66 66" width="1.5rem" height="1.5rem" fill="currentColor">
+										<path d="M32.5,32.4c-0.5,0.1-0.8,0.3-1.1,0.6c1.1,0.2,2.2,0.4,3.3,0.6C34.3,32.8,33.4,32.2,32.5,32.4z"></path>
+										<path d="M33.5,32.5c-0.9-0.2-1.8,0.3-2.1,1.1c1-0.2,2.1-0.4,3.1-0.6C34.3,32.7,33.9,32.5,33.5,32.5z"></path>
+										<circle cx="33.2" cy="9.5" r="5.8"></circle>
+										<path d="M47.8,5.6C46.4,5.3,45,5,43.6,4.7l1.4,7.9l-4.9,5.4c-4.9-2.7-9.7-2.9-14.3,0L21,12.7l1.4-8.1c-1.4,0.2-2.8,0.5-4.2,0.8
+											L16.9,13c-0.1,0.6,0.1,1.2,0.5,1.7l6.9,7.7l1.8,22.5c0,0.3,0.2,0.5,0.5,0.5L25.2,61c-0.1,1.7,1.1,3.1,2.7,3.2
+											c1.7,0.1,3.1-1.1,3.2-2.7l1.4-16.1h1.1l1.4,16.1c0.1,1.7,1.6,2.9,3.2,2.7c1.7-0.1,2.9-1.6,2.7-3.2l-1.4-15.6
+											c0.3-0.1,0.5-0.3,0.5-0.5l1.9-22.9l6.5-7.3c0.4-0.4,0.6-1.1,0.5-1.7L47.8,5.6z"></path>
+										<path d="M60.1,4.1l0.2-0.5l-2.1-0.6l0.2-0.6l-2.1-0.6l-1.1,3.9C40,0.6,25.2,0.5,10.8,5.5L9.8,1.7L7.7,2.3l0.2,0.6L5.7,3.5l0.2,0.5
+											L3.7,4.7l1.8,6.4l2.1-0.6l0.1,0.5l2.1-0.6l0.2,0.6l2.1-0.6l-1.1-4c14.2-4.9,28.8-4.9,43.7,0.1l-1.1,3.9l2.1,0.6l0.2-0.6l2.1,0.6
+											l0.1-0.5l2.1,0.6l1.8-6.4L60.1,4.1z"></path>
+									</svg>
+								</div>
+							</app-path-svg>
+						</div>
+						<div class="flex flex-row w-full items-center flex-nowrap pr-4">
+							<p class="text-gray-300 font-bold text-xs md:text-sm"> x10 </p>
+							<p class="text-gray-300 text-xs md:text-sm w-full max-w-full px-3 line-clamp-3 md:line-clamp-2">
+								shoulder press 
+							</p>
+							<i-bs width="1rem" height="1rem">
+								<svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
+								</svg>
+							</i-bs>
+						</div>
+					</div>
+					<div class="flex relative z-30 h-max max-h-0 transform -translate-y-6 opacity-0 transition-all duration-500 ease-in-out bg-black-800 rounded-b pointer-events-none">
+						<div class="flex flex-row flex-1 w-full h-full justify-evenly items-center mt-1 pt-3 pb-4">
+							<button class="flex-1 flex items-center justify-center h-full text-gray-300 hover:text-gray-100 focus:outline-none active:outline-none focus:text-indigo-400">
+								<i-bs name="camera-video" width="1.5rem" height="1.5rem">
+									<svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
+										<path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2V5zm11.5 5.175l3.5 1.556V4.269l-3.5 1.556v4.35zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H2z"></path>
+									</svg>
+								</i-bs>
+								<span class="ml-4">Video</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

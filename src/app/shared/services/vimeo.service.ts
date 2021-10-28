@@ -28,7 +28,7 @@ export interface VimeoVideo {
 }
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class VimeoService {
 
@@ -39,13 +39,13 @@ export class VimeoService {
   }
 
   async getVideo(id: number): Promise<VimeoVideo | Error> {
-    if (!id) return new Error('Video id is not defined.');
-    const reqOptions = {
-      method: 'GET',
-      path: `/videos/${id}`,
-    };
-    const { data } = (await this.vimeoReq(reqOptions) as any) as VimeoReq;
-    if (data.err) return new Error(data.err);
-    return data.body as VimeoVideo;
+  	if (!id) return new Error('Video id is not defined.');
+  	const reqOptions = {
+  		method: 'GET',
+  		path: `/videos/${id}`,
+  	};
+  	const { data } = (await this.vimeoReq(reqOptions) as any) as VimeoReq;
+  	if (data.err) return new Error(data.err);
+  	return data.body as VimeoVideo;
   }
 }

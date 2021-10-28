@@ -16,33 +16,33 @@ import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    SharedModule,
+	declarations: [
+		AppComponent
+	],
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		AppRoutingModule,
+		SharedModule,
 
-    // AngularFire
+		// AngularFire
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule/* .enablePersistence() */,
 		AngularFireStorageModule,
-    AngularFireAnalyticsModule,
+		AngularFireAnalyticsModule,
 		AngularFireAuthModule,
-  ],
-  providers: [
-    { provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } },
-    {
-      provide: CONFIG,
-      useValue: {
-        send_page_view: true,
-        DEBUG_MODE: false
-      }
-    },
-    UserTrackingService
-  ],
-  bootstrap: [AppComponent]
+	],
+	providers: [
+		{ provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } },
+		{
+			provide: CONFIG,
+			useValue: {
+				send_page_view: true,
+				DEBUG_MODE: false
+			}
+		},
+		UserTrackingService
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

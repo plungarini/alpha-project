@@ -13,22 +13,22 @@ import { AdminComponent } from './components/dashboard/admin.component';
 
 
 @NgModule({
-  declarations: [
-    AdminComponent,
-    AdminSidebarComponent,
-    AdminHomeComponent,
-    AdminVideoComponent,
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    AdminRoutingModule,
-    ReactiveFormsModule,
-    LoadingBarRouterModule,
-    LoadingBarModule,
-  ],
-  providers: [
-    { provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } }
-  ]
+	declarations: [
+		AdminComponent,
+		AdminSidebarComponent,
+		AdminHomeComponent,
+		AdminVideoComponent,
+	],
+	imports: [
+		CommonModule,
+		SharedModule,
+		AdminRoutingModule,
+		ReactiveFormsModule,
+		LoadingBarRouterModule,
+		LoadingBarModule,
+	],
+	providers: [
+		{ provide: LOADING_BAR_CONFIG, useValue: { latencyTreshold: 300 } }
+	]
 })
 export class AdminModule { }

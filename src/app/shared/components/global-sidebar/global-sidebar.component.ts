@@ -6,9 +6,9 @@ import { USER_NAV } from 'src/app/shared/typescript/navigation';
 
 
 @Component({
-  selector: 'app-global-sidebar',
-  templateUrl: './global-sidebar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+	selector: 'app-global-sidebar',
+	templateUrl: './global-sidebar.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GlobalSidebarComponent implements OnInit, OnDestroy {
 
@@ -23,34 +23,34 @@ export class GlobalSidebarComponent implements OnInit, OnDestroy {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.checkActiveUrl();
+  	this.checkActiveUrl();
 
-    this.router.events
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(data => {
-        this.checkActiveUrl();
-      });
+  	this.router.events
+  		.pipe(takeUntil(this.destroyed$))
+  		.subscribe(data => {
+  			this.checkActiveUrl();
+  		});
   }
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
+  	this.destroyed$.next(true);
+  	this.destroyed$.complete();
   }
 
   private checkActiveUrl(): void {
-    if (this.router.url === '/dashboard') {
-      this.isHomeSelected = true;
-    } else if (this.router.url.includes('/workout')) {
-      this.isWorkoutSelected = true;
-    }
+  	if (this.router.url === '/dashboard') {
+  		this.isHomeSelected = true;
+  	} else if (this.router.url.includes('/workout')) {
+  		this.isWorkoutSelected = true;
+  	}
 
-    if (this.router.url !== '/dashboard') {
-      this.isHomeSelected = false;
-    }
+  	if (this.router.url !== '/dashboard') {
+  		this.isHomeSelected = false;
+  	}
 
-    if (!this.router.url.includes('/workout')) {
-      this.isWorkoutSelected = false;
-    }
+  	if (!this.router.url.includes('/workout')) {
+  		this.isWorkoutSelected = false;
+  	}
   }
 
 }
