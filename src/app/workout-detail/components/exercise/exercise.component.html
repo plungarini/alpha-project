@@ -1,0 +1,80 @@
+<div
+	(click)="toggleDetails()"
+	[ngClass]="{
+		'rounded-t': first && !detailsOpen,
+		'rounded-b border-b': last  && !detailsOpen,
+		'bg-black-800':  !detailsOpen,
+		'rounded bg-gray-700 border border-l-0':  detailsOpen,
+		'z-50': !hide || detailsOpen
+	}"
+	*ngIf="ex && !ex.isTime; else isTime"
+	class="relative overflow-hidden flex flex-row items-center border-t border-r border-gray-500 transition-all duration-500 ease-in-out h-14 bg-black-800 cursor-pointer hover:bg-gray-700">
+	
+	<div class="flex-grow-0 flex-shrink-0 flex justify-center items-center w-14 h-14 mr-5 bg-white text-gray-700">
+		<app-path-svg class="mx-auto" width="1.5rem" height="1.5rem" [path]="ex.iconSrc || fallbackIconLink"></app-path-svg>
+	</div>
+	<div class="flex flex-row w-full items-center flex-nowrap pr-4">
+		<p *ngIf="ex.completed" class="p-1 mr-3 bg-green-400 rounded-full h-min w-min"></p>
+		<p *ngIf="getTime() || ex.quantity" class="text-gray-300 font-semibold text-xs md:text-sm">
+			{{getTime() ? getTime() : 'x' + ex.quantity}}
+		</p>
+		<p class="text-gray-300 text-xs md:text-sm w-full max-w-full px-3 line-clamp-3 md:line-clamp-2">
+			{{sanitizeTitle(ex.title)}}
+			<span *ngIf="ex.note" class="block text-gray-400 text-xs w-full max-w-full line-clamp-1 md:line-clamp-1">{{ex.note}}</span>
+		</p>
+		<i-bs
+			*ngIf="!readOnly || ex.videoLink"
+			[name]="detailsOpen ? 'chevron-up' : 'chevron-down'" width="1rem" height="1rem"
+		></i-bs>
+	</div>
+
+</div>
+
+<ng-template #isTime>
+	<div
+		[ngClass]="{
+			'rounded-t': first,
+			'rounded-b border-b': last
+		}"
+		class="relative overflow-hidden flex flex-row items-center border-t border-r border-l border-gray-500 transition-all duration-500 bg-black-700 border-b rounded-b"
+	>
+		<div class="flex flex-row w-full items-center justify-between flex-nowrap px-4 py-3">
+			<p class="text-gray-300 text-xs md:text-sm flex flex-row items-center w-full max-w-full">
+				<span class="inline-block w-min whitespace-nowrap max-w-full line-clamp-1 md:line-clamp-1">
+					{{sanitizeTitle(ex.title)}}
+				</span>
+				<span *ngIf="ex.note" class="inline-block mx-3 text-gray-400 text-xs w-min whitespace-nowrap max-w-full line-clamp-1 md:line-clamp-1">
+					{{ex.note}}
+				</span>
+			</p>
+			<p class="text-gray-300 text-xs md:text-sm font-bold">{{getTime()}}</p>
+		</div>
+	</div>
+</ng-template>
+
+
+<div
+	[ngClass]="{
+		'max-h-96 -translate-y-0 opacity-100 -mt-1': detailsOpen,
+		'max-h-0 -translate-y-6 opacity-0 pointer-events-none': !detailsOpen
+	}"
+	class="flex relative z-30 h-max transform transition-all duration-500 ease-in-out bg-black-800 rounded-b opacity-0 max-h-0 -translate-y-0 pointer-events-none"
+>
+	<div class="flex flex-row flex-1 w-full h-full justify-evenly items-center mt-2 pt-3 pb-4">
+		<ng-container *ngIf="ex.videoLink">
+			<button (click)="showVimeo.emit({ show: true, url: ex.videoLink })" class="flex-1 flex items-center justify-center h-full text-gray-300 hover:text-gray-100 focus:outline-none active:outline-none focus:text-indigo-400">
+				<i-bs name="camera-video" width="1.5rem" height="1.5rem"></i-bs>
+			</button>
+			<div *ngIf="!readOnly" class="border-r border-black-500 text-transparent h-full">.</div>
+		</ng-container>
+		<div *ngIf="!readOnly" class="flex-1 flex items-center justify-center h-full">
+			<button
+				[ngClass]="{
+					'success': ex.completed,
+					'primary': !ex.completed
+				}"
+				(click)="complete()"
+				class="btn w-min py-1.5 text-xs sm:text-sm">{{ex.completed ? 'Completato' : 'Completa'}}</button>
+		</div>
+	</div>
+</div>

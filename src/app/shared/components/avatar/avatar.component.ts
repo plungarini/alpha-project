@@ -4,7 +4,7 @@ export interface Avatar {
   img: string;
   fullName: string;
   email: string;
-  color: 'gray' | 'red' | 'yellow' | 'green' | 'blue' | 'indigo' | 'purple' | 'pink';
+  color: 'red' | 'yellow' | 'green' | 'blue' | 'indigo' | 'purple' | 'pink';
 }
 
 @Component({
@@ -37,13 +37,17 @@ export class AvatarComponent implements OnInit {
   	email: 'pietro@lungarini.it',
   	color: 'indigo'
   };
-  user: Avatar = this.placeholdUser;
-  imgSize = 10;
-  classes1 = 'mx-auto object-cover rounded-full ';
-  classes2 = 'mx-auto object-cover rounded-full ';
-  classes3 = 'flex flex-col justify-center items-center mr-3 ';
+	imgSize = 10;
+	user: Avatar = this.placeholdUser;
+	default = {
+		standard: 'mx-auto object-cover rounded-full ',
+		flex: 'flex flex-col justify-center items-center mr-3 '
+	};
+  classes1 = this.default.standard;
+  classes2 = this.default.standard;
+  classes3 = this.default.flex;
   initials: string | null = null;
-  bgColor = 'mx-auto object-cover rounded-full ';
+  bgColor = '';
 
   constructor(private cdRef: ChangeDetectorRef) { }
 
@@ -67,10 +71,13 @@ export class AvatarComponent implements OnInit {
 
   initColor(): void {
   	if (!this.user) return;
-  	this.bgColor = ' bg-' + this.user.color + '-400';
+  	this.bgColor = ' bg-' + this.user.color + '-400 ';
   }
 
   initSizeClasses(): void {
+  	this.classes1 = this.default.standard;
+  	this.classes2 = this.default.standard;
+  	this.classes3 = this.default.flex;
   	this.classes1 += 'h-' + this.imgSize + ' w-' + this.imgSize;
   	this.classes2 += this.bgColor + ' h-' + this.imgSize + ' w-' + this.imgSize;
   	this.classes3 += 'h-' + this.imgSize + ' w-' + this.imgSize;

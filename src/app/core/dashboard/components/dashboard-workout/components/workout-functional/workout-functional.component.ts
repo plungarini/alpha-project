@@ -151,6 +151,7 @@ export class WorkoutFunctionalComponent implements OnInit, OnDestroy {
   }
 
   completeEx(event: CompletedEx): void {
+  	console.log(event);
   	let rounds: WorkoutExerciseRound[] | undefined;
   	const day = this.week.week[this.modalDaySelectedDay - 1];
   	if (this.difficultySelected === 1) rounds = day.exercises1;

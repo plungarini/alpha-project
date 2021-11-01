@@ -20,15 +20,16 @@ export class WorkoutDayCardComponent implements OnInit {
   @Input() more = false;
   @Input() rest = false;
 
-  day: WorkoutWeekDay;
+	day: WorkoutWeekDay;
+	placeholderDesc = 'Nonumy lorem eirmod sea invidunt dolores gubergren ipsum eos et.';
 
-  constructor() { }
+	constructor() { }
 
-  ngOnInit(): void {
-  }
+	ngOnInit(): void {
+	}
 
-  selectDay(): void {
+	selectDay(): void {
   	this.onDaySelected.emit();
-  }
+	}
 
 }

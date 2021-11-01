@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { HeadbarComponent } from './components/headbar/headbar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { WorkoutDetailComponent } from './workout-detail.component';
+import { RoundComponent } from './components/round/round.component';
+import { ExerciseComponent } from './components/exercise/exercise.component';
 
 
 
@@ -14,6 +16,8 @@ import { WorkoutDetailComponent } from './workout-detail.component';
 		WorkoutDetailComponent,
 		HeaderComponent,
 		HeadbarComponent,
+  RoundComponent,
+  ExerciseComponent,
 	],
 	imports: [
 		CommonModule,

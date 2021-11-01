@@ -44,7 +44,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   			this.user = user;
   			this.form.patchValue({
   				firstName: user.name.split(' ')[0],
-  				lastName: user.name.split(' ')[1],
+  				lastName: user.name.split(' ').slice(1).join(' '),
   				email: user.email,
   			});
   			this.cdRef.detectChanges();
@@ -68,7 +68,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   		displayName: name + ' ' + lastName,
   		photoUrl: this.fireUser.photoURL,
   	};
-  	this.fireUser.updateProfile(edits).then(res => {
+  	this.fireUser.updateProfile(edits).then(() => {
   		this.userService.editOrCreate(this.fireUser, true, { roles: this.user.roles }).then(() => {
   			this.onAlert.emit({
   				type: 'success',
@@ -83,7 +83,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   	const fileToUpload: File = images.files[0];
   	const mediaFolderPath = `users/${this.user.id}/media/profile`;
 
-  	const { downloadUrl$, uploadProgress$, fileReference } =
+  	const { downloadUrl$, fileReference } =
       this.storageService.uploadFileAndGetMetadata(
       	mediaFolderPath,
       	fileToUpload,
@@ -104,7 +104,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   	if (this.user.details?.profileUrlRef) {
   		this.storageService.deleteFile(this.user.details?.profileUrlRef);
   	}
-  	this.fireUser.updateProfile(edits).then(res => {
+  	this.fireUser.updateProfile(edits).then(() => {
   		this.userService.editOrCreate(this.fireUser, true, details).then(() => {
   			this.onAlert.emit({
   				type: 'success',

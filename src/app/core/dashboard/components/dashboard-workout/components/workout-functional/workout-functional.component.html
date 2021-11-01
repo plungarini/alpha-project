@@ -33,7 +33,7 @@
 <app-workout-week-cards *ngIf="week" [week]="week.week" (onDaySelected)="toggleDayModal($event)"></app-workout-week-cards>
 
 <app-workout-detail
-	[show]="false"
+	[show]="showDayDetails"
 	[day]="modalDaySelected"
 	[difficulty]="difficultySelected"
 	(onCloseModal)="toggleDayModal()"

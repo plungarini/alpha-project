@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
 	selector: 'app-path-svg',
@@ -8,7 +8,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 })
 export class PathSvgComponent implements OnInit {
 
-  @Input() path: string;
+  @Input() path: string | undefined;
   @Input() width = '1em';
   @Input() height = '1em';
 

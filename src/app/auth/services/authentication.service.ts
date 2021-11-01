@@ -47,8 +47,9 @@ export class AuthenticationService {
   /**
    * Performs a Login with EMAIL provider through Firebase.
    */
-  emailLogin(email: string, password: string): Promise<any>{
-  	return this.afAuth.signInWithEmailAndPassword(email, password).then(() => this.redirectAfterSignIn());
+  async emailLogin(email: string, password: string): Promise<any>{
+  	await this.afAuth.signInWithEmailAndPassword(email, password);
+  	return this.redirectAfterSignIn();
   }
 
   /**
@@ -58,7 +59,7 @@ export class AuthenticationService {
   	try {
   		const credential = await this.afAuth.createUserWithEmailAndPassword(email, password);
   		if (!credential.user) throw new Error('User has not been created');
-  		await this.userService.editOrCreate(credential.user, additionalDetails, true);
+  		await this.userService.editOrCreate(credential.user, true, additionalDetails, true);
   		this.redirectAfterSignIn();
   		return true;
   	} catch (e: any) {
@@ -92,7 +93,7 @@ export class AuthenticationService {
   				}
   			});
   			return true;
-  		}, err => false
+  		}, () => false
   	);
   }
 
@@ -172,6 +173,7 @@ export class AuthenticationService {
   		const credential = await this.afAuth.signInWithPopup(provider);
   		const forceEdits = credential.additionalUserInfo?.isNewUser;
   		if (!credential.user) return;
+  		if (!forceEdits) return this.redirectAfterSignIn();
   		return this.userService.editOrCreate(credential.user, forceEdits).then(() => {
   			this.redirectAfterSignIn();
   		});

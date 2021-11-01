@@ -1,9 +1,9 @@
-import { Timestamp } from './../../../../../auth/models/timestamp.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { Announcement } from 'src/app/shared/models/announce.model';
 import { UserNotificationsService } from 'src/app/shared/services/user-notifications.service';
 import { UserItem } from '../../../admin-users/components/home/admin-users.component';
-import * as moment from 'moment';
+import { Timestamp } from './../../../../../auth/models/timestamp.model';
 
 
 
@@ -83,7 +83,7 @@ export class AdminNewsComponent implements OnInit {
   }
 
   private getItemTimeDiff(item: Announcement, index: number): string {
-  	if (!item.sendAt) return '';
+  	if (!item || !item.sendAt) return '';
   	const time = moment.unix(((item.sendAt) as Timestamp).seconds);
   	const diff = moment().diff(time, 'seconds');
   	if (

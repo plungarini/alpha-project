@@ -9,7 +9,6 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { UserItem } from '../../../admin-users/components/home/admin-users.component';
 
 
-
 @Component({
 	selector: 'app-admin-news-form',
 	templateUrl: './admin-news-form.component.html',
@@ -92,7 +91,7 @@ export class AdminNewsFormComponent implements OnInit {
   	if (!images) return;
   	const fileToUpload: File = images.files[0];
 
-  	const { downloadUrl$, uploadProgress$, fileReference } =
+  	const { downloadUrl$ } =
       this.storageService.uploadFileAndGetMetadata(
       	this.mediaFolderPath,
       	fileToUpload,

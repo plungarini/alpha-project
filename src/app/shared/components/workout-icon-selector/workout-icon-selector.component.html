@@ -29,6 +29,7 @@
         <div *ngFor="let icon of filteredIcons">
             <div
                 (click)="iconSelected(icon)"
+								[title]="icon.path"
                 class="mx-auto w-full sm:w-6 sm:h-6 md:w-5 md:h-5 lg:w-7 lg:h-7 xl:w-12 xl:h-12 hover:text-gray-200 lg:hover:bg-black-700 lg:p-2 rounded cursor-pointer">
                 <div class="hidden xl:block text-center flex-1 w-8 h-8">
                     <app-path-svg [path]="icon.path" width="2rem" height="2rem"></app-path-svg>

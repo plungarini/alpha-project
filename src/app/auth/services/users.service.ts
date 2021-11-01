@@ -24,9 +24,8 @@ export class UsersService {
   	admin: false,
   };
   private colors:
-    ('gray' | 'red' | 'yellow' | 'green' | 'blue' | 'indigo' | 'purple' | 'pink')[]
+    ('red' | 'yellow' | 'green' | 'blue' | 'indigo' | 'purple' | 'pink')[]
   = [
-  	'gray',
   	'red',
   	'yellow',
   	'green',
@@ -58,21 +57,28 @@ export class UsersService {
    * @param roles If provided, set the roles of the user as a Roles interface.
    */
   async editOrCreate(user: firebase.User, forceEdits: boolean = true, additionalDetails?: any, isSignup?: boolean): Promise<boolean> {
+  	console.log(additionalDetails.fullName);
   	try {
   		const toFirebaseUser: User = {
   			id: user.uid || '',
-  			name: user.displayName || '',
+  			name: user.displayName || additionalDetails?.fullName || '',
   			email: user.email || '',
   			disabled: false,
   			roles: additionalDetails?.roles || this.defaultRoles,
-  			details: ({
+  			details: (isSignup ? {
   				imgUrl: user.photoURL || null,
   				imgColorBg: additionalDetails?.imgColorBg || this.colors[Math.floor(Math.random() * this.colors.length)],
   				phoneNumber: user.phoneNumber || (additionalDetails)?.phoneNumber || null,
-  				lastLogin: user.metadata.lastSignInTime,
+  				lastLogin: new Date().toISOString(),
   				profileUrlRef: additionalDetails?.profileUrlRef || null,
-  				firstLogin: isSignup ? true : false,
-  			} as UserDetails)
+  				firstLogin: true,
+  			} : {
+  				imgUrl: user.photoURL || null,
+  				phoneNumber: user.phoneNumber || (additionalDetails)?.phoneNumber || null,
+  				lastLogin: new Date().toISOString(),
+  				profileUrlRef: additionalDetails?.profileUrlRef || null,
+  				firstLogin: false,
+  			} ) as UserDetails
   		};
 
   		if (forceEdits || isSignup) {
@@ -128,7 +134,7 @@ export class UsersService {
   async userSubscriptionStatus(): Promise<USS_Status | null> {
   	const uid = (await this.getCurrentFire())?.uid;
   	if (!uid) return null;
-  	return new Promise((resolve, reject) => {
+  	return new Promise((resolve) => {
   		this.db.colWithIds$<UserStripeSubscription>(
   			`users/${uid}/subscriptions`,
   			(ref: any) => ref.orderBy('created', 'desc')

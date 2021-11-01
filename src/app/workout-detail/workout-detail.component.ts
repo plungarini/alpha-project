@@ -1,7 +1,8 @@
 /* eslint-disable @angular-eslint/no-output-on-prefix */
 /* eslint-disable max-len */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { WorkoutExerciseRound, WorkoutSingleExercise, WorkoutWeekDay } from '../shared/models/workout-week.model';
+import { CompletedEx } from '../core/dashboard/components/dashboard-workout/components/workout-functional/workout-functional.component';
+import { WorkoutExerciseRound, WorkoutWeekDay } from '../shared/models/workout-week.model';
 
 @Component({
 	selector: 'app-workout-detail',
@@ -17,14 +18,12 @@ export class WorkoutDetailComponent implements OnInit {
 	@Input('show') set showModal(value: boolean) {
   	const isVal = value === true || value === false;
   	if (isVal && value !== this.show) {
-  		/* this.toggleModal(value); */
-  		console.log('ToggleModal: ' + value);
+  		this.toggleModal(value);
   	}
   }
 	@Input('day') set setDay(value: WorkoutWeekDay | undefined) {
 		if (!value) return;
 		this.day = value;
-		this.cdRef.detectChanges();
 	}
   @Input('difficulty') difficultySelected: 1 | 2 | 3 = 1;
   @Input() fixed = true;
@@ -33,7 +32,11 @@ export class WorkoutDetailComponent implements OnInit {
   day: WorkoutWeekDay;
   exActionOverlay = false;
   playerUrl = '';
-  showPlayer = false;
+	showPlayer = false;
+	vimeo = {
+		show: false,
+		url: '',
+	};
 
   transitionStarted = false;
   show = false;
@@ -44,106 +47,8 @@ export class WorkoutDetailComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getTime(ex: WorkoutSingleExercise): string {
-  	const normEx = ex.isTime ? ex : ex.duration;
-  	if (!ex || !normEx || (!ex.isTime && !ex.duration?.isTime)) return '';
-  	const hours = normEx.hours;
-  	const minutes = normEx.minutes;
-  	const seconds = normEx.seconds;
-  	let res = '';
-
-  	if (hours) {
-  		if (minutes && seconds) {
-  			res = hours + 'h ' + minutes + 'min ' + seconds + 'sec';
-  		} else if (minutes) {
-  			res = hours + 'h ' + minutes + 'min';
-  		} else {
-  			res = hours + 'h';
-  		}
-  	} else if (minutes) {
-  		if (seconds) {
-  			res = minutes + 'min ' + seconds + 'sec';
-  		} else {
-  			res = minutes + 'min';
-  		}
-  	} else if (seconds) {
-  		res = seconds + 'sec';
-  	}
-
-  	return res;
-  }
-
-  getTimeRound(round: WorkoutExerciseRound): string {
-  	const normRound = round.duration;
-  	if (!round || !normRound || !normRound.isTime) return '';
-  	const hours = normRound.hours;
-  	const minutes = normRound.minutes;
-  	const seconds = normRound.seconds;
-  	let res = '';
-
-  	if (hours) {
-  		if (minutes && seconds) {
-  			res = hours + 'h ' + minutes + 'min ' + seconds + 'sec';
-  		} else if (minutes) {
-  			res = hours + 'h ' + minutes + 'min';
-  		} else {
-  			res = hours + 'h';
-  		}
-  	} else if (minutes) {
-  		if (seconds) {
-  			res = minutes + 'min ' + seconds + 'sec';
-  		} else {
-  			res = minutes + 'min';
-  		}
-  	} else if (seconds) {
-  		res = seconds + 'sec';
-  	}
-
-  	return res;
-  }
-
-  selectExercise(event?: MouseEvent, roundIndex?: number, exIndex?: number): void {
-  	event?.stopPropagation();
-  	const rounds =
-      this.difficultySelected === 1 ? this.day.exercises1 :
-      	this.difficultySelected === 2 ? this.day.exercises2 :
-      		this.difficultySelected === 3 ? this.day.exercises3 :
-      			undefined;
-
-  	if (!rounds) return;
-  	if (
-  		exIndex !== undefined
-      && roundIndex !== undefined
-  	) {
-  		if (!rounds[roundIndex].exercises[exIndex].selected) {
-  			rounds[roundIndex].exercises.forEach((ex: any) => ex.selected = false);
-  			this.exActionOverlay = true;
-  			rounds[roundIndex].exercises[exIndex].selected = true;
-  		} else {
-  			this.exActionOverlay = false;
-  			rounds[roundIndex].exercises[exIndex].selected = false;
-  		}
-  	} else {
-  		this.exActionOverlay = false;
-  		rounds.forEach((round: any) => {
-  			round.exercises.forEach((ex: any) => {
-  				if (ex.isTime) return;
-  				ex.selected = false;
-  			});
-  		});
-  	}
-  }
-
-  showVimeoPlayer(event: MouseEvent, url: string): void {
-  	event.stopPropagation();
-  	if (!url) return;
-  	this.playerUrl = url;
-  	this.showPlayer = true;
-  }
-
-  completeEx(roundIndex: number, exIndex: number, completed: boolean): void {
-  	this.selectExercise();
-  	this.onCompleteEx.emit({roundIndex, exIndex, completed});
+  completeEx(val: CompletedEx): void {
+  	this.onCompleteEx.emit(val);
   }
 
   closeModal(): void {
@@ -169,19 +74,25 @@ export class WorkoutDetailComponent implements OnInit {
   	this.onCloseModal.emit();
   }
 
+  get getExercises(): WorkoutExerciseRound[] | undefined {
+  	switch (this.difficultySelected) {
+  	case 1: return this.day.exercises1;
+  	case 2: return this.day.exercises2;
+  	case 3: return this.day.exercises3;
+  	default: return this.day.exercises1;
+  	}
+  }
+
   private toggleModal(value: boolean): void {
-  	console.log('toggleModal, ' + value);
+  	console.log(this.day);
   	if (this.transitionStarted) return;
   	if (value === true) this.hide = false;
   	this.show = value;
   	this.transitionStarted = true;
-  	this.cdRef.detectChanges();
-  	console.log(this.hide, this.show);
   	setTimeout(() => {
   		this.transitionStarted = false;
   		if (value === false) this.hide = true;
   		this.cdRef.detectChanges();
-  		console.log('hide:' + this.hide, 'show: ' + this.show);
   	}, 500);
   }
 

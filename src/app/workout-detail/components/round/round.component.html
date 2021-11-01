@@ -1,0 +1,47 @@
+<div class="relative max-w-full" *ngIf="rounds && rounds.length">
+	<div
+		[ngClass]="{
+			'opacity-100': showOverlay,
+			'opacity-0 pointer-events-none': !showOverlay
+		}"
+		(click)="toggleOverlay({show: !showOverlay, id: showExId})"
+		class="absolute flex flex-1 z-20 top-0 left-0 w-full h-full max-w-full bg-black-900 bg-opacity-80 opacity-100 transition-opacity duration-500 ease-in-out" style="backdrop-filter: blur(1.5px);"
+	></div>
+	<div class="pb-16 md:pb-6 h-full">
+		<div *ngFor="let round of rounds; let i = index" class="relative px-4 md:px-6 pt-6 pb-16 md:pb-6 max-w-full">
+			<div [ngClass]="{ 'z-50 relative pointer-events-none': showOverlay && showExId[0] === i.toString() }" class="mb-2">
+				<div class="flex flex-row justify-between items-baseline">
+					<div>
+						<p class="inline-block text-gray-300 text-sm">
+							{{round.title ? sanitizeTitle(round.title) : ('Round ' + (i + 1) + '/' + rounds.length)}}
+							<span *ngIf="round.repetitions && round.repetitions > 1">{{'(x' + round.repetitions +' volte)'}}</span>
+						</p>
+						<p *ngIf="round.title" class="ml-3 inline-block text-gray-500 text-xs">
+							{{'Round ' + (i + 1) + '/' + rounds.length}}
+						</p>
+					</div>
+
+					<p *ngIf="getTimeRound(round)" class="block w-min ml-auto text-gray-300 font-semibold text-xs whitespace-nowrap">x {{getTimeRound(round)}}</p>
+				</div>
+			</div>
+			<div *ngFor="let ex of round.exercises; let first = first; let last = last; let exId = index" class="shadow-xl">
+				<app-exercise
+					[ex]="ex"
+					[last]="last"
+					[first]="first"
+					[readOnly]="!isToday"
+					[exId]="i + '' + exId + (ex.title || 'ex')"
+					[showOverlay]="{ show: showOverlay, id: showExId }"
+					(exDetailsToggled)="toggleOverlay($event)"
+					(showVimeo)="showVimeo.emit($event)"
+					(completeEx)="completeExercise(i, exId, $event)"
+				></app-exercise>
+			</div>
+			<p *ngIf="round.note" class="inline-block text-gray-300 text-xs mt-3 max-w-full whitespace-pre-wrap">
+				Note sul round:<br>
+				<span class="text-gray-400 max-w-full whitespace-pre-wrap">{{sanitizeNote(round.note)}}</span>
+			</p>
+		</div>
+	</div>
+</div>
+

@@ -20,14 +20,15 @@ export class UserNotificationsService {
   ) { }
 
   async add(msg: Announcement): Promise<void> {
-  	const id = msg.id ? msg.id : null;
+  	msg.id = msg.id ? msg.id : this.db.generateId();
+  	console.log(msg.id);
   	msg.sendTo.forEach(user => {
   		const normMsg = msg;
   		normMsg.toRead = true;
   		normMsg.sendTo = [];
-  		this.db.upsert('users/' + user.id + this.path + id, normMsg);
+  		this.db.upsert('users/' + user.id + this.path + msg.id, normMsg);
   	});
-  	this.db.upsert('announcements/' + id, msg);
+  	this.db.upsert('announcements/' + msg.id, msg);
   }
 
   getByUser(uid: string): Observable<Announcement[]> {

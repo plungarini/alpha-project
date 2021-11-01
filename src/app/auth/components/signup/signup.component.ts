@@ -65,10 +65,21 @@ export class SignupComponent implements OnInit {
   		this.loginError = 'Devi accettare le Condizioni Generali per continuare.';
   		return;
   	}
+  	const titleCase = (str: string): string => {
+  		const name: string[] = [];
+  		str.split(' ').forEach(word => {
+  			name.push(word[0].toUpperCase() + word.slice(1));
+  		});
+  		return name.join(' ');
+  	};
   	this.loginError = '';
   	return this.db.emailSignup(
   		form.value.email,
-  		form.value.password
+  		form.value.password,
+  		{
+  			fullName:
+					titleCase(form.value.firstName + ' ' + form.value.lastName)
+  		}
   	).then(res => {
   		if (res === undefined) return;
   		this.loginError = FirebaseErrorHandling.convertMessage((res as any).code, 'it');

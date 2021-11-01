@@ -1,11 +1,11 @@
-import { Timestamp } from './../../../../../../auth/models/timestamp.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { switchMap, map, takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { Announcement } from 'src/app/shared/models/announce.model';
 import { UserNotificationsService } from 'src/app/shared/services/user-notifications.service';
-import * as moment from 'moment';
+import { Timestamp } from './../../../../../../auth/models/timestamp.model';
 
 
 
@@ -78,7 +78,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   getItemTimeDiff(item: Announcement, index: number): string {
-  	if (!item.sendAt) return '';
+  	if (!item || !item.sendAt) return '';
   	const time = moment.unix(((item.sendAt) as Timestamp).seconds);
   	const diff = moment().diff(time, 'seconds');
   	if (

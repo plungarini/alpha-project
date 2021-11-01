@@ -71,6 +71,14 @@
   .hide-workout-modal.panel {
     animation: opacityAnimationPanelOut .7s ease-in-out;
   }
+	.scroller {
+		-ms-overflow-style: none;  /* IE and Edge */
+		scrollbar-width: none;  /* Firefox */
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
 }
 
 @media (min-width: 768px) {
