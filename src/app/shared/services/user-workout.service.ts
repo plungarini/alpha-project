@@ -21,22 +21,29 @@ export class UserWorkoutService {
 
 	getAll(uid: string, type: 'functional' | 'gym' | 'pro'): Observable<WorkoutWeek[] | undefined> {
 		if (!uid) return of(undefined);
-		const dbWeeks$ = this.db.col$<WorkoutWeek>('workout-weeks');
+		const dbWeeks$ = (ref?: any) => ref ?
+			this.db.col$<WorkoutWeek>('workout-weeks', ref) :
+			this.db.col$<WorkoutWeek>('workout-weeks');
 		let completedWeeks = 0;
-		return this.db.col$<WorkoutWeek>(`users/${uid}/${type}-workout`).pipe(
+		return this.db.col$<WorkoutWeek>(
+			`users/${uid}/${type}-workout`,
+			(ref) => ref.where('type', '==', type).where('completed', '!=', true)
+		).pipe(
 			switchMap(uWeeks => {
-				const normDbWeeks$ = dbWeeks$.pipe(map(dbWeeks => {
+				const normDbWeeks$ = (ref?: any) => dbWeeks$(ref).pipe(map(dbWeeks => {
 					if (!dbWeeks || dbWeeks.length <= 0) return [];
 					dbWeeks.filter(week => week.type === type);
 					dbWeeks.filter(week => week.weekNumber > completedWeeks);
 					return dbWeeks;
 				}));
-				if (!uWeeks || uWeeks.length <= 0) return normDbWeeks$;
+				if (!uWeeks || uWeeks.length <= 0)
+					return normDbWeeks$((ref: any) => ref.where('weekNumber', '==', 1));
 				uWeeks.sort((a, b) => a.weekNumber - b.weekNumber);
 				uWeeks.forEach(week => {
 					if (week.completed) completedWeeks += 1;
 				});
-				if (completedWeeks === uWeeks.length) return normDbWeeks$;
+				if (completedWeeks === uWeeks.length)
+					return normDbWeeks$((ref: any) => ref.where('weekNumber', '>', completedWeeks));
 				uWeeks.filter(week => week.type === type);
 				return of(uWeeks);
 			})
@@ -75,8 +82,10 @@ export class UserWorkoutService {
 
 	selectToday(workoutWeek: WorkoutWeek): WorkoutWeek {
 		workoutWeek.week.sort((a, b) => a.day - b.day);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		console.log(workoutWeek.createdAt, new Date(workoutWeek.createdAt?.seconds!! * 1000));
 		const started = workoutWeek.createdAt ?
-			moment(workoutWeek.createdAt.seconds * 1000) :
+			moment.unix(workoutWeek.createdAt.seconds) :
 			moment();
 		const dayDiff = Math.abs(started.diff(moment(), 'days'));
 		workoutWeek.week.forEach(day => {
@@ -84,6 +93,8 @@ export class UserWorkoutService {
 			day.selected = false;
 			day.hideView = false;
 		});
+		// eslint-disable-next-line no-underscore-dangle
+		console.log((started as any)._d, dayDiff);
 		if (dayDiff <= 0) {
 			workoutWeek.week[0].selected = true;
 		} else {
@@ -135,7 +146,6 @@ export class UserWorkoutService {
 		let path = `users/${uid}/functional-workout/`;
 		let wNum = week.weekNumber.toString();
 		if (wNum.length === 1) wNum = '0' + wNum;
-		path += wNum;
-		return path;
+		return path += wNum;
 	}
 }

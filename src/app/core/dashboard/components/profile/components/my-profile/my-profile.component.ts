@@ -62,8 +62,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   changeUserName(): void {
-  	const name = this.form.get('firstName')?.value || '';
-  	const lastName = this.form.get('lastName')?.value || '';
+  	const name = this.form.get('firstName')?.value.trim() || '';
+  	const lastName = this.form.get('lastName')?.value.trim() || '';
   	const edits = {
   		displayName: name + ' ' + lastName,
   		photoUrl: this.fireUser.photoURL,

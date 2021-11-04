@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-	AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentChangeAction
+	AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentChangeAction, QueryFn
 } from '@angular/fire/firestore';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { Timestamp } from './../../auth/models/timestamp.model';
 // Custom Types
 type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;
 type DocPredicate<T> = string | AngularFirestoreDocument<T>;
+type FirebaseQueryFn = QueryFn<firebase.firestore.DocumentData> | undefined;
 
 
 @Injectable({
@@ -42,7 +43,7 @@ export class FirestoreExtendedService {
 	 *
 	 * @returns Observable of the requested collection.
 	 */
-	col$<T>(ref: CollectionPredicate <T> , queryFn?: any ): Observable <T[]> {
+	col$<T>(ref: CollectionPredicate <T> , queryFn?: FirebaseQueryFn ): Observable <T[]> {
 		return this.col(ref, queryFn)
 			.snapshotChanges()
 			.pipe(
@@ -136,7 +137,7 @@ export class FirestoreExtendedService {
 	 * @param ref Collection Reference.
 	 * @param queryFn Filters to query the collection.
 	 */
-	colWithIds$<T>(ref: CollectionPredicate<T>, queryFn?: any): Observable<T[]> {
+	colWithIds$<T>(ref: CollectionPredicate<T>, queryFn?: FirebaseQueryFn): Observable<T[]> {
 		return this.col(ref, queryFn)
 			.snapshotChanges()
 			.pipe(
@@ -151,7 +152,7 @@ export class FirestoreExtendedService {
 	/**
 	 * @returns Unique id in the database.
 	 */
-	generateId<T>(): string {
+	generateId(): string {
 		return this.afs.createId();
 	}
 
@@ -168,7 +169,7 @@ export class FirestoreExtendedService {
 	 * @param ref CollectionPredicate
 	 * @param queryFn Filters to query the collection
 	 */
-	private col<T>(ref: CollectionPredicate <T> , queryFn?: any ): AngularFirestoreCollection <T> {
+	private col<T>(ref: CollectionPredicate <T> , queryFn?: FirebaseQueryFn ): AngularFirestoreCollection <T> {
 		return typeof ref === 'string' ? this.afs.collection<T>(ref, queryFn) : ref;
 	}
 

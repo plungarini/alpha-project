@@ -22,6 +22,7 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+				"no-async-promise-executor": "off",
 				"no-mixed-spaces-and-tabs": ["off"],
 				"indent": ["error", "tab"],
         "@angular-eslint/directive-selector": [

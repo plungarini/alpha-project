@@ -10,33 +10,47 @@
         <div class="max-w-full max-h-72 overflow-y-auto opacity-100">
             <ul class="divide-y divide-gray-500">
         
-                <ng-container *ngFor="let item of notifications; let i = index; let first = first; let last = last;">
-                    <li
-                        *ngIf="i < 10"
-                        (click)="selectNotification(i)"
-                        class="p-4 cursor-pointer hover:bg-gray-700 bg-black-800 border-l-0 border-black-800 w-full max-w-full overflow-hidden"
-                        [ngClass]="{
-                            'hidden': item.hideByDate,
-                            'bg-gray-700 border-l-4 border-green-400': item.toRead,
-                            'bg-black-800 border-l-0 border-black-800': !item.toRead,
-                            'rounded-t-md': first,
-                            'rounded-b-md': last
-                        }"
-                    >
-                        <div class="flex space-x-3 w-full max-w-full">
-                            <object [data]="item.senderImg | safeUrl" type="image/png" class="mx-auto object-cover rounded-full w-7 h-7">
-                                <img src="assets/icons/no-user-ph.png" class="mx-auto object-cover rounded-full w-7 h-7">
-                            </object>
-                            <div class="flex-1 max-w-full">
-                                <div class="grid grid-cols-7 items-center justify-between mb-1 w-full">
-                                    <h3 class="text-sm font-medium text-gray-200 truncate whitespace-nowrap col-span-5">{{item.senderName}}</h3>
-                                    <p class="text-xs text-gray-500 flex-auto whitespace-nowrap text-right col-span-2">{{item.timeDiff === 'alcuni secondi fa' ? 'un minuto fa' : item.timeDiff}}</p>
-                                </div>
-                                <p class="text-sm text-gray-400 w-full line-clamp-2 flex">{{item.senderMessage}}</p>
-                            </div>
-                        </div>
-                    </li>
-                </ng-container>
+							<ng-container *ngIf="notifications.length > 0; else no_announces">
+								<ng-container *ngFor="let item of notifications; let i = index; let first = first; let last = last;">
+										<li
+												*ngIf="i < 10"
+												(click)="selectNotification(i)"
+												class="p-4 cursor-pointer hover:bg-gray-700 bg-black-800 border-l-0 border-black-800 w-full max-w-full overflow-hidden"
+												[ngClass]="{
+														'hidden': item.hideByDate,
+														'bg-gray-700 border-l-4 border-green-400': item.toRead,
+														'bg-black-800 border-l-0 border-black-800': !item.toRead,
+														'rounded-t-md': first,
+														'rounded-b-md': last
+												}"
+										>
+												<div class="flex space-x-3 w-full max-w-full">
+														<object [data]="item.senderImg | safeUrl" type="image/png" class="mx-auto object-cover rounded-full w-7 h-7">
+																<img src="assets/icons/no-user-ph.png" class="mx-auto object-cover rounded-full w-7 h-7">
+														</object>
+														<div class="flex-1 max-w-full">
+																<div class="grid grid-cols-7 items-center justify-between mb-1 w-full">
+																		<h3 class="text-sm font-medium text-gray-200 truncate whitespace-nowrap col-span-5">{{item.senderName}}</h3>
+																		<p class="text-xs text-gray-500 flex-auto whitespace-nowrap text-right col-span-2">{{item.timeDiff === 'alcuni secondi fa' ? 'un minuto fa' : item.timeDiff}}</p>
+																</div>
+																<p class="text-sm text-gray-400 w-full line-clamp-2 flex">{{item.senderMessage}}</p>
+														</div>
+												</div>
+										</li>
+								</ng-container>
+							</ng-container>
+							
+
+							<ng-template #no_announces>
+								<li
+									class="p-4 bg-black-800 w-full max-w-full overflow-hidden rounded"
+								>
+									<div class="flex-1 max-w-full">
+										<h3 class="text-sm font-medium text-gray-200 truncate whitespace-nowrap col-span-5 w-full text-center">Non c'è molto da vedere 🤷‍♂️</h3>
+										<p class="text-sm text-gray-400 w-full line-clamp-2 flex text-center">Non hai notifiche da leggere al momento. Ricontrolla fra un po'.</p>
+									</div>
+								</li>
+							</ng-template>
         
             </ul>
         </div>

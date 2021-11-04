@@ -97,7 +97,7 @@ export class WorkoutFunctionalComponent implements OnInit, OnDestroy {
   				this.modalDaySelected = this.week.week[this.modalDaySelectedDay - 1];
   			}
   			const diff = localStorage.getItem('workoutWeekDifficulty');
-  			this.changeDifficulty({ value: diff ? parseInt(diff) : undefined });
+  			this.changeDifficulty({ value: diff ? parseInt(diff) : 1 });
   			this.cdRef.detectChanges();
   		});
   }

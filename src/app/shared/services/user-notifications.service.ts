@@ -32,7 +32,9 @@ export class UserNotificationsService {
   }
 
   getByUser(uid: string): Observable<Announcement[]> {
-  	return this.db.col$<Announcement>(`users/${uid}${this.path}`);
+  	return this.db.col$<Announcement>(
+  		`users/${uid}${this.path}`, (ref: any) => ref.limit(10)
+  	);
   }
 
   userHasToRead(uid: string): Observable<boolean> {

@@ -47,7 +47,7 @@ export class PaymentService {
   			.add({
   				price: subPrice,
   				allow_promotion_codes: true, // Can delete this in Future
-  				success_url: window.location.origin + successSlug || '/dashboard',
+  				success_url: window.location.origin + (successSlug || '') || '/dashboard',
   				cancel_url: window.location.href,
   				updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
   			});
@@ -59,7 +59,7 @@ export class PaymentService {
   				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   				const { error, sessionId } = snap.data()!!;
   				if (error) {
-  					return reject2(error.message + ' Contatta il supporto se il problema persiste.');
+  					return reject2(error.message + ' | Contatta il supporto se il problema persiste.');
   				}
   				if (sessionId) {
   					// We have a session, let's redirect to Checkout

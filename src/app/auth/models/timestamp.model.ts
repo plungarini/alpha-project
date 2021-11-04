@@ -1,4 +1,5 @@
 export interface Timestamp {
-    nanoseconds: number;
-    seconds: number;
+	nanoseconds: number;
+	seconds: number;
+	date?: Date;
 }
